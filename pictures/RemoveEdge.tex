@@ -1,0 +1,14 @@
+\documentclass[tikz]{standalone}
+\begin{document}%
+\begin{tikzpicture}[vert/.style={fill=black,circle,inner sep=2pt,outer sep=2pt}]
+
+\input{ijface.tex}
+\draw[thick, dotted,black!70] (i0) .. controls +(0,1) and +(0,-1) .. node[left,very near start] {$y$} node[right,very near end] {$x$} (j0);
+
+\begin{scope}[xshift=-8cm]
+\input{ijface.tex}
+
+\draw[very thick] (i0) .. controls +(0,1) and +(0,-1) .. node[left,very near start] {$y$} node[right,very near end] {$x$} (j0);
+\end{scope}
+\end{tikzpicture}%
+\end{document}

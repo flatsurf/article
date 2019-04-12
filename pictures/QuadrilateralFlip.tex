@@ -1,0 +1,11 @@
+\documentclass[tikz]{standalone}
+\begin{document}%
+\begin{tikzpicture}
+\input{quadrilateral.tex}
+\draw[very thick]  (a) -- (c);
+\begin{scope}[xshift=5cm]
+\input{quadrilateral.tex}
+\draw[very thick] (b) -- (d);
+\end{scope}
+\end{tikzpicture}%
+\end{document}

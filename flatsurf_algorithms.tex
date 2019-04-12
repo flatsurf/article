@@ -17,6 +17,7 @@
 \newtheorem{definition}{Definition}
 \newtheorem{remark}[definition]{Remark}
 \newtheorem{lemma}[definition]{Lemma}
+\newtheorem{theorem}[definition]{Theorem}
 
 \title{Algorithms for translation surfaces}
 \author{Vincent Delecroix for Julian R\"uth}
@@ -114,6 +115,42 @@ structure restricted to any sub cell decomposition is a (not necessarily embedde
 translation structure.
 \end{lemma}
 
+\subsection{Elementary moves: removing, adding, flipping edges}
+What we are really interested in are translation structure on surfaces which
+is a geometric structure on the surface. Fixing a triangulation or a combinatorial
+map is an additional particular choice and we want to be able to "navigate" between
+these different possible choices.
+
+Let $(\sigma_v, \sigma_e, \sigma_f)$ be a combinatorial map and $\zeta_i$ a
+translation strcuture on it.
+
+\textbf{removing an edge}:
+Let $(x,y)$ be a transposition of $\sigma_e$ such that the two faces adjacent to this
+edge are different then we can remove this edge and still have a translation structure.
+\begin{center}\includegraphics{pictures/RemoveEdge.pdf}\end{center}
+The operation on the combinatorial data is as follows
+\begin{align*}
+\sigma_v = (j, x, \cdots) (i, y, \cdots) \ldots & \mapsto (\cdots j \cdots) (\cdots i \cdots) \ldots \\
+\sigma_e = (j, \sigma_e(j)) (i, \sigma_e(i)) (x,y) \ldots & \mapsto (j, \sigma_e(j)) (i, \sigma_e(i)) \ldots \\
+\sigma_f = (x,i,A) (y,j,B) \ldots & \mapsto (i,A,j,B) \ldots 
+\end{align*} 
+This operation merge the two faces adjacent to the edge $(x,y)$.
+
+\textbf{adding an edge}:
+This is simply the reverse procedure. Though, this is not always possible at the
+level of translation structures since the edge we add must be a straight-line segment
+in the surface.
+
+\textbf{flipping an edge}:
+\begin{center}\includegraphics{pictures/FlipEdge.pdf}\end{center}
+Given an edge $(x,y)$ that is adjacent to distinct faces, we can perform an
+"edge flip" as in the above figure. Again, in order to do it on a translation
+structure the newly added edge must be a valid straight-line segment.
+In the special cases the two adjacent faces are triangles, the condition
+for flipping the edge (which is one diagonal of the quadrilateral) is that the
+quadrilateral is convex.
+\begin{center}\includegraphics{pictures/QuadrilateralFlip.pdf}\end{center}
+
 \subsection{From translation structures to interval exchange transformation}
 A zippered rectangle is a form of cell decomposition of a translation
 surface into rectangles. It can be viewed as a particular kind of translation
@@ -122,13 +159,13 @@ is not necessarily embedded.
 
 \subsection{What is a zippered rectangle}
 \begin{definition}
+\label{def:WeakZipperedRectangle}
 Let $\cE$ be a finite set of cardinality $2d$.
 A \emph{topological zippered rectangle} is a combinatorial map $(\sigma_v, \sigma_e, \sigma_f) \in S_\cE$ such that
 \begin{enumerate}
-\item $\sigma_f$ is a $2d$-cycle (that is the cell decomposition consists of a single cell) and there is a partition of $\cE^{top} \cup \cE^{bot} = \cE$ such
-that the involution $(\sigma_f)^d$ exchanges $\cE^{top}$ with $\cE^{bot}$.
-\item $\sigma_e$ is such that each transposition $(i,j)$ that appears in its cycle
-decomposition is such that one element is in $\cE^{top}$ and one element is in $\cE^{bot}$.
+\item $\sigma_f$ is a $2d$-cycle (that is the cell decomposition consists of a single cell),
+\item there is a partition of $\cE^{top} \cup \cE^{bot} = \cE$ such that the 
+involutions $(\sigma_f)^d$ and $\sigma_e$ exchanges $\cE^{top}$ and $\cE^{bot}$.
 \end{enumerate}
 A \emph{weak zippered rectangle translation structure} for $(\sigma_v, \sigma_e, \sigma_f)$ is
 a set of complex non-zero vectors $\zeta_i$ such that
@@ -138,6 +175,10 @@ a set of complex non-zero vectors $\zeta_i$ such that
 \forall i \in \cE^{top}, \Re(\zeta_i) \leq 0.
 \]
 \end{definition}
+Note that the above definition only involves the real parts of the vectors $\zeta_i$.
+What is missing to make it a zippered rectangle is a condition on imaginary parts
+that correspond the equation $(S_\pi)$ in~\cite{Yoccoz} on the suspension vector. For
+our purpose, this condition is useless and let us ignore it for the moment.
 \begin{figure}[!ht]
 \begin{center}\includegraphics{pictures/MasurPolygon.pdf}\end{center}
 \caption{A zippered rectangle translation structure with combinatorial data
