@@ -7,12 +7,14 @@
 \usepackage[abbreviations]{foreign}
 \usepackage{xcolor}
 
+\def\CC{\mathbb{C}}
+
 \def\cA{\mathcal{A}}
 \def\cE{\mathcal{E}}
-\def\CC{\mathbb{C}}
 
 \def\Re{\operatorname{Re}}
 \def\Im{\operatorname{Im}}
+\def\Sym{\operatorname{Sym}}
 
 \newtheorem{definition}{Definition}
 \newtheorem{remark}[definition]{Remark}
@@ -35,7 +37,7 @@ permutations.
 \begin{definition}
 Let $\cE$ be a finite set.
 A \emph{combinatorial map} or a \emph{fat graph} on $\cE$ is a triple
-of permutations $(\sigma_v, \sigma_e, \sigma_f)$ on
+of permutations $(\sigma_v, \sigma_e, \sigma_f) \in \Sym(\cE)^3$ on
 the set $\cE$ such that
 \begin{enumerate}
 \item $\sigma_f \circ \sigma_e \circ \sigma_v = id_\cE$,
@@ -52,12 +54,12 @@ is even. The transitivity of the group ensures the connectivity of the surface.
 \commv{tell me if you need more precision here about the topological viewpoint}
 
 A particular case of combinatorial maps are \emph{triangulations}
-when the permutation $\sigma_f$ is a product of respectively disjoint 3-cycles.
+when the permutation $\sigma_f$ is a product of disjoint 3-cycles.
 In these situation $n$ is a multiple of $6$. Translation structure are
 easier to defined on triangulations.
 \begin{definition}
 \label{def:FlatTriangulation}
-Let $T = (\sigma_v, \sigma_e, \sigma_f) \in S_\cE$ be a 
+Let $T = (\sigma_v, \sigma_e, \sigma_f) \in \Sym(\cE)^3$ be a 
 triangulation, a \emph{translation structure} on $T$
 is a family of non-zero complex numbers $\{\zeta_i\}_{i\in\cE}$
 such that
@@ -82,7 +84,7 @@ For now, let us consider a simple definition that is not the most
 general possible but which is simple to state.
 \begin{definition}
 \label{def:EmbeddedTranslationStructure}
-Let $M = (\sigma_v, \sigma_e, \sigma_f) \in S_\cE$ be a combinatorial
+Let $M = (\sigma_v, \sigma_e, \sigma_f) \in \Sym(\cE)$ be a combinatorial
 map. An \emph{embedded translation structure} for $M$ is a zet of non-zero
 complex numbers $\{\zeta_i\}_{i=1,\ldots,2n}$ such that
 \begin{enumerate}
@@ -98,13 +100,13 @@ $\CC$ where the vectors appear in counter-clockwise order.
 When the $\zeta_i$ do not form a polygon it is still
 possible to define a unique translation structure if and
 only if the index around each face is $+1$ (where this index is measured in terms
-of the arguments of the vectors). For now, let me avoid making
+of the arguments of the complex numbers $\zeta_i$). For now, let me avoid making
 a formal definition but just say that for triangulations
 this is equivalent to Definition~\ref{def:FlatTriangulation}.
 \end{remark}
 
 A \emph{sub-translation structure} is one that can be obtained by forgetting
-some edges. Because a polygon can always be triangulated we have the following.
+some edges (see also Section~\ref{sec:ElementaryMoves}. Because a polygon can always be triangulated we have the following.
 \begin{lemma}
 Given a combinatorial map and a translation structure on it $(M,\zeta)$, there
 exists a triangulation with a translation structure $(T,\zeta')$ so that $M$ is
@@ -115,7 +117,8 @@ structure restricted to any sub cell decomposition is a (not necessarily embedde
 translation structure.
 \end{lemma}
 
-\subsection{Elementary moves: removing, adding, flipping edges}
+\section{Elementary moves: removing, adding, flipping edges}
+\label{sec:ElementaryMoves}
 What we are really interested in are translation structure on surfaces which
 is a geometric structure on the surface. Fixing a triangulation or a combinatorial
 map is an additional particular choice and we want to be able to "navigate" between
@@ -130,14 +133,15 @@ edge are different then we can remove this edge and still have a translation str
 \begin{center}\includegraphics{pictures/RemoveEdge.pdf}\end{center}
 The operation on the combinatorial data is as follows
 \begin{align*}
-\sigma_v = (j, x, \cdots) (i, y, \cdots) \ldots & \mapsto (\cdots j \cdots) (\cdots i \cdots) \ldots \\
+\sigma_v = (j,x,A) (i,y,B) \ldots & \mapsto (j,A) (i,B) \ldots \\
 \sigma_e = (j, \sigma_e(j)) (i, \sigma_e(i)) (x,y) \ldots & \mapsto (j, \sigma_e(j)) (i, \sigma_e(i)) \ldots \\
-\sigma_f = (x,i,A) (y,j,B) \ldots & \mapsto (i,A,j,B) \ldots 
+\sigma_f = (x,i,C) (y,j,D) \ldots & \mapsto (i,C,j,D) \ldots 
 \end{align*} 
-This operation merge the two faces adjacent to the edge $(x,y)$.
+This operation merge the two faces adjacent to the edge $(x,y)$ into a single bigger face.
+The new combinatorial map is on the set $\cE \setminus \{x,y\}$.
 
 \textbf{adding an edge}:
-This is simply the reverse procedure. Though, this is not always possible at the
+This is simply the reverse procedure of removing an edge. Though, this is not always possible at the
 level of translation structures since the edge we add must be a straight-line segment
 in the surface.
 
@@ -150,18 +154,24 @@ In the special cases the two adjacent faces are triangles, the condition
 for flipping the edge (which is one diagonal of the quadrilateral) is that the
 quadrilateral is convex.
 \begin{center}\includegraphics{pictures/QuadrilateralFlip.pdf}\end{center}
+The flip operation does not change the underlying set $\cE$.
 
-\subsection{From translation structures to interval exchange transformation}
+\bigskip
+
+\commv{Exercise: for each of this operation, compute what happens to the
+translation structure $\{\zeta_i\}_{i \in \cE}$.}
+
+\section{From translation structures to interval exchange transformation}
 A zippered rectangle is a form of cell decomposition of a translation
 surface into rectangles. It can be viewed as a particular kind of translation
 structure as discussed in the previous Section. Though, as we will see, this
 is not necessarily embedded.
 
-\subsection{What is a zippered rectangle}
+\subsection{What is a zippered rectangle?}
 \begin{definition}
 \label{def:WeakZipperedRectangle}
 Let $\cE$ be a finite set of cardinality $2d$.
-A \emph{topological zippered rectangle} is a combinatorial map $(\sigma_v, \sigma_e, \sigma_f) \in S_\cE$ such that
+A \emph{topological zippered rectangle} is a combinatorial map $(\sigma_v, \sigma_e, \sigma_f) \in \Sym(\cE)^3$ such that
 \begin{enumerate}
 \item $\sigma_f$ is a $2d$-cycle (that is the cell decomposition consists of a single cell),
 \item there is a partition of $\cE^{top} \cup \cE^{bot} = \cE$ such that the 
@@ -187,13 +197,14 @@ $\sigma_e = (0,16)(1,17)(7,11)(4,14)$ and
 $\sigma_f = (0,1,4,7,16,17,14,11)$. Here $\cE^{top} = \{0,11,14,17\}$ and $\cE^{bot} = \{4,7,16,17\}$. It is depicted as a sub-translation structure of an embedded triangulation.}
 \label{fig:TriangulationYoccoz}
 \end{figure}
+
 The triangulations in Figure~\ref{fig:TriangulationYoccoz} is
 \begin{align*}
 \sigma_v &= (0,3,6,9,7,5,14,15,1,16,13,10,8,11,12,4,2,17) \\
 \sigma_e &= (0,16)(1,17)(2,3)(4,14)(5,6)(7,11)(8,9)(10,12)(13,15) \\
 \sigma_f &= (0,1,2)(3,4,5)(6,7,8)(9,10,11)(12,13,14)(15,16,17)
 \end{align*}
-Here is a code sample to generate the combinatorial triangulation from~\ref{fig:TriangulationYoccoz} with \cite{surface-dynamics}
+Here is a code sample to it with \cite{surface-dynamics}
 \begin{verbatim}
 sage: from surface_dynamics import FatGraph
 sage: edges = '(0,16)(1,17)(2,3)(4,14)(5,6)(7,11)(8,9)(10,12)(13,15)'
@@ -204,34 +215,58 @@ FatGraph('(0,3,6,9,7,5,14,15,1,16,13,10,8,11,12,4,2,17)',
 '(0,1,2)(3,4,5)(6,7,8)(9,10,11)(12,13,14)(15,16,17)')
 \end{verbatim}
 
-We now describe how to use the permutation $\sigma_f$ and the sets $\cA^{top}$ and $\cA^{bot}$
-to the bijections $\pi_t:\cA \to \{1,\ldots,d\}$ and $\pi_b: \cA \to \{1,\ldots,d\}$ of~\cite{Yoccoz}.
-Let $\cA$ to be the set of the $d$ transpositions that apper in the cycle decomposition
-of $\sigma_e$. Then $\cA^{top}$ and $\cA^{bot}$ are in canonical bijections with $\cA$.
-Next, there is a unique way of writing $\sigma_f$ as
+Now, given a topological zippered rectangle $(\sigma_v, \sigma_e, \sigma_f)$ we describe
+how to construct the bijections $\pi_t:\cA \to \{1,\ldots,d\}$ and $\pi_b: \cA \to \{1,\ldots,d\}$ of~\cite{Yoccoz}.
+Let $\cA$ be the set of the $d$ transpositions that appear in the cycle decomposition
+of $\sigma_e$ (these are the edges of the combinatorial map). Then by the second
+condition, $\cE^{top}$ and $\cE^{bot}$ are in canonical bijections with $\cA$: to an
+half-edge $i$ associates the unique transposition in $\cA$ that contains $i$.
+Next, there is a unique way to write $\sigma_f$ as
 \[
 \sigma_f = (b_1, b_2, \ldots, b_d, t_d, t_{d-1}, \ldots, t_1)
 \]
-where $\cA^{bot} = \{b_1, \ldots, b_d\}$ and $\cA^{top} = \{t_1, \ldots, t_d\}$.
-Then $\pi_t(\alpha)$ is simply the index $i$ such that $t_i$ appears in the cycle $\alpha$.
+where $\cE^{bot} = \{b_1, \ldots, b_d\}$ and $\cE^{top} = \{t_1, \ldots, t_d\}$.
+Then, for $\alpha = (t_i, b_j) \in \cA$ we set $\pi_t(\alpha) = i$ and $\pi_b(\alpha) = j$.
 
 In the example of Figure~\ref{fig:TriangulationYoccoz}, we have
 \[
-t_1 = 0, t_2 = 11, t_3 = 14, t_4 = 17
-\quad
-b_1 = 1 b_2 = 4, b_3 = 7, b_4 = 16
+t_1 = 0,\ t_2 = 11,\ t_3 = 14,\ t_4 = 17
+\qquad
+b_1 = 1,\ b_2 = 4,\ b_3 = 7,\ b_4 = 16
 \]
 
 \subsection{The algorithm}
-Given a translation structure on a triangulations as in
-Section~\ref{sec:TriangulationsAndTranslationStructures} we
-want to produce a finite union of interval exchange transformations.
-The algorithm consists of three steps
+We now describe an algorithm that given a translation structure on
+a triangulation (Definition~\ref{def:FlatTriangulation}) produces a union
+of weak zippered rectangle translation structure (Definition~\ref{def:WeakZipperedRectangle})
+(for the same underlying translation surface).
+
+We are given a triangulation $T = (\sigma_v, \sigma_e, \sigma_f)$ with a
+translation structure $\{\zeta_i\}_{i \in \cE} \subset \CC^\cE$.
+We fix an initial triangle $t_0$ and want to aggregate some of its neighbors
+in order that it still looks like a zippered rectangle. In order to describe
+the intermediate steps of the algorithm we need an extra definition.
+\begin{definition}
+Let $M,\zeta$ be a translation structure. We say that it is a
+\emph{multi-zippered rectangle} if there is a partition $\cE = \cE^{top} \sqcup \cE^{bot}$
+such that
 \begin{enumerate}
-\item horizontal exploration,
-\item eliminating mixed and large edges,
-\item reduction (or generalized Rauzy induction).
+\item for $i \in \cE^{top}$, $\Re(\zeta_i) \geq 0$ and for $i \in \cE^{bot}$, $\Re(\zeta_i) \leq 0$,
+\item $\sigma_e$ exchanges $\cE^{top}$ with $\cE^{bot}$
+\item each cycle $c$ of $\sigma_f$ (that corresponds to a face of the combinatorial map)
+is (uniquely) written as $c = (b_1, b_2, \ldots, b_m, t_n, t_{n-1}, \ldots, t_1)$ with
+$t_i \in \cE^{top}$ and $b_j \in \cE^{bot}$.
 \end{enumerate}
+\end{definition}
+
+The algorithm consists of two different subroutines
+\begin{enumerate}
+\item \emph{aggregation}: where we just remove edges trying to enlarge the cycles
+of $\sigma_f$ while keeping the translation structure in a form of a multi-zippered rectangle,
+\item \emph{reduction}: that consists in flipping edges and can be seen
+as a generalized Rauzy induction.
+\end{enumerate}
+
 
 %The first step is to build a multi-interval exchange
 %transformation out of a triangulation. Each triangle
