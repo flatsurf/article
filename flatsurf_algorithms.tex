@@ -1,7 +1,7 @@
 \documentclass{article}
 
 \usepackage{amsmath,amssymb}
-\usepackage{graphicx}
+\usepackage{graphicx,subcaption}
 \usepackage{url}
 \usepackage[margin=2cm]{geometry}
 \usepackage[abbreviations]{foreign}
@@ -29,7 +29,7 @@
 \begin{document}
 \maketitle
 
-\section{Combinatorial maps and translation structures}
+\section{Topology and combinatorial maps}
 \label{sec:TriangulationsAndTranslationStructures}
 
 A cell decomposition of a surface can be encoded by a triple of
@@ -48,15 +48,95 @@ the set $\cE$ such that
 In the definition the letters  $v$, $e$ and $f$ respectively stand for vertices, edges
 and faces.  Each cycle of the cycle decomposition of $\sigma_v$, $\sigma_e$
 and $\sigma_e$ represents respectively a vertex, an edge
-and a face of the cell decomposition. In particular, the cardinality of $\cA$
+and a face of the cell decomposition. In particular, the cardinality of $\cE$
 is even. The transitivity of the group ensures the connectivity of the surface.
+The set $\cE$ can be identified with half edges or oriented edges.
 
-\commv{tell me if you need more precision here about the topological viewpoint}
+We will always denote $n_v$, $n_e$ and $n_f$ respectively the number of vertice,
+edges and faces of the combinatorial map $(\sigma_v, \sigma_e, \sigma_f)$. In
+combinatorial terms it corresponds to the number of cycles in the cycle decomposition
+of $\sigma_v$, $\sigma_e$ and $\sigma_f$.
 
 A particular case of combinatorial maps are \emph{triangulations}
 when the permutation $\sigma_f$ is a product of disjoint 3-cycles.
-In these situation $n$ is a multiple of $6$. Translation structure are
-easier to defined on triangulations.
+In these situation $n$ is a multiple of $6$.
+
+\begin{figure}[!ht]
+\begin{minipage}{0.4\textwidth}
+\begin{center}
+\includegraphics{pictures/Torus.pdf}
+\subcaption{A square torus $\sigma_v = (0,1,2,3)$, $\sigma_e=(0,2)(1,3)$, $\sigma_f=(0,1,2,3)$.}
+\end{center}
+\end{minipage}
+\hspace{0.1\textwidth}
+\begin{minipage}{0.4\textwidth}
+\begin{center}
+\includegraphics{pictures/TriangulatedTorus.pdf}
+\subcaption{A triangulated torus $\sigma_v = (0,4,1,2,5,3)$, $\sigma_e=(0,2)(1,3)(4,5)$, $\sigma_f=(0,1,5)(2,3,4)$.}
+\end{center}
+\end{minipage}
+\caption{Examples of combinatorial maps on a torus.}
+\label{fig:CombinatorialMapTori}
+\end{figure}
+
+
+The \emph{dual} of the combinatorial map $(\sigma_v, \sigma_e, \sigma_f)$ is the combinatorial
+map $(\sigma_f^{-1}, \sigma_e, \sigma_v^{-1})$.
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics{pictures/DualCombinatorialMaps.pdf}
+\end{center}
+\caption{Dual combinatorial maps}
+\label{fig:DualCombinatorialMaps}
+\end{figure}
+
+Figure~\ref{fig:DualCombinatorialMaps} provides a local picture of two dual
+combinatorial maps.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Elementary moves: removing, adding, flipping edges}
+\label{sec:ElementaryMoves}
+Let $(\sigma_v, \sigma_e, \sigma_f)$ be a combinatorial map on $\cE$. We define three operations
+(and their inverses) that allow to move through the space of all combinatorial maps of given genus.
+
+\subsection{Removing edges / splitting faces}
+\textbf{removing an edge}:
+Let $(x,y)$ be a transposition of $\sigma_e$ such that the two faces adjacent to this
+edge are different then we can remove this edge and obtain a new combinatorial map.
+\begin{center}\includegraphics{pictures/RemoveEdge.pdf}\end{center}
+The operation on the permutations is given as follows
+\begin{align*}
+\sigma_v = (j,x,A) (i,y,B) \ldots & \mapsto (j,A) (i,B) \ldots \\
+\sigma_e = (j, \sigma_e(j)) (i, \sigma_e(i)) (x,y) \ldots & \mapsto (j, \sigma_e(j)) (i, \sigma_e(i)) \ldots \\
+\sigma_f = (x,i,C) (y,j,D) \ldots & \mapsto (i,C,j,D) \ldots 
+\end{align*} 
+This operation merges the two faces adjacent to the edge $(x,y)$ into a single bigger face.
+The new combinatorial map is on the set $\cE \setminus \{x,y\}$.
+
+\textbf{splitting a face}:
+This is simply the reverse procedure of removing an edge.
+
+\subsection{Contracting edges / splitting vertices}
+\textbf{contracting an edge}:
+dual to "removing an edge"
+
+\textbf{splitting a vertex}:
+reverse to the above.
+
+\subsection{Forward flip / backward flip}
+The operation considered above modifies the number of edges of the combinatorial map.
+
+\textbf{forward edge flip in a face}
+\begin{center}\includegraphics{pictures/FlipEdge.pdf}\end{center}
+Given an edge $(x,y)$ that is adjacent to distinct faces, we can perform an
+"edge flip" as in the above figure.
+The flip operation does not change the underlying set $\cE$.
+
+\textbf{forward edge flip at a vertex}
+
+\bigskip
+
+\section{Translation structures}
 \begin{definition}
 \label{def:FlatTriangulation}
 Let $T = (\sigma_v, \sigma_e, \sigma_f) \in \Sym(\cE)^3$ be a 
@@ -117,50 +197,17 @@ structure restricted to any sub cell decomposition is a (not necessarily embedde
 translation structure.
 \end{lemma}
 
-\section{Elementary moves: removing, adding, flipping edges}
-\label{sec:ElementaryMoves}
-What we are really interested in are translation structure on surfaces which
-is a geometric structure on the surface. Fixing a triangulation or a combinatorial
-map is an additional particular choice and we want to be able to "navigate" between
-these different possible choices.
 
-Let $(\sigma_v, \sigma_e, \sigma_f)$ be a combinatorial map and $\zeta_i$ a
-translation strcuture on it.
-
-\textbf{removing an edge}:
-Let $(x,y)$ be a transposition of $\sigma_e$ such that the two faces adjacent to this
-edge are different then we can remove this edge and still have a translation structure.
-\begin{center}\includegraphics{pictures/RemoveEdge.pdf}\end{center}
-The operation on the combinatorial data is as follows
-\begin{align*}
-\sigma_v = (j,x,A) (i,y,B) \ldots & \mapsto (j,A) (i,B) \ldots \\
-\sigma_e = (j, \sigma_e(j)) (i, \sigma_e(i)) (x,y) \ldots & \mapsto (j, \sigma_e(j)) (i, \sigma_e(i)) \ldots \\
-\sigma_f = (x,i,C) (y,j,D) \ldots & \mapsto (i,C,j,D) \ldots 
-\end{align*} 
-This operation merge the two faces adjacent to the edge $(x,y)$ into a single bigger face.
-The new combinatorial map is on the set $\cE \setminus \{x,y\}$.
-
-\textbf{adding an edge}:
-This is simply the reverse procedure of removing an edge. Though, this is not always possible at the
-level of translation structures since the edge we add must be a straight-line segment
-in the surface.
-
-\textbf{flipping an edge}:
-\begin{center}\includegraphics{pictures/FlipEdge.pdf}\end{center}
-Given an edge $(x,y)$ that is adjacent to distinct faces, we can perform an
-"edge flip" as in the above figure. Again, in order to do it on a translation
+\subsection{Elementary moves on translation structures}
+\subsection{edge flips}
 structure the newly added edge must be a valid straight-line segment.
 In the special cases the two adjacent faces are triangles, the condition
 for flipping the edge (which is one diagonal of the quadrilateral) is that the
 quadrilateral is convex.
 \begin{center}\includegraphics{pictures/QuadrilateralFlip.pdf}\end{center}
-The flip operation does not change the underlying set $\cE$.
 
-\bigskip
 
-\commv{Exercise: for each of this operation, compute what happens to the
-translation structure $\{\zeta_i\}_{i \in \cE}$.}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{From translation structures to interval exchange transformation}
 A zippered rectangle is a form of cell decomposition of a translation
 surface into rectangles. It can be viewed as a particular kind of translation
@@ -234,6 +281,13 @@ t_1 = 0,\ t_2 = 11,\ t_3 = 14,\ t_4 = 17
 \qquad
 b_1 = 1,\ b_2 = 4,\ b_3 = 7,\ b_4 = 16
 \]
+
+\subsection{Naive version}
+\textit{(discussed on April 22)}
+
+Pick an edge and build the first return map to this edge.
+For that purpose, follow the (vertical) translation flow until it comes back to this edge.
+
 
 \subsection{The algorithm}
 We now describe an algorithm that given a translation structure on
