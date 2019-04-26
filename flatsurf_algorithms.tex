@@ -25,7 +25,7 @@
 \title{Algorithms for translation surfaces}
 \author{Vincent Delecroix for Julian R\"uth}
 
-\newcommand{\commv}[1]{{\color{red!50!gray}[#1]}}	
+\newcommand{\commv}[1]{{\color{red!50!gray}{#1}}}	
 
 \begin{document}
 \maketitle
@@ -187,7 +187,6 @@ exists a triangulation with a translation structure $(T,\zeta')$ so that $M$ is
 a sub-translation structure of $(T,\zeta')$.
 \end{lemma}
 
-
 \subsection{Elementary moves on translation structures}
 Given a combinatorial map endowed with a translation structure $(M, \zeta)$
 we want to extend the elementary moves of Section~\ref{sec:ElementaryMoves}
@@ -212,6 +211,23 @@ quadrilateral is convex.
 \caption{A flip in a quadrilateral.}
 \end{figure}
 
+\subsection{Delaunay triangulations and isomorphism checking}
+From a translation structure on a triangulation one can compute a canonical
+cell decomposition of the surface called the $\ell^2$-Delaunay decomposition.
+It allows for example to solve the isomorphism problem: given two
+translation surfaces given as pairs $(M,\zeta)$ and $(M',\zeta')$ are
+the underlying translation surface isomorphic.
+
+It is also possible to consider the $\ell^\infty$-Delaunay decomposition
+which is very much relevant when we want to study the translation flows
+in a translation surface.
+
+\commv{These are (simple enough) but essential algorithm.
+\begin{enumerate}
+\item TODO: implement $\ell^2$-Delaunay, isomorphism checking and isometry group,
+\item TODO: implement $\ell^\infty$-Delaunay.
+\end{enumerate}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{From translation structures to interval exchange transformation}
 Given a translation surface we want to study the behavior of its vertical foliations
@@ -221,8 +237,12 @@ foliation can be encoded in a one-dimensional object: the
 (multi-)\emph{interval exchange transformations} that are intimately related
 to \emph{train tracks}.
 
+The aim of this section is to describe an algorithm that starts from a
+combinatorial map together with a translation structure and produces
+an interval exchange map.
+
 \subsection{Multi-interval exchange transformations}
-As with translation structures, interval exchange transformation are described as
+As with translation structures, interval exchange transformations are described as
 a pair $(\pi, \lambda)$ where $\pi$ is a combinatorial data and $\lambda$ is
 a continuous data.
 
@@ -277,7 +297,7 @@ On the example of Figure~\ref{fig:MultiIET} the multi-permutation is
 \[
 \left(\begin{array}{c|c}
 a\ b & c\ d \\
-c\ b\ d & a \\
+c'\ b'\ d' & a' \\
 \end{array} \right)
 \]
 
@@ -307,13 +327,12 @@ defined as in Figure~\ref{fig:MultiIET}.
 
 \begin{remark}
 An alternative definition of multi-permutation is to consider an alphabet $\cA$
-with $\# \cA = \frac{1}{2} \# \cE$ that is in bijection with the orbit of
+with $\# \cA = \frac{1}{2} \# \cE$ that is in bijection with the orbits of
 $\sigma_e$. That is we have bijections $p^{top}: \cA \to \cE^{top}$ and
 $p^{bot}: \cA \to \cE^{bot}$ so that $\sigma_e \circ p^{top} = p^{bot}$.
-But using the definition with $(\cE, \sigma_e)$ is more reminiscent of
-the combinatorial map that we previously introduced.
-
-This would match Yoccoz notations~\cite{Yoccoz}.
+The definition we used with $(\cE, \sigma_e)$ is more reminiscent of
+the combinatorial map that we previously introduced. The definition with the set
+$\cA$ is used in~\cite{Yoccoz} to define iet (but he does not discuss multi-iet).
 \end{remark}
 
 \subsection{From triangulations with translation structures to multi-interval exchange transformations}
@@ -337,19 +356,28 @@ See Figure~\ref{fig:FromTrianglesToIntervals}
 \includegraphics{pictures/TriangleToInterval2.pdf}
 \end{center}
 \end{minipage}
-\caption{From triangles to intervals.}
+\caption{From a triangle (with its separatrix) to an interval.}
 \label{fig:FromTrianglesToIntervals}
 \end{figure}
 
 Note that the length data of the multi-interval exchange transformation is
 simply the vector of absolute values of real parts of the vectors $\zeta_i$.
+In this correspondence:
+\begin{itemize}
+\item an edge of the combinatorial map is in bijection with a pair of intervals
+$(I^{top}_{j,i}, I^{bot}_{j',i'})$ such that the multi-iet maps $I^{top}_{j,i}$
+to $I^{bot}_{j',i'}$.
+\item the outgoing/incoming vertical separatrices in the translation surface are
+in bijections with the singularities of $T$ respectively $T^{-1}$
+\end{itemize}
 
 \subsection{From multi-iet to iet}
-We now describe an algorithm that given a multi-interval exchange transformation
-produces an interval exchange transformation (that is a multi-interval exchange
-transformation on a single interval).
+We already described how a combinatorial triangulation gives rise to a
+multi-iet. We now explain how to reduce a multi-iet to an iet, that is
+a multi-iet on a single interval.
 
-The only tool we use is to perform induction similar to Rauzy induction.
+The only tool we use is an induction similar to Rauzy induction
+as described in~\cite{Yoccoz}.
 \begin{definition}
 Let
 $\pi = \{(\cE^{top}_j, \pi^{top}_j, \cE^{bot}_j, \pi^{bot}_j\}_{j=1,\ldots,m}\}$
@@ -364,7 +392,9 @@ Similarly, if $d_j^{bot} = 1$.
 At the level of multi-interval exchange transformations, the aggregation
 consists in taking the first return map of the multi-interval
 exchange transformation after removing the $j$-th interval. Note that this
-operation is purely combinatorial.
+operation is purely combinatorial at the level of the multi-iet (but not
+at the level of the triangulation since we need to identify which edges
+are on top and which edges are in the bottom in each triangle).
 
 \begin{definition}
 Let
@@ -381,17 +411,27 @@ the multi-interval exchange transformation after removing the smallest of
 the two sub-intervals corresponding to $i^{top}$ or $i^{bot}$.
 \end{definition}
 
-
-The algorithm is obtained by repeating
+\commv{TODO: implement the reduction algorithm that consists in reducing
+a multi-iet to an iet via
 \begin{enumerate}
 \item if there is any aggregation, do it
 \item if there is no, perform Rauzy inductions until there is one
-\end{enumerate}
+\end{enumerate}}
 
-It might happen that Performing Rauzy induction we detect some saddle connection,
+\subsection{Saddle connections and cylinders}
+The procedure we described so far works if there is no vertical saddle connections.
+When there are, it might be impossible to construct an iet. Even worse, a vertical
+edge is not properly encoded. In this section we discuss how to solve the issues.
+
+\begin{definition}[reducible multi-permutation]
+cumbersome.
+\end{definition}
+
+It might happen that along the inductionPerforming Rauzy induction we detect some saddle connection,
 that is we might have $\lambda_{i^{bot}} = \lambda_{i^{top}}$. In that case, the
 saddle connection should be stored for future use and the two sub-intervals must be
-fusionned.
+fusionned. To do that, a fixed labelling of the separatrix has to be chosen at
+the begining.
 
 %\subsection{What is a zippered rectangle?}
 %\begin{definition}
@@ -503,16 +543,19 @@ fusionned.
 \begin{thebibliography}{sage-flatsurf}
 
 \bibitem[sage-flatsurf]{sage-flatsurf}
-V. Delecroix, P. Hooper
+V. Delecroix, P. Hooper,
+\texttt{sage-flatsurf},
 \url{https://github.com/videlec/sage-flatsurf}
 
 \bibitem[surface\_dynamics]{surface-dynamics}
-V. Delecroix
-\texttt{surface\_dynamics}
+V. Delecroix,
+\texttt{surface\_dynamics},
+\url{https://gitlab.com/videlec/surface_dynamics}
 
 \bibitem[veerer]{veerer}
-M. Bell, V. Delecroix, S. Schleimer
-\texttt{veerer}
+M. Bell, V. Delecroix, S. Schleimer,
+\texttt{veerer},
+\url{https://gitlab.com/videlec/veerer}
 
 \bibitem[Yoccoz]{Yoccoz}
 Jean-Christophe Yoccoz
