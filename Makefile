@@ -7,7 +7,8 @@ PICTURES=\
  pictures/TriangulatedTorus.pdf \
  pictures/MultiIET.pdf \
  pictures/TriangleToInterval1.pdf \
- pictures/TriangleToInterval2.pdf
+ pictures/TriangleToInterval2.pdf \
+ pictures/MultiIETInduction.pdf
 
 flatsurf_algorithms.pdf: flatsurf_algorithms.tex $(PICTURES)
 	pdflatex flatsurf_algorithms.tex

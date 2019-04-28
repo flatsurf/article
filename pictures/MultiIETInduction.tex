@@ -1,0 +1,112 @@
+\documentclass[tikz]{standalone}
+\usetikzlibrary{calc}
+\usepackage{xcolor}
+\begin{document}\begin{tikzpicture}
+% combinatorics
+% a b | g c | d e f
+% d g | b f | a e c
+% lengths
+%  0.519
+%  0.984
+%  1.190
+%  1.218
+%  0.185
+%  0.490
+%  0.284
+
+\definecolor{cola}{rgb}{1,0,0};
+\definecolor{colb}{rgb}{0,1,0};
+\definecolor{colc}{rgb}{0,0,1};
+\definecolor{cold}{rgb}{.4,.1,.7};
+\definecolor{cole}{rgb}{.1,.8,.1};
+\definecolor{colf}{rgb}{.1,.1,.1};
+\definecolor{colg}{rgb}{.5,.5,.1};
+
+\coordinate (la) at (0.519,0);
+\coordinate (lb) at (0.984,0);
+\coordinate (lc) at (1.190,0);
+\coordinate (ld) at (1.218,0);
+\coordinate (le) at (0.185,0);
+\coordinate (lf) at (0.490,0);
+\coordinate (lg) at (0.284,0);
+
+% a b
+% d g
+\draw[cola] (0,.1) ++(0,0) -- node[above] {a} +(la);
+\draw[colb] (0,.1) ++(la) -- node[above] {b} +(lb);
+\draw[cold] (0,-.1) ++(0,0) -- node[below] {d'} +(ld);
+\draw[colg] (0,-.1) ++(ld) -- node[below] {g'} +(lg);
+
+% g c
+% b f
+\draw[colg] (2,.1) ++(0,0) -- node[above] {g} +(lg);
+\draw[colc] (2,.1) ++(lg) -- node[above] {c} +(lc);
+\draw[colb] (2,-.1) ++(0,0) -- node[below] {b'} +(lb);
+\draw[colf] (2,-.1) ++(lb) -- node[below] {f'} +(lf);
+
+% d e f
+% a e c
+\draw[cold] (4,.1) ++(0,0) -- node[above] {d} +(ld);
+\draw[cole] (4,.1) ++(ld) -- node[above] {e} +(le);
+\draw[colf] (4,.1) ++($(ld)+(le)$) -- node[above] {f} +(lf);
+\draw[cola] (4,-.1) ++(0,0) -- node[below] {a'} +(la);
+\draw[cole] (4,-.1) ++(la) -- node[below] {e'} +(le);
+\draw[colc] (4,-.1) ++($(la)+(le)$) -- node[below] {c'} +(lc);
+
+% top cuts
+\foreach \x in {(0,0), (la), ($(la)+(lb)$),(2,0),($(2,0)+(lg)$), ($(2,0)+(lg)+(lc)$),
+  (4,0), ($(4,0)+(ld)$), ($(4,0)+(ld)+(le)$), ($(4,0)+(ld)+(le)+(lf)$)}
+  \draw[black] \x +(0,.04) -- +(0,.16);
+% bot cuts
+\foreach \x in {(0,0), (ld), ($(ld)+(lg)$), (2,0), ($(2,0)+(lb)$), ($(2,0)+(lb)+(lf)$),
+  (4,0), ($(4,0)+(la)$), ($(4,0)+(la)+(le)$), ($(4,0)+(la)+(le)+(lc)$)}
+  \draw[black] \x +(0,-.04) -- +(0,-.16);
+
+
+\begin{scope}[yshift=-1.5cm]
+\definecolor{cola}{rgb}{1,0,0};
+\definecolor{colb}{rgb}{0,1,0};
+\definecolor{colc}{rgb}{0,0,1};
+\definecolor{cold}{rgb}{.4,.1,.7};
+\definecolor{cole}{rgb}{.1,.8,.1};
+\definecolor{colf}{rgb}{.1,.1,.1};
+\definecolor{colg}{rgb}{.5,.5,.1};
+
+\coordinate (la) at (0.519,0);
+\coordinate (lb) at (0.984,0);
+\coordinate (lc) at (1.190,0);
+\coordinate (ld) at (1.218,0);
+\coordinate (le) at (0.185,0);
+\coordinate (lf) at (0.490,0);
+\coordinate (lg) at (0.284,0);
+
+% a b c
+% d b f
+\draw[cola] (0,.1) ++(0,0) -- node[above] {a} +(la);
+\draw[colb] (0,.1) ++(la) -- node[above] {b} +(lb);
+\draw[colc] (0,.1) ++($(la)+(lb)$) -- node[above] {c} +(lc);
+\draw[cold] (0,-.1) ++(0,0) -- node[below] {d'} +(ld);
+\draw[colb] (0,-.1) ++(ld) -- node[below] {b'} +(lb);
+\draw[colf] (0,-.1) ++($(ld)+(lb)$) -- node[below] {f'} +(lf);
+
+% d e f
+% a e c
+\draw[cold] (3.3,.1) ++(0,0) -- node[above] {d} +(ld);
+\draw[cole] (3.3,.1) ++(ld) -- node[above] {e} +(le);
+\draw[colf] (3.3,.1) ++($(ld)+(le)$) -- node[above] {f} +(lf);
+\draw[cola] (3.3,-.1) ++(0,0) -- node[below] {a'} +(la);
+\draw[cole] (3.3,-.1) ++(la) -- node[below] {e'} +(le);
+\draw[colc] (3.3,-.1) ++($(la)+(le)$) -- node[below] {c'} +(lc);
+
+% top cuts
+\foreach \x in {(0,0), (la), ($(la)+(lb)$), ($(la)+(lb)+(lc)$),
+  (3.3,0), ($(3.3,0)+(ld)$), ($(3.3,0)+(ld)+(le)$), ($(3.3,0)+(ld)+(le)+(lf)$)}
+  \draw[black] \x +(0,.04) -- +(0,.16);
+% bot cuts
+\foreach \x in {(0,0), (ld), ($(ld)+(lb)$), ($(ld)+(lb)+(lf)$),
+  (3.3,0), ($(3.3,0)+(la)$), ($(3.3,0)+(la)+(le)$), ($(3.3,0)+(la)+(le)+(lc)$)}
+  \draw[black] \x +(0,-.04) -- +(0,-.16);
+
+\end{scope}
+
+\end{tikzpicture}\end{document}
