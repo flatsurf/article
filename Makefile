@@ -8,7 +8,12 @@ PICTURES=\
  pictures/MultiIET.pdf \
  pictures/TriangleToInterval1.pdf \
  pictures/TriangleToInterval2.pdf \
- pictures/MultiIETInduction.pdf
+ pictures/MultiIETInduction.pdf \
+ pictures/DualCombinatorialMaps.pdf \
+ pictures/ForwardTriangle.pdf \
+ pictures/BackwardTriangle.pdf \
+ pictures/VerticalLeftTriangle.pdf \
+ pictures/VerticalRightTriangle.pdf
 
 flatsurf_algorithms.pdf: flatsurf_algorithms.tex $(PICTURES)
 	pdflatex flatsurf_algorithms.tex
@@ -17,3 +22,7 @@ flatsurf_algorithms.pdf: flatsurf_algorithms.tex $(PICTURES)
 pictures/%.pdf: pictures/%.tex
 	cd pictures
 	pdflatex -output-directory pictures $<
+
+clean:
+	rm -f pictures/*.pdf
+	rm -f *.aux *.log

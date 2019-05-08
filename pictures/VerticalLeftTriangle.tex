@@ -1,0 +1,11 @@
+\documentclass[tikz]{standalone}
+\begin{document}\begin{tikzpicture}
+\coordinate (x) at (0,0);
+\coordinate (y) at (0,1);
+\coordinate (z) at (-1,1.3);
+\filldraw[draw=black,fill=gray!20] (x) -- (y) -- (z) -- cycle;
+
+\draw[thick,red] (x) -- (y);
+\node[fill,circle,red,inner sep=2pt] at (x) {};
+\node[fill,circle,red,inner sep=2pt] at (y) {};
+\end{tikzpicture}\end{document}
