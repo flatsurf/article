@@ -246,90 +246,66 @@ The aim of this section is to describe an algorithm that starts from a
 flat triangulation and produces an interval exchange map that encodes
 the vertical foliation.
 
-%\subsection{Multi-interval exchange transformations}
-%As with translation structures, interval exchange transformations are described as
-%a pair $(\pi, \lambda)$ where $\pi$ is a combinatorial data and $\lambda$ is
-%a continuous data.
-%
-%An interval exchange is easily describe in words. Consider the interval
-%$I = [0,1]$. Cut it into finitely many open sub-intervals
-%$I_1^{top} = (0,x_1^{top})$, $I_2^{top} = (x_1^{top}, x_2^{top})$, \ldots,
-%$I_d^{top} = (x_{d-1}^{top}, 1)$. Rearrange the $d$ interval using a fixed
-%permutation $\pi$ provide a map on $[0,1]$ which is a piecewise translation.
-%This map is an interval exchange transformation.
-%
-%\begin{figure}[!ht]
-%\begin{minipage}{0.5\textwidth}
-%\begin{center}\includegraphics{pictures/MultiIET.pdf}\end{center}
-%\subcaption{A multi-interval exchange transformation with $\cE^{top} = \{a,b,c,d\}$,
-%$\cE^{bot} = \{a',b',c',d'\}$ and $\alpha = (a,a')(b,b')(c,c')(d,d')$.
-%The multi-interval exchange maps the sub-interval $I_a$ to $I_{a'}$ by
-%translation and similarly for the other sub-intervals.}
-%\label{fig:MultiIET}
-%\end{minipage}
-%\end{figure}
-%
-%Let us turn to the formal definition of multi-interval exchange transformations
-%where several intervals come into play. We first describe the combinatorial part
-%that we call multi-permutation.
-%\begin{definition}
-%Let $\cE$ be a finite set and $\alpha: \cE \to \cE$ be an involution without fixed point.
-%A \emph{multi-permutation} on $(\cE, \alpha)$ is the data of
-%\begin{itemize}
-%\item A partition $\cE = \cE^{top} \sqcup \cE^{bot}$ with $\alpha(\cE^{top}) = \cE^{bot}$
-%\item Two sub-partitions $\cE^{top} := \cE^{top}_1 \sqcup \cE^{top}_2 \sqcup \ldots \sqcup \cE^{top}_m$
-%and $\cE^{bot} := \cE^{bot}_1 \sqcup \cE^{bot}_2 \sqcup \cdots \sqcup \cE^{bot}_m$ into
-%$m$ non-empty sets
-%\item For each $j \in \{1, \ldots, m\}$, bijections $\pi^{top}_j: \cE^{top}_j \to \{1, \ldots, d_j^{top}\}$
-%and $\pi^{bot}_j: \cE^{bot}_j \to \{1, \ldots, d_j^{bot}\}$ where
-%$d_j^{top} := \# \cE^{top}_j$ and $d_j^{bot} := \# \cE^{bot}_j$.
-%\end{itemize}
-%\end{definition}
-%
-%To represent a multi-permutation, we will use the notation
-%\[
-%\left(\begin{array}{c|c|c}
-%(\pi_1^{top})^{-1}(1)\ (\pi_1^{top})^{-1}(2)\ \ldots (\pi_1^{top})^{-1}(d_1^{top}) &
-%\ldots &
-%(\pi_m^{top})^{-1}(1)\ (\pi_m^{top})^{-1}(2)\ \ldots (\pi_m^{top})^{-1}(d_m^{top})
-%\\
-%(\pi_1^{bot})^{-1}(1)\ (\pi_1^{bot})^{-1}(2)\ \ldots (\pi_1^{bot})^{-1}(d_1^{bot}) &
-%\ldots &
-%(\pi_m^{bot})^{-1}(1)\ (\pi_m^{bot})^{-1}(2)\ \ldots (\pi_m^{bot})^{-1}(d_m^{bot})
-%\end{array}\right)
-%\]
-%On the example of Figure~\ref{fig:MultiIET} the multi-permutation is
-%\[
-%\left(\begin{array}{c|c}
-%a\ b & c\ d \\
-%c'\ b'\ d' & a' \\
-%\end{array} \right)
-%\]
-%
-%\begin{definition}
-%Let $\pi = \{(\cE^{top}_j, \pi^{top}_j, \cE^{bot}_j, \pi^{bot}_j\}_{j=1,\ldots,m}\}$ be
-%a multi-permutation on $(\cE, \alpha)$. A \emph{length data} for $\pi$ is
-%an element $\lambda \in \RR_{> 0}^{\cE}$ such that
-%\begin{itemize}
-%\item for each $i \in \cE$, $\lambda_i = \lambda_{\alpha(i)}$
-%\item for each $j \in \{1,\ldots,m\}$, $\displaystyle \sum_{i = 1}^{d_j^{top}} \lambda_{(\pi^{top})^{-1}(i)} = \sum_{i = 1}^{d_j^{bot}} \lambda_{(\pi^{bot})^{-1}(i)}$.
-%\end{itemize}
-%\end{definition}
-%
-%
-%\begin{definition}
-%Let $\pi = \{(\cE^{top}_j, \pi^{top}_j, \cE^{bot}_j, \pi^{bot}_j\}_{j=1,\ldots,m}\}$
-%be a multi-permutation on $(\cE, \alpha)$ and $\lambda \in \RR^\cE$
-%a length data for $\pi$.
-%
-%The \emph{multi-interval exchange transformation} associated to the pair $(\pi,\lambda)$
-%is the partial transformation on $I = I_1 \sqcup I_2 \sqcup \ldots \sqcup I_m$ where
-%\[
-%I_j := \left(0, \sum_{i=1}^{d_j^{top}} \lambda_{(\pi^{top}_j)^{-1}(i)} \right)
-%\]
-%defined as in Figure~\ref{fig:MultiIET}.
-%\end{definition}
-%
+\subsection{Interval exchange transformations}
+As with translation structures, interval exchange transformations are described
+by a combinatorial and a continous data. More precisely by 
+a pair $(\pi, \lambda)$ where $\pi$ is a combinatorial data and $\lambda$ is
+a continuous data.
+
+An interval exchange is easily describe in words. Consider the interval
+$I = [0,1]$. Cut it into finitely many open sub-intervals
+$I_1^{top} = (0,x_1^{top})$, $I_2^{top} = (x_1^{top}, x_2^{top})$, \ldots,
+$I_d^{top} = (x_{d-1}^{top}, 1)$. Rearrange the $d$ interval using a fixed
+permutation $\pi$ provide a map on $[0,1]$ which is a piecewise translation.
+This map is an interval exchange transformation.
+
+\begin{figure}[!ht]
+\begin{center}\includegraphics{pictures/MultiIET.pdf}\end{center}
+\caption{An interval exchange transformation with $\cE^{top} = \{a,b,c,d\}$,
+$\cE^{bot} = \{a',b',c',d'\}$ and $\alpha = (a,a')(b,b')(c,c')(d,d')$.
+The interval exchange maps the sub-interval $I_a$ to $I_{a'}$ by
+translation and similarly for the other sub-intervals.}
+\label{fig:MultiIET}
+\end{figure}
+
+Let us turn to the formal definition of interval exchange transformations
+We first describe the combinatorial part that we call permutation. Our definition
+differs slightly from~\cite{Yoccoz} since our aim is to make clear the relation
+with combinatorial maps and flat triangulations.
+\begin{definition}
+A \emph{permutation} on a finite set $\cE$ of cardinality $2d$, is a combinatorial
+map $(\sigma, \alpha, \phi)$ together with a set partition $\cE = \cE^{top} \cup \cE^{bot}$
+such that $\phi$ is a $2d$ cycle and both $\alpha$ and $\phi^d$ exchanges
+$\cE^{top}$ with $\cE^{bot}$.
+\end{definition}
+On the example of Figure~\ref{fig:MultiIET} the permutation
+\[
+\left(\begin{array}{c}
+a\ b\ c\ d \\
+c'\ b'\ d'\ a' \\
+\end{array} \right)
+\]
+corresponds to the combinatorial map
+\begin{align*}
+\alpha &= (a\ a')(b\ b')(c\ c')(d\ d') \\
+\phi &= (c'\ b'\ d'\ a'\ d\ c\ b\ a)
+\end{align*}
+and the atoms $\cE^{top} = \{a,b,c,d\}$ and $\cE^{bot} = \{a',b',c',d'\}$.
+
+A \emph{length data} for a permutation $\pi = (\sigma, \alpha, \phi, \cE^{top}, \cE^{bot})$
+is a vector $\lambda \in \RR_{>0}^\cE$ such that $\lambda_{\alpha(e)} = \lambda_e$ for each
+$e \in \cE$.
+
+\begin{definition}
+Let $\pi = (\sigma, \alpha, \phi, \cE^{top}, \cE^{bot})$ be a permutation
+on $\cE$ and $\lambda \in \RR_{>0}^\cE$ be a length data.
+
+The \emph{interval exchange transformation} associated to the pair $(\pi,\lambda)$
+is the partial transformation on $I = [0, |\lambda|]$
+as in Figure~\ref{fig:MultiIET} where the lengths of the subintervals are specified
+by the length data.
+\end{definition}
+
 %\begin{remark}
 %An alternative definition of multi-permutation is to consider an alphabet $\cA$
 %with $\# \cA = \frac{1}{2} \# \cE$ that is in bijection with the orbits of
@@ -415,7 +391,10 @@ already in our tree and $t'$ if $t'$ is a backward triangle adjacent to $t$.
 An example is provided in Figure~\ref{fig:TopTree}.
 \begin{figure}[!ht]
 \begin{center}\includegraphics{pictures/WideEdgeBinaryTree.pdf}\end{center}
-\caption{The top tree of a wide edge.}
+\caption{The top binary tree (in blue) of a wide edge $e_0$. The top contour that consists
+of the half edges $\{a_i\}_{i=1,\ldots,6}$ is coloured. Below the picture we draw the
+projection of the real parts of the edges that correspond to "half" of an interval
+exchange transformation.}
 \label{fig:TopTree}
 \end{figure}
 Similarly, we construct a bottom tree $T_{bot}$ starting from the
@@ -427,9 +406,10 @@ Let $T$ be a flat triangulation without vertical triangles.
 Then the set of bottom and top trees attached to wide edges
 form a partition of the triangles of $T$.
 
-If there is a single wide edge, then the contour of the top and bottom
-trees form an interval exchange transformations. The widths
-of the sub-intervals are given by the real parts of these edges.
+If there is a single wide edge, then the top contour of the top tree
+and the bottom contour of the bottom tree form an interval exchange
+transformation where the widths of the sub-intervals are given by the
+real parts of these edges.
 \end{lemma}
 
 \textbf{Algorithm (assuming we do not encounter vertical edges):}
