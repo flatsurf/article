@@ -3,6 +3,7 @@ PICTURES=\
  pictures/RemoveEdge.pdf \
  pictures/FlipEdge.pdf \
  pictures/QuadrilateralFlip.pdf \
+ pictures/QuadrilateralFlip2.pdf \
  pictures/Torus.pdf \
  pictures/TriangulatedTorus.pdf \
  pictures/MultiIET.pdf \
@@ -13,7 +14,8 @@ PICTURES=\
  pictures/ForwardTriangle.pdf \
  pictures/BackwardTriangle.pdf \
  pictures/VerticalLeftTriangle.pdf \
- pictures/VerticalRightTriangle.pdf
+ pictures/VerticalRightTriangle.pdf \
+ pictures/WideEdgeBinaryTree.pdf
 
 flatsurf_algorithms.pdf: flatsurf_algorithms.tex $(PICTURES)
 	pdflatex flatsurf_algorithms.tex

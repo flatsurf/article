@@ -240,254 +240,322 @@ in a translation surface.
 Given a translation surface we want to study the behavior of its vertical foliations
 (the foliation in any direction is relevant, but since the surface can be rotated,
 we assume that we deal with the vertical). The information about the vertical
-foliation can be encoded in a one-dimensional object: the 
-(multi-)\emph{interval exchange transformations} that are intimately related
-to \emph{train tracks}.
-
+foliation can be encoded in a one-dimensional object: an interval exchange
+transformation or more generally a weight on a train track.
 The aim of this section is to describe an algorithm that starts from a
-combinatorial map together with a translation structure and produces
-an interval exchange map.
+flat triangulation and produces an interval exchange map that encodes
+the vertical foliation.
 
-\subsection{Multi-interval exchange transformations}
-As with translation structures, interval exchange transformations are described as
-a pair $(\pi, \lambda)$ where $\pi$ is a combinatorial data and $\lambda$ is
-a continuous data.
+%\subsection{Multi-interval exchange transformations}
+%As with translation structures, interval exchange transformations are described as
+%a pair $(\pi, \lambda)$ where $\pi$ is a combinatorial data and $\lambda$ is
+%a continuous data.
+%
+%An interval exchange is easily describe in words. Consider the interval
+%$I = [0,1]$. Cut it into finitely many open sub-intervals
+%$I_1^{top} = (0,x_1^{top})$, $I_2^{top} = (x_1^{top}, x_2^{top})$, \ldots,
+%$I_d^{top} = (x_{d-1}^{top}, 1)$. Rearrange the $d$ interval using a fixed
+%permutation $\pi$ provide a map on $[0,1]$ which is a piecewise translation.
+%This map is an interval exchange transformation.
+%
+%\begin{figure}[!ht]
+%\begin{minipage}{0.5\textwidth}
+%\begin{center}\includegraphics{pictures/MultiIET.pdf}\end{center}
+%\subcaption{A multi-interval exchange transformation with $\cE^{top} = \{a,b,c,d\}$,
+%$\cE^{bot} = \{a',b',c',d'\}$ and $\alpha = (a,a')(b,b')(c,c')(d,d')$.
+%The multi-interval exchange maps the sub-interval $I_a$ to $I_{a'}$ by
+%translation and similarly for the other sub-intervals.}
+%\label{fig:MultiIET}
+%\end{minipage}
+%\end{figure}
+%
+%Let us turn to the formal definition of multi-interval exchange transformations
+%where several intervals come into play. We first describe the combinatorial part
+%that we call multi-permutation.
+%\begin{definition}
+%Let $\cE$ be a finite set and $\alpha: \cE \to \cE$ be an involution without fixed point.
+%A \emph{multi-permutation} on $(\cE, \alpha)$ is the data of
+%\begin{itemize}
+%\item A partition $\cE = \cE^{top} \sqcup \cE^{bot}$ with $\alpha(\cE^{top}) = \cE^{bot}$
+%\item Two sub-partitions $\cE^{top} := \cE^{top}_1 \sqcup \cE^{top}_2 \sqcup \ldots \sqcup \cE^{top}_m$
+%and $\cE^{bot} := \cE^{bot}_1 \sqcup \cE^{bot}_2 \sqcup \cdots \sqcup \cE^{bot}_m$ into
+%$m$ non-empty sets
+%\item For each $j \in \{1, \ldots, m\}$, bijections $\pi^{top}_j: \cE^{top}_j \to \{1, \ldots, d_j^{top}\}$
+%and $\pi^{bot}_j: \cE^{bot}_j \to \{1, \ldots, d_j^{bot}\}$ where
+%$d_j^{top} := \# \cE^{top}_j$ and $d_j^{bot} := \# \cE^{bot}_j$.
+%\end{itemize}
+%\end{definition}
+%
+%To represent a multi-permutation, we will use the notation
+%\[
+%\left(\begin{array}{c|c|c}
+%(\pi_1^{top})^{-1}(1)\ (\pi_1^{top})^{-1}(2)\ \ldots (\pi_1^{top})^{-1}(d_1^{top}) &
+%\ldots &
+%(\pi_m^{top})^{-1}(1)\ (\pi_m^{top})^{-1}(2)\ \ldots (\pi_m^{top})^{-1}(d_m^{top})
+%\\
+%(\pi_1^{bot})^{-1}(1)\ (\pi_1^{bot})^{-1}(2)\ \ldots (\pi_1^{bot})^{-1}(d_1^{bot}) &
+%\ldots &
+%(\pi_m^{bot})^{-1}(1)\ (\pi_m^{bot})^{-1}(2)\ \ldots (\pi_m^{bot})^{-1}(d_m^{bot})
+%\end{array}\right)
+%\]
+%On the example of Figure~\ref{fig:MultiIET} the multi-permutation is
+%\[
+%\left(\begin{array}{c|c}
+%a\ b & c\ d \\
+%c'\ b'\ d' & a' \\
+%\end{array} \right)
+%\]
+%
+%\begin{definition}
+%Let $\pi = \{(\cE^{top}_j, \pi^{top}_j, \cE^{bot}_j, \pi^{bot}_j\}_{j=1,\ldots,m}\}$ be
+%a multi-permutation on $(\cE, \alpha)$. A \emph{length data} for $\pi$ is
+%an element $\lambda \in \RR_{> 0}^{\cE}$ such that
+%\begin{itemize}
+%\item for each $i \in \cE$, $\lambda_i = \lambda_{\alpha(i)}$
+%\item for each $j \in \{1,\ldots,m\}$, $\displaystyle \sum_{i = 1}^{d_j^{top}} \lambda_{(\pi^{top})^{-1}(i)} = \sum_{i = 1}^{d_j^{bot}} \lambda_{(\pi^{bot})^{-1}(i)}$.
+%\end{itemize}
+%\end{definition}
+%
+%
+%\begin{definition}
+%Let $\pi = \{(\cE^{top}_j, \pi^{top}_j, \cE^{bot}_j, \pi^{bot}_j\}_{j=1,\ldots,m}\}$
+%be a multi-permutation on $(\cE, \alpha)$ and $\lambda \in \RR^\cE$
+%a length data for $\pi$.
+%
+%The \emph{multi-interval exchange transformation} associated to the pair $(\pi,\lambda)$
+%is the partial transformation on $I = I_1 \sqcup I_2 \sqcup \ldots \sqcup I_m$ where
+%\[
+%I_j := \left(0, \sum_{i=1}^{d_j^{top}} \lambda_{(\pi^{top}_j)^{-1}(i)} \right)
+%\]
+%defined as in Figure~\ref{fig:MultiIET}.
+%\end{definition}
+%
+%\begin{remark}
+%An alternative definition of multi-permutation is to consider an alphabet $\cA$
+%with $\# \cA = \frac{1}{2} \# \cE$ that is in bijection with the orbits of
+%$\alpha$. That is we have bijections $p^{top}: \cA \to \cE^{top}$ and
+%$p^{bot}: \cA \to \cE^{bot}$ so that $\alpha \circ p^{top} = p^{bot}$.
+%The definition we used with $(\cE, \alpha)$ is more reminiscent of
+%the combinatorial map that we previously introduced. The definition with the set
+%$\cA$ is used in~\cite{Yoccoz} to define iet (but he does not discuss multi-iet).
+%\end{remark}
 
-An interval exchange is easily describe in words. Consider the interval
-$I = [0,1]$. Cut it into finitely many open sub-intervals
-$I_1^{top} = (0,x_1^{top})$, $I_2^{top} = (x_1^{top}, x_2^{top})$, \ldots,
-$I_d^{top} = (x_{d-1}^{top}, 1)$. Rearrange the $d$ interval using a fixed
-permutation $\pi$ provide a map on $[0,1]$ which is a piecewise translation.
-This map is an interval exchange transformation.
-
-\begin{figure}[!ht]
-\begin{minipage}{0.5\textwidth}
-\begin{center}\includegraphics{pictures/MultiIET.pdf}\end{center}
-\subcaption{A multi-interval exchange transformation with $\cE^{top} = \{a,b,c,d\}$,
-$\cE^{bot} = \{a',b',c',d'\}$ and $\alpha = (a,a')(b,b')(c,c')(d,d')$.
-The multi-interval exchange maps the sub-interval $I_a$ to $I_{a'}$ by
-translation and similarly for the other sub-intervals.}
-\label{fig:MultiIET}
-\end{minipage}
-\end{figure}
-
-Let us turn to the formal definition of multi-interval exchange transformations
-where several intervals come into play. We first describe the combinatorial part
-that we call multi-permutation.
-\begin{definition}
-Let $\cE$ be a finite set and $\alpha: \cE \to \cE$ be an involution without fixed point.
-A \emph{multi-permutation} on $(\cE, \alpha)$ is the data of
-\begin{itemize}
-\item A partition $\cE = \cE^{top} \sqcup \cE^{bot}$ with $\alpha(\cE^{top}) = \cE^{bot}$
-\item Two sub-partitions $\cE^{top} := \cE^{top}_1 \sqcup \cE^{top}_2 \sqcup \ldots \sqcup \cE^{top}_m$
-and $\cE^{bot} := \cE^{bot}_1 \sqcup \cE^{bot}_2 \sqcup \cdots \sqcup \cE^{bot}_m$ into
-$m$ non-empty sets
-\item For each $j \in \{1, \ldots, m\}$, bijections $\pi^{top}_j: \cE^{top}_j \to \{1, \ldots, d_j^{top}\}$
-and $\pi^{bot}_j: \cE^{bot}_j \to \{1, \ldots, d_j^{bot}\}$ where
-$d_j^{top} := \# \cE^{top}_j$ and $d_j^{bot} := \# \cE^{bot}_j$.
-\end{itemize}
-\end{definition}
-
-To represent a multi-permutation, we will use the notation
-\[
-\left(\begin{array}{c|c|c}
-(\pi_1^{top})^{-1}(1)\ (\pi_1^{top})^{-1}(2)\ \ldots (\pi_1^{top})^{-1}(d_1^{top}) &
-\ldots &
-(\pi_m^{top})^{-1}(1)\ (\pi_m^{top})^{-1}(2)\ \ldots (\pi_m^{top})^{-1}(d_m^{top})
-\\
-(\pi_1^{bot})^{-1}(1)\ (\pi_1^{bot})^{-1}(2)\ \ldots (\pi_1^{bot})^{-1}(d_1^{bot}) &
-\ldots &
-(\pi_m^{bot})^{-1}(1)\ (\pi_m^{bot})^{-1}(2)\ \ldots (\pi_m^{bot})^{-1}(d_m^{bot})
-\end{array}\right)
-\]
-On the example of Figure~\ref{fig:MultiIET} the multi-permutation is
-\[
-\left(\begin{array}{c|c}
-a\ b & c\ d \\
-c'\ b'\ d' & a' \\
-\end{array} \right)
-\]
-
-\begin{definition}
-Let $\pi = \{(\cE^{top}_j, \pi^{top}_j, \cE^{bot}_j, \pi^{bot}_j\}_{j=1,\ldots,m}\}$ be
-a multi-permutation on $(\cE, \alpha)$. A \emph{length data} for $\pi$ is
-an element $\lambda \in \RR_{> 0}^{\cE}$ such that
-\begin{itemize}
-\item for each $i \in \cE$, $\lambda_i = \lambda_{\alpha(i)}$
-\item for each $j \in \{1,\ldots,m\}$, $\displaystyle \sum_{i = 1}^{d_j^{top}} \lambda_{(\pi^{top})^{-1}(i)} = \sum_{i = 1}^{d_j^{bot}} \lambda_{(\pi^{bot})^{-1}(i)}$.
-\end{itemize}
-\end{definition}
-
-
-\begin{definition}
-Let $\pi = \{(\cE^{top}_j, \pi^{top}_j, \cE^{bot}_j, \pi^{bot}_j\}_{j=1,\ldots,m}\}$
-be a multi-permutation on $(\cE, \alpha)$ and $\lambda \in \RR^\cE$
-a length data for $\pi$.
-
-The \emph{multi-interval exchange transformation} associated to the pair $(\pi,\lambda)$
-is the partial transformation on $I = I_1 \sqcup I_2 \sqcup \ldots \sqcup I_m$ where
-\[
-I_j := \left(0, \sum_{i=1}^{d_j^{top}} \lambda_{(\pi^{top}_j)^{-1}(i)} \right)
-\]
-defined as in Figure~\ref{fig:MultiIET}.
-\end{definition}
-
-\begin{remark}
-An alternative definition of multi-permutation is to consider an alphabet $\cA$
-with $\# \cA = \frac{1}{2} \# \cE$ that is in bijection with the orbits of
-$\alpha$. That is we have bijections $p^{top}: \cA \to \cE^{top}$ and
-$p^{bot}: \cA \to \cE^{bot}$ so that $\alpha \circ p^{top} = p^{bot}$.
-The definition we used with $(\cE, \alpha)$ is more reminiscent of
-the combinatorial map that we previously introduced. The definition with the set
-$\cA$ is used in~\cite{Yoccoz} to define iet (but he does not discuss multi-iet).
-\end{remark}
-
-
-\subsection{From flat triangulation to interval exchange transformations}
-Given a flat triangulation we distinguish three types of triangles
+\subsection{From flat triangulation to interval exchange transformation}
+Given a flat triangulation we distinguish four types of triangles.
 \begin{figure}[!ht]\begin{center}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{minipage}{0.24\textwidth}
+\begin{minipage}{0.4\textwidth}
 \begin{center}\includegraphics{pictures/ForwardTriangle.pdf}\end{center}
-\subcaption{Forward triangle.}
+\subcaption{Forward triangle with its wide edge thicker.}
 \end{minipage}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{minipage}{0.24\textwidth}
+\hspace{0.1\textwidth}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minipage}{0.4\textwidth}
 \begin{center}\includegraphics{pictures/BackwardTriangle.pdf}\end{center}
-\subcaption{Backward triangle.}
-\end{minipage}
+\subcaption{Backward triangle with its wide edge thicker.}
+\end{minipage} \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{minipage}{0.24\textwidth}
+\begin{minipage}{0.4\textwidth}
 \begin{center}\includegraphics{pictures/VerticalLeftTriangle.pdf}\end{center}
-\subcaption{Vertical left triangle.}
+\subcaption{Left vertical triangle (non vertical edges have same width).}
 \end{minipage}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{minipage}{0.24\textwidth}
+\hspace{0.1\textwidth}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minipage}{0.4\textwidth}
 \begin{center}\includegraphics{pictures/VerticalRightTriangle.pdf}\end{center}
-\subcaption{Vertical right triangle.}
+\subcaption{Right vertical triangle (non vertical edges have same width).}
 \end{minipage}
 \caption{The four types of flat triangles.}
 \end{center}\end{figure}
-
-
-\subsection{From triangulations with translation structures to multi-interval exchange transformations}
-Let $M = (\sigma, \alpha, \phi)$ be a triangulation on
-the finite set $\cE$ and $\zeta \in \CC^\cE$ a translation structure for $M$.
-We associate to this pair a multi-interval exchange on
-$n_f$-intervals where $n_f$ is the number of triangles in $M$.
-
-Each triangle $(i,j,k)$ in $M$ can be drawn in the plane and has a left-most and
-a right-most vertex. This decomposes its sides into a top and a bot partition.
-See Figure~\ref{fig:FromTrianglesToIntervals}
-\begin{figure}[!ht]
-\begin{minipage}{0.4\textwidth}
-\begin{center}
-\includegraphics{pictures/TriangleToInterval1.pdf}
-\end{center}
-\end{minipage}
-\hspace{.1\textwidth}
-\begin{minipage}{0.4\textwidth}
-\begin{center}
-\includegraphics{pictures/TriangleToInterval2.pdf}
-\end{center}
-\end{minipage}
-\caption{From a triangle (with its separatrix) to an interval.}
-\label{fig:FromTrianglesToIntervals}
-\end{figure}
-
-Note that the length data of the multi-interval exchange transformation is
-simply the vector of absolute values of real parts of the vectors $\zeta_i$.
-In this correspondence:
+\begin{lemma}
+Let $T$ be a flat triangulation.
 \begin{itemize}
-\item an edge of the combinatorial map is in bijection with a pair of intervals
-$(I^{top}_{j,i}, I^{bot}_{j',i'})$ such that the multi-iet maps $I^{top}_{j,i}$
-to $I^{bot}_{j',i'}$.
-\item the outgoing/incoming vertical separatrices in the translation surface are
-in bijections with the singularities of $T$ respectively $T^{-1}$
+\item Each triangle in $T$ is exactly of one type among forward, backward, left vertical or right vertical.
+\item The number of left vertical triangles is equal to the number of right vertical triangles. More precisely, each vertical
+edge has a left vertical triangle on its left and a right vertical triangle on its right.
+\item The number of forward triangles is equal to the number of backward triangles.
 \end{itemize}
+\end{lemma}
 
-\subsection{From multi-iet to iet}
-We already described how a translation structure on a triangulation gave rise to a
-multi-iet. We now explain how to reduce a multi-iet to an iet, that is
-a multi-iet on a single interval. For that purpose, we use two operations.
-A gluing operation that allows to paste several
-intervals together and an induction very similar to
-Rauzy induction for iet (see~\cite{Yoccoz} for the latter).
 \begin{definition}
-Let
-$\pi = \{(\cE^{top}_j, \pi^{top}_j, \cE^{bot}_j, \pi^{bot}_j\}_{j=1,\ldots,m}\}$
-be a multi-permutation.
-Assume that there are two distinct subintervals $j_1, j_2 \in \{1,\ldots,m\}$ such
-that the bottom right symbol of the interval $j_1$ is paired with the top left
-symbol of the interval $j_2$. That is if $i := (\pi^{bot}_{j_1})^{-1}(d_{j_1}^{bot})$
-and $i' := (\pi^{top}_{j_2})^{-1}(1)$ satisfy $\alpha(i) = i'$.
-
-The \emph{gluing of $j_1$ and $j_2$ along $(i, i')$} is the new multi-permutation
-on $m-1$ intervals obtained by merging the two components $j_1$ and $j_2$ and forget
-about $(i, i'$). If we had
-\[
-\pi_{j_1} = \left( \begin{array}{c}
-A_1 \\
-B_1\ i
-\end{array} \right)
-\qquad \text{and} \qquad
-\pi_{j_2} = \left( \begin{array}{c}
-i'\ A_2 \\
-B_2 \\
-\end{array} \right)
-\]
-Then the new component after gluing is
-\[
-\left( \begin{array}{c}
-A_1\ A_2 \\
-B_1\ B_2
-\end{array} \right).
-\]
+An edge of a flat triangulation is called
+\begin{itemize}
+\item \emph{large} if it is the wide edge of both of its adjacent triangles (in this case
+the triangle on top is backward and the triangle in the bottom is forward),
+\item \emph{small} if it is the wide edge in neither of its adjacent triangles (in this
+case the triangle on top is forward and the triangle in the bottom is backward),
+\end{itemize}
 \end{definition}
-A gluing can be seen on Figure~\ref{fig:MIETGluing}.
+Note that large, small and vertical are exclusive properties of edges but do
+not cover all cases.
+
+In a flat triangulation, it is always possible to flip a large edge. A
+\emph{forward flip} is a flip of a large edge. After a forward flip, the large
+edge becomes small. See Figure~\ref{fig:ForwardFlip}
 \begin{figure}[!ht]
-\begin{center}\includegraphics{pictures/MultiIETInduction.pdf}\end{center}
-\caption{A gluing operation along $(g,g')$ on a multi-iet.}
-\label{fig:MIETGluing}
+\begin{center}\includegraphics{pictures/QuadrilateralFlip2.pdf}\end{center}
+\caption{A forward flip.}
+\label{fig:ForwardFlip}
 \end{figure}
 
-\begin{definition}
-Let
-$\pi = \{(\cE^{top}_j, \pi^{top}_j, \cE^{bot}_j, \pi^{bot}_j)\}_{j=1,\ldots,m}$
-be a multi-permutation and $\lambda \in \RR_{>0}^{\cE}$ an associated
-length data.
+% with a single purple (0):
+% VeeringTriangulation("(0,~2,1)(2,~6,~3)(3,5,~4)(4,8,~5)(6,~8,~7)(7,~1,~0)", "PRBRRBBBR")
 
-Let $j \in \{1,\ldots,m\}$ and consider the right-most subintervals of
-the $j$-th interval, that is $i^{top} := (\pi^{top}_j)^{-1}(d_j^{top})$
-and $i^{bot} := (\pi^{bot}_j)^{-1}(d_j^{bot})$.
+% with two purple (0 and 5)
+% VeeringTriangulation("(0,~7,6)(1,~5,~2)(2,4,~3)(3,8,~4)(5,7,~6)(~8,~1,~0)", "PRBRBPRBB")
 
-The \emph{right Rauzy induction on the $j$-th component} consists in inducing
-the multi-interval exchange transformation after removing the smallest of
-the two sub-intervals corresponding to $i^{top}$ or $i^{bot}$.
-\end{definition}
 
-\commv{TODO: implement the reduction algorithm that consists in reducing
-a multi-iet to an iet via
+Given a large edge $e$ in a triangulation we construct two connected sets
+of triangles organized in form of a binary tree. The root of the top tree
+$T_{top}$ is the triangle on top of the wide edge. Then we construct
+recursively the tree by adding an edge $t \to t'$ between a triangle $t$
+already in our tree and $t'$ if $t'$ is a backward triangle adjacent to $t$.
+An example is provided in Figure~\ref{fig:TopTree}.
+\begin{figure}[!ht]
+\begin{center}\includegraphics{pictures/WideEdgeBinaryTree.pdf}\end{center}
+\caption{The top tree of a wide edge.}
+\label{fig:TopTree}
+\end{figure}
+Similarly, we construct a bottom tree $T_{bot}$ starting from the
+triangle in the bottom of $e$ and gluing all forward triangles connected
+to it.
+
+\begin{lemma}
+Let $T$ be a flat triangulation without vertical triangles.
+Then the set of bottom and top trees attached to wide edges
+form a partition of the triangles of $T$.
+
+If there is a single wide edge, then the contour of the top and bottom
+trees form an interval exchange transformations. The widths
+of the sub-intervals are given by the real parts of these edges.
+\end{lemma}
+
+\textbf{Algorithm (assuming we do not encounter vertical edges):}
 \begin{enumerate}
-\item if a gluing is available, do it
-\item if there is none, perform Rauzy inductions until there is one
-\end{enumerate}}
+\item Fix a large edge $e_1$ in the triangulation $T$.
+\item while there is another large edge $e' \not= e_1$ flip it
+\end{enumerate}
 
-\subsection{Saddle connections and cylinders}
-The procedure we described so far works if there is no vertical saddle connections.
-When there are, it might be impossible to construct an iet. Even worse, a vertical
-edge is not properly encoded. In this section we discuss how to solve the issues.
-
-\begin{definition}[reducible multi-permutation]
-cumbersome.
-\end{definition}
-
-It might happen that along the inductionPerforming Rauzy induction we detect some saddle connection,
-that is we might have $\lambda_{i^{bot}} = \lambda_{i^{top}}$. In that case, the
-saddle connection should be stored for future use and the two sub-intervals must be
-fusionned. To do that, a fixed labelling of the separatrix has to be chosen at
-the begining.
-
+%\subsection{From triangulations with translation structures to multi-interval exchange transformations}
+%Let $M = (\sigma, \alpha, \phi)$ be a triangulation on
+%the finite set $\cE$ and $\zeta \in \CC^\cE$ a translation structure for $M$.
+%We associate to this pair a multi-interval exchange on
+%$n_f$-intervals where $n_f$ is the number of triangles in $M$.
+%
+%Each triangle $(i,j,k)$ in $M$ can be drawn in the plane and has a left-most and
+%a right-most vertex. This decomposes its sides into a top and a bot partition.
+%See Figure~\ref{fig:FromTrianglesToIntervals}
+%\begin{figure}[!ht]
+%\begin{minipage}{0.4\textwidth}
+%\begin{center}
+%\includegraphics{pictures/TriangleToInterval1.pdf}
+%\end{center}
+%\end{minipage}
+%\hspace{.1\textwidth}
+%\begin{minipage}{0.4\textwidth}
+%\begin{center}
+%\includegraphics{pictures/TriangleToInterval2.pdf}
+%\end{center}
+%\end{minipage}
+%\caption{From a triangle (with its separatrix) to an interval.}
+%\label{fig:FromTrianglesToIntervals}
+%\end{figure}
+%
+%Note that the length data of the multi-interval exchange transformation is
+%simply the vector of absolute values of real parts of the vectors $\zeta_i$.
+%In this correspondence:
+%\begin{itemize}
+%\item an edge of the combinatorial map is in bijection with a pair of intervals
+%$(I^{top}_{j,i}, I^{bot}_{j',i'})$ such that the multi-iet maps $I^{top}_{j,i}$
+%to $I^{bot}_{j',i'}$.
+%\item the outgoing/incoming vertical separatrices in the translation surface are
+%in bijections with the singularities of $T$ respectively $T^{-1}$
+%\end{itemize}
+%
+%\subsection{From multi-iet to iet}
+%We already described how a translation structure on a triangulation gave rise to a
+%multi-iet. We now explain how to reduce a multi-iet to an iet, that is
+%a multi-iet on a single interval. For that purpose, we use two operations.
+%A gluing operation that allows to paste several
+%intervals together and an induction very similar to
+%Rauzy induction for iet (see~\cite{Yoccoz} for the latter).
+%\begin{definition}
+%Let
+%$\pi = \{(\cE^{top}_j, \pi^{top}_j, \cE^{bot}_j, \pi^{bot}_j\}_{j=1,\ldots,m}\}$
+%be a multi-permutation.
+%Assume that there are two distinct subintervals $j_1, j_2 \in \{1,\ldots,m\}$ such
+%that the bottom right symbol of the interval $j_1$ is paired with the top left
+%symbol of the interval $j_2$. That is if $i := (\pi^{bot}_{j_1})^{-1}(d_{j_1}^{bot})$
+%and $i' := (\pi^{top}_{j_2})^{-1}(1)$ satisfy $\alpha(i) = i'$.
+%
+%The \emph{gluing of $j_1$ and $j_2$ along $(i, i')$} is the new multi-permutation
+%on $m-1$ intervals obtained by merging the two components $j_1$ and $j_2$ and forget
+%about $(i, i'$). If we had
+%\[
+%\pi_{j_1} = \left( \begin{array}{c}
+%A_1 \\
+%B_1\ i
+%\end{array} \right)
+%\qquad \text{and} \qquad
+%\pi_{j_2} = \left( \begin{array}{c}
+%i'\ A_2 \\
+%B_2 \\
+%\end{array} \right)
+%\]
+%Then the new component after gluing is
+%\[
+%\left( \begin{array}{c}
+%A_1\ A_2 \\
+%B_1\ B_2
+%\end{array} \right).
+%\]
+%\end{definition}
+%A gluing can be seen on Figure~\ref{fig:MIETGluing}.
+%\begin{figure}[!ht]
+%\begin{center}\includegraphics{pictures/MultiIETInduction.pdf}\end{center}
+%\caption{A gluing operation along $(g,g')$ on a multi-iet.}
+%\label{fig:MIETGluing}
+%\end{figure}
+%
+%\begin{definition}
+%Let
+%$\pi = \{(\cE^{top}_j, \pi^{top}_j, \cE^{bot}_j, \pi^{bot}_j)\}_{j=1,\ldots,m}$
+%be a multi-permutation and $\lambda \in \RR_{>0}^{\cE}$ an associated
+%length data.
+%
+%Let $j \in \{1,\ldots,m\}$ and consider the right-most subintervals of
+%the $j$-th interval, that is $i^{top} := (\pi^{top}_j)^{-1}(d_j^{top})$
+%and $i^{bot} := (\pi^{bot}_j)^{-1}(d_j^{bot})$.
+%
+%The \emph{right Rauzy induction on the $j$-th component} consists in inducing
+%the multi-interval exchange transformation after removing the smallest of
+%the two sub-intervals corresponding to $i^{top}$ or $i^{bot}$.
+%\end{definition}
+%
+%\commv{TODO: implement the reduction algorithm that consists in reducing
+%a multi-iet to an iet via
+%\begin{enumerate}
+%\item if a gluing is available, do it
+%\item if there is none, perform Rauzy inductions until there is one
+%\end{enumerate}}
+%
+%\subsection{Saddle connections and cylinders}
+%The procedure we described so far works if there is no vertical saddle connections.
+%When there are, it might be impossible to construct an iet. Even worse, a vertical
+%edge is not properly encoded. In this section we discuss how to solve the issues.
+%
+%\begin{definition}[reducible multi-permutation]
+%cumbersome.
+%\end{definition}
+%
+%It might happen that along the inductionPerforming Rauzy induction we detect some saddle connection,
+%that is we might have $\lambda_{i^{bot}} = \lambda_{i^{top}}$. In that case, the
+%saddle connection should be stored for future use and the two sub-intervals must be
+%fusionned. To do that, a fixed labelling of the separatrix has to be chosen at
+%the begining.
+%
 %\subsection{What is a zippered rectangle?}
 %\begin{definition}
 %\label{def:WeakZipperedRectangle}

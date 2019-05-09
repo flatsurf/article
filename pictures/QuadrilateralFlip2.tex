@@ -3,9 +3,18 @@
 \begin{tikzpicture}
 \input{quadrilateral.tex}
 \draw[very thick] (b) -- (d);
+
+\draw[red,dotted,->] (a) -- +(0,1);
+\draw[red,dotted,-<] (c) -- +(0,-1);
+
 \begin{scope}[xshift=5cm]
 \input{quadrilateral.tex}
-\draw[very thick]  (a) -- (c);
+\draw  (a) -- (c);
+\draw[red,dotted,->] (a) -- +(0,1);
+\draw[red,dotted,-<] (c) -- +(0,-1);
+
+\draw[thick] (c) -- (d);
+\draw[thick] (a) -- (b);
 \end{scope}
 \end{tikzpicture}%
 \end{document}
