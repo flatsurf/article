@@ -1,0 +1,41 @@
+\documentclass[tikz]{standalone}
+
+\begin{document}\begin{tikzpicture}
+
+\input{pictures/forward_flip_vertical_coords.tex}
+
+\filldraw[draw=black,fill=gray!50] (b) -- (l0) -- (r0) -- cycle;
+\filldraw[draw=black,fill=gray!50] (t) -- (l1) -- (r2) -- cycle;
+\filldraw[draw=black,fill=gray!20] (l0) -- (l1) -- (r2) -- (r0) -- cycle;
+
+\draw (l0) -- (r0);
+\draw (l0) -- (r1);
+\draw (l1) -- (r1);
+\draw (l1) -- (r2);
+
+\draw[red,dotted,->] (b) -- +(0,3.6);
+\draw[red,dotted,-<] (t) -- +(0,-4.2);
+
+\begin{scope}[xshift=5cm]
+\input{pictures/forward_flip_vertical_coords.tex}
+
+\filldraw[draw=black,fill=gray!50] (b) -- (l0) -- (t) -- cycle;
+\filldraw[draw=black,fill=gray!50] (b) -- (r2) -- (t) -- cycle;
+
+\filldraw[draw=black,fill=gray!20] (b) -- (r0) -- (r2) -- cycle;
+\filldraw[draw=black,fill=gray!20] (t) -- (l0) -- (l1) -- cycle;
+
+\draw (b) -- (t);
+\draw (b) -- (r2);
+\draw (b) -- (r1);
+\draw (b) -- (r0);
+
+\draw (t) -- (l0);
+\draw (t) -- (l1);
+
+\draw[red,dotted,->] (b) -- +(0,3.6);
+\draw[red,dotted,-<] (t) -- +(0,-4.2);
+
+\end{scope}
+
+\end{tikzpicture}\end{document}

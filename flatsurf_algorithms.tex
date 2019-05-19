@@ -418,6 +418,30 @@ real parts of these edges.
 \item while there is another large edge $e' \not= e_1$ flip it
 \end{enumerate}
 
+In the case where there is a vertical saddle connection then
+the corresponding triangles should be thought as "transparent".
+Note that vertical triangles might come in a family of several
+vertical triangles glued together as in the left of
+Figure~\ref{fig:ForwardFlipWithVertical}. A family of vertical
+triangle is called "small" or "large" by considering the two
+triangles on top and bottom that are not vertical. The flip is
+done by moving all vertical triangle in parallel, see
+Figure~\ref{fig:ForwardFlipWithVertical}.
+\begin{figure}[!ht]
+\begin{center}\includegraphics{pictures/ForwardFlipWithVertical.pdf}\end{center}
+\caption{A forward flip involving vertical triangles.}
+\label{fig:ForwardFlipWithVertical}
+\end{figure}
+
+Each time a new saddle connection appear, it should
+be checked whether the family of vertical triangle:
+\begin{itemize}
+\item does form a cylinder; in which case the cylinder should be "removed" from
+the surface and kept aside,
+\item does form a vertical closed curve that disconnects the surface. In this
+situation, a large edge in each component must be chosen for the induction.
+\end{itemize}
+
 %\subsection{From triangulations with translation structures to multi-interval exchange transformations}
 %Let $M = (\sigma, \alpha, \phi)$ be a triangulation on
 %the finite set $\cE$ and $\zeta \in \CC^\cE$ a translation structure for $M$.
