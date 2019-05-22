@@ -16,7 +16,8 @@ PICTURES=\
  pictures/VerticalLeftTriangle.pdf \
  pictures/VerticalRightTriangle.pdf \
  pictures/WideEdgeBinaryTree.pdf \
- pictures/ForwardFlipWithVertical.pdf
+ pictures/ForwardFlipWithVertical.pdf \
+ pictures/VerticalDisconnecting.pdf
 
 flatsurf_algorithms.pdf: flatsurf_algorithms.tex $(PICTURES)
 	pdflatex flatsurf_algorithms.tex

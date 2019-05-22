@@ -359,9 +359,9 @@ edge has a left vertical triangle on its left and a right vertical triangle on i
 An edge of a flat triangulation is called
 \begin{itemize}
 \item \emph{large} if it is the wide edge of both of its adjacent triangles (in this case
-the triangle on top is backward and the triangle in the bottom is forward),
-\item \emph{small} if it is the wide edge in neither of its adjacent triangles (in this
-case the triangle on top is forward and the triangle in the bottom is backward),
+the triangle on top is backward and the triangle in the bottom is forward) or if it is the
+wide edge of a triangle and its other neighboring triangle is vertical,
+\item \emph{small} if it is vertical or it is the wide edge in neither of its adjacent triangles (in this latter case the triangle on top is forward and the triangle in the bottom is backward),
 \end{itemize}
 \end{definition}
 Note that large, small and vertical are exclusive properties of edges but do
@@ -382,8 +382,7 @@ edge becomes small. See Figure~\ref{fig:ForwardFlip}
 % with two purple (0 and 5)
 % VeeringTriangulation("(0,~7,6)(1,~5,~2)(2,4,~3)(3,8,~4)(5,7,~6)(~8,~1,~0)", "PRBRBPRBB")
 
-
-Given a large edge $e$ in a triangulation we construct two connected sets
+Given a large edge $e$ in a triangulation we construct a pair of connected sets
 of triangles organized in form of a binary tree. The root of the top tree
 $T_{top}$ is the triangle on top of the wide edge. Then we construct
 recursively the tree by adding an edge $t \to t'$ between a triangle $t$
@@ -402,12 +401,12 @@ triangle in the bottom of $e$ and gluing all forward triangles connected
 to it.
 
 \begin{lemma}
-Let $T$ be a flat triangulation without vertical triangles.
-Then the set of bottom and top trees attached to wide edges
+Let $T$ be a flat triangulation without vertical edges.
+Then the set of bottom and top trees attached to large edges 
 form a partition of the triangles of $T$.
 
-If there is a single wide edge, then the top contour of the top tree
-and the bottom contour of the bottom tree form an interval exchange
+If moreover there is a single large edge in $T$, then the top contour
+of the top tree and the bottom contour of the bottom tree form an interval exchange
 transformation where the widths of the sub-intervals are given by the
 real parts of these edges.
 \end{lemma}
@@ -418,28 +417,30 @@ real parts of these edges.
 \item while there is another large edge $e' \not= e_1$ flip it
 \end{enumerate}
 
-In the case where there is a vertical saddle connection then
-the corresponding triangles should be thought as "transparent".
-Note that vertical triangles might come in a family of several
-vertical triangles glued together as in the left of
-Figure~\ref{fig:ForwardFlipWithVertical}. A family of vertical
-triangle is called "small" or "large" by considering the two
-triangles on top and bottom that are not vertical. The flip is
-done by moving all vertical triangle in parallel, see
-Figure~\ref{fig:ForwardFlipWithVertical}.
+In the case where there is a vertical saddle connection we also
+flip large edges as in Figure~\ref{fig:ForwardFlipWithVertical}.
 \begin{figure}[!ht]
 \begin{center}\includegraphics{pictures/ForwardFlipWithVertical.pdf}\end{center}
-\caption{A forward flip involving vertical triangles.}
+\caption{A sequence of forward flip through a family of vertical triangles.}
 \label{fig:ForwardFlipWithVertical}
 \end{figure}
+Though, we need to add one more check in the algorithm since vertical saddle
+connections are never flipped and might disconnect the surface, see Figure~\ref{fig:VerticalDisconnecting}.
+\begin{figure}[!ht]
+\begin{center}\includegraphics{pictures/VerticalDisconnecting.pdf}\end{center}
+\caption{The two vertical saddle connections corresponding to the edges $(5,6)$ and $(9,10)$
+disconnect the surface.}
+\label{fig:VerticalDisconnecting}
+\end{figure}
 
-Each time a new saddle connection appear, it should
-be checked whether the family of vertical triangle:
+\noindent \textbf{Algorithm}
 \begin{itemize}
-\item does form a cylinder; in which case the cylinder should be "removed" from
-the surface and kept aside,
-\item does form a vertical closed curve that disconnects the surface. In this
-situation, a large edge in each component must be chosen for the induction.
+\item Fix a large edge $e_1$ in the triangulation $T$
+\item While there is another large edge $e' \not= e_1$ flip it.
+If the new edge after a flip is vertical, check whether the vertical saddle
+connections disconnect the surface. If they do, then for each connected component
+$i$ which is not a cylinder, choose a large edge $e_1^{(i)}$ for inducing and
+run the algorithm independently in each subsurface.
 \end{itemize}
 
 %\subsection{From triangulations with translation structures to multi-interval exchange transformations}
