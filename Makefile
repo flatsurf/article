@@ -17,7 +17,11 @@ PICTURES=\
  pictures/VerticalRightTriangle.pdf \
  pictures/WideEdgeBinaryTree.pdf \
  pictures/ForwardFlipWithVertical.pdf \
- pictures/VerticalDisconnecting.pdf
+ pictures/VerticalDisconnecting.pdf \
+ pictures/LabellingSeparatricesIET.pdf \
+ pictures/LabellingSeparatricesIET-2.pdf \
+ pictures/LabellingSeparatricesIET-3.pdf \
+ pictures/LabellingSeparatricesIET-4.pdf
 
 flatsurf_algorithms.pdf: flatsurf_algorithms.tex $(PICTURES)
 	pdflatex flatsurf_algorithms.tex
