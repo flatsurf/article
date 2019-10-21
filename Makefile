@@ -21,7 +21,8 @@ PICTURES=\
  pictures/LabellingSeparatricesIET.pdf \
  pictures/LabellingSeparatricesIET-2.pdf \
  pictures/LabellingSeparatricesIET-3.pdf \
- pictures/LabellingSeparatricesIET-4.pdf
+ pictures/LabellingSeparatricesIET-4.pdf \
+ pictures/SeparatrixDiagram.pdf
 
 flatsurf_algorithms.pdf: flatsurf_algorithms.tex $(PICTURES)
 	pdflatex flatsurf_algorithms.tex
