@@ -5,7 +5,10 @@
 % A C D E
 % C A E D
 \begin{document}\begin{tikzpicture}
-\draw (-.5, -1.5) rectangle (10.82,1.5);
+\draw (1, -1.5) rectangle (12.82,1.5);
+\begin{scope}[xshift=10.82cm]
+\input{pictures/SeparatrixDiagram-2.tex}
+\end{scope}
 
 \coordinate (t0) at (0,1);
 \coordinate (t1) at (2.23606797749979, 1);
@@ -39,9 +42,10 @@
 \draw[->,orange] (t3) -- node[right] {$s^-_C$} +(0,-0.8);
 \draw[->,green] (t4) -- node[right] {$s^-_D$} +(0,-0.8);
 
-\fill[black] (0,-1) circle (2pt);
-\fill[black] (0,1) circle (2pt);
-\draw[green] (0,-1) -- node[right] {$s^+_D$} (0,0);
-\draw[red] (0,1) -- node[right] {$s^-_B$} (0,0);
+%% the saddle connection
+%\fill[black] (0,-1) circle (2pt);
+%\fill[black] (0,1) circle (2pt);
+%\draw[green] (0,-1) -- node[right] {$s^+_D$} (0,0);
+%\draw[red] (0,1) -- node[right] {$s^-_B$} (0,0);
 
 \end{tikzpicture}\end{document}

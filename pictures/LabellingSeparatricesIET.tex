@@ -2,7 +2,24 @@
 % A B C D E
 % C A E B D
 \begin{document}\begin{tikzpicture}
-\draw (-.5, -1.5) rectangle (10.82,1.5);
+\draw (-.5, -1.5) rectangle (15,1.5);
+
+% The separatrix diagram (on the right of the picture)
+\begin{scope}[xshift=10.82cm]
+\draw[->,green] (0,0) -- node[near end] {$s_D^+$} (0:1);
+\draw[-<,green] (0,0) -- node[near end] {$s_D^-$} (90:1);
+\draw[->,blue] (0,0) -- node[near end] {$s_A^+$} (180:1);
+\draw[-<,blue] (0,0) -- node[near end] {$s_A^-$} (270:1);
+\fill[black] (0,0) circle (2pt);
+
+\begin{scope}[xshift=2.5cm]
+\draw[->,orange] (0,0) -- node[near end] {$s_C^+$} (0:1);
+\draw[-<,orange] (0,0) -- node[near end] {$s_C^-$} (90:1);
+\draw[->,pink] (0,0) -- node [near end] {$s_E^+$} (180:1);
+\draw[-<,red] (0,0) -- node [near end] {$s_B^-$} (270:1);
+\fill[black] (0,0) circle (2pt);
+\end{scope}
+\end{scope}
 
 \coordinate (t0) at (0,1);
 \coordinate (t1) at (2.23606797749979, 1);
@@ -39,5 +56,6 @@
 \draw[->,blue] (t2) -- node[right] {$s^-_A$} +(0,-0.8);
 \draw[->,orange] (t3) -- node[right] {$s^-_C$} +(0,-0.8);
 \draw[->,green] (t4) -- node[right] {$s^-_D$} +(0,-0.8);
+
 
 \end{tikzpicture}\end{document}
