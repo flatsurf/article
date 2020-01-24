@@ -1,6 +1,6 @@
-\documentclass{article}
+\documentclass[a4paper,12pt]{article}
 
-\usepackage{amsmath,amssymb}
+\usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx,subcaption}
 \usepackage{url}
 \usepackage[margin=2cm]{geometry}
@@ -10,12 +10,21 @@
 \def\RR{\mathbb{R}}
 \def\CC{\mathbb{C}}
 
+\def\bC{\mathbb{C}}
+\def\bR{\mathbb{R}}
+\def\bQ{\mathbb{Q}}
+\def\bZ{\mathbb{Z}}
+
 \def\cA{\mathcal{A}}
 \def\cE{\mathcal{E}}
+\def\cH{\mathcal{H}}
+\def\cM{\mathcal{M}}
 
 \def\Re{\operatorname{Re}}
 \def\Im{\operatorname{Im}}
 \def\Sym{\operatorname{Sym}}
+\def\SL{\operatorname{SL}}
+\def\GL{\operatorname{GL}}
 
 \newtheorem{definition}{Definition}
 \newtheorem{remark}[definition]{Remark}
@@ -473,6 +482,17 @@ a minimal component (on letters $\{A, C\}$) and a cylinder (on letter $E$).}
 \label{fig:LabellingSeparatricesIET}
 \end{figure}
 
+\subsection{Questions}
+How do we triangulate a zippered rectangle?
+
+How do we compute the tangent vector corresponding to a cylinder?
+
+If the tangent vector has irrational components, we could use it to generate a whole subspace!
+(Just consider the irrational parameters as variables)
+
+Triangles:
+- step 1: do saddle connection search
+- step 2: move a little bit
 
 %\subsection{From triangulations with translation structures to multi-interval exchange transformations}
 %Let $M = (\sigma, \alpha, \phi)$ be a triangulation on
@@ -699,6 +719,144 @@ a minimal component (on letters $\{A, C\}$) and a cylinder (on letter $E$).}
 %And we should start again from another vertex until we get rid of all the triangles.
 %
 
+\section{$\GL(2,\bR)$-orbit closures}
+Let $(T, \zeta)$ be a translation surface made of a triangulation with edges
+numbered from $1$ to $d$ and a vector $\zeta \in \bC^n$. The neighborhood
+of this surface is described by the surfaces $(T, \zeta + v)$ where $v \in \bC^d$
+satisfy the condition that the sum around each triangle is zero. We denote
+$V(T) \subset \bR^d$ the real associated vector space.
+
+\subsection{$\GL(2,\bR)$-action and linear manifolds}
+The $\GL(2,\bR)$ action on the space of translation surface is given in our
+coordinates by the linear action on $\bC$ identified to $\bR^2$. Even more
+precisely, writing $\zeta = (x_1 + i y_1, x_2 + i y_2, \ldots, x_d + i y_d)$ we have
+\[
+\begin{pmatrix}
+\alpha & \beta \\
+\gamma & \delta
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+x_1 & x_2 & \ldots & x_d \\
+y_1 & y_2 & \ldots & y_d
+\end{pmatrix}
+=
+\begin{pmatrix}
+\alpha x_1 + \beta y_1 & \alpha x_2 + \beta y_2 & \ldots & \alpha x_d + \beta y_d \\
+\gamma x_1 + \delta y_1 & \gamma x_2 + \delta y_2 & \ldots & \gamma x_\delta + \delta y_\delta
+\end{pmatrix}
+\]
+To understand the $\GL(2,\bR)$-action, a first step is to get a clue on what
+are the closed invariant subsets. The Eskin-Mirzakhani structural theorem
+says that these are very rigid.
+\begin{definition}
+A \emph{linear submanifold} of translation surfaces is a closed subspace of the
+space of translation surfaces that is locally described by linear equations
+in the coordinates $V(T) \times V(T)$.
+(this is a lie as we allow self-intersection that do not matter for our purpose)
+\end{definition}
+
+\begin{theorem}[Eskin-Mirzakhani, Eskin-Mirzakhani-Mohammadi]
+Let $\cM$ be a $\GL(2,\bR)$-invariant closed subset of translation surfaces. Then
+$\cM$ is a linear submanifold (with possibly self intersections).
+\end{theorem}
+
+The main algorithmic question we want to dela with is: given a surface $(T, \zeta)$
+(or possibly a family of such surfaces) what is its $\GL(2,\bR)$-orbit closure? As the
+above theorem states, such orbit closure is simply described by the tangent space
+at a single point!
+
+The object we want to deal in the algorithm are pairs $((T,\zeta), U)$
+consisting of a translation surface $(T,\zeta)$ and a subspace of $V(T) \oplus
+V(T)$ that describe the infinitesimal deformations of $(T, \zeta)$.
+The first important remark is the $\GL(2,\bR)$-invariance can be read on $U$.
+\begin{lemma}
+Let $\cM$ be a submanifold of translation surfaces. Then, it is
+$\GL(2,\bR)$-invariant, if and only if, at any point $(T, \zeta)$ its tangent
+space in $V(T) \times V(T)$ is a direct sum $U \oplus U$ where $U \subset V(T)$
+is a vector subspace and $U$ contains both $\Re(\zeta)$ and $\Im(\zeta)$.
+\end{lemma}
+
+\begin{proof}
+Just use the fact that the real projection $x+iy \mapsto x$ and imaginary projection
+$x+iy \mapsto y$ live the tangent space invariant (since they are limit of $\GL(2,\bR)$
+elements).
+\end{proof}
+
+In other words, instead of having to deal with subspaces of $V(T) \oplus V(T)$ we only
+care about subspaces of $V(T) \subset \bR^d$. The infinitesimal deformations around $(T,\zeta)$ are
+then given by $(T, \zeta + u + i v)$ where $u, v \in V(T)$.
+
+If our starting point is a single surface $(T, \zeta)$, In particular, starting
+from a single surface $(T, \zeta)$ we already obtain non-trivial subspace of the
+tangent space, namely $\bR \Re(\zeta) \oplus \bR \Im(\zeta)$.
+
+\subsection{The field of definition}
+Here we describe some algebraic results due to Alex Wright. Let us note that
+$V(T) \subset \bR^d$ is canonically endowed with a $\bZ$-structure (vectors
+whose coordinates are integrals). Because of this, it makes sense to consider
+the \textit{field of definition} of a linear subspace in $V(T)$.
+\begin{theorem}[Alex Wright~\cite{Wright-field-of-def}]
+Let $\cM$ be a (linear) $\GL(2,\bR)$-invariant manifold of translation surfaces.
+Then there exists a totally real number field $k = k(\cM)$ whose degree satisfies
+$[\bQ: k] \leq g$ such that at any point $(T,\zeta)$ the field of definition
+of the "half-tangent space" $U \subset V(T)$ is $k$.
+\end{theorem}
+The important feature of this theorem is that if the subspace $U$ contains
+some transcendental numbers they can be "killed". For example, let us assume
+that $V = \bR^3$ and that we have a line of deformations $U = (1, s, 2s+1) \bR \subset V$
+where $s$ and $t$ are algebraically independent. Then the above result 
+implies that the tangent space to the $\GL(2,\bR)$-invariant manifold
+contains $(1, 0, 1) \bR \oplus (0, 1, 2) \bR$.
+
+Here is another possible useful result.
+\begin{theorem}[Alex Wright~\cite{Wright-field-of-def}]
+Let $\cM$ be a (linear) $\GL(2,\bR)$-invariant manifold. Then $\cM$ contains a
+translation surface $(T,\zeta)$ whose horizontal flow is completely periodic.
+Moreover, its number of cylinder $m$ satisfies $m \geq k(\cM)$ where $k(\cM)$
+is the field of definition of $\cM$.
+\end{theorem}
+
+\subsection{Horocycle action}
+The next two results concern the action of the horocycle flow
+\[
+H = \left\{\begin{pmatrix}
+1 & s \\
+0 & 1
+\end{pmatrix}: s \in \bR \right\}.
+\]
+\begin{theorem}[essentially Ratner]
+Let $(T, \zeta)$ be a translation surface and let us suppose that its
+horizontal direction is completely periodic, that is, it decomposes into
+a finite union of cylinders. Then the orbit closure of $H$-orbit of
+$(T,\zeta)$ is a torus. If $w_1, \ldots, w_m$ and
+$h_1, h_2, \ldots, h_m$ denote respectively the widths and heights of
+the cylinders then this torus is canonically identified to the orbit
+closure in $\bR^m \ (\bR w_1 e_1 \oplus \bR w_2 e_2 \oplus \ldots \oplus w_m e_m)$
+of the flow $F^t: (u_1, u_2, \ldots, u_m) \mapsto (u_1 + t h_1, u_2 + t h_2, \ldots, u_m + t h_m)$
+where $(e_i)_{i=1,\ldots,m}$ is the canonical basis of $\bR^m$.
+\end{theorem}
+This proposition is effective in the sense that to compute this torus, it is
+enough to know the linear relations among the ratios $\mu_i = h_i / w_i$
+(called the moduli). In particular, when all these moduli are commensurable
+(ie $\dim_\bQ \bQ \mu_1 + \bQ \mu_2 + \ldots + \bQ \mu_m = 1$) then this
+torus is one-dimensional.
+
+We finally introduce the main tool we want to use which are the cylinder deformations.
+\begin{theorem}[Alex Wright~\cite{Wright-cylinder-deformations}]
+Let $\cM$ be a (linear) $\GL(2,\bR)$-invariant manifold and $(T,\zeta)$ be a surface
+in $\cM$ whose horizontal flow contains at least one cylinder. Let $C_1$, \ldots, $C_m$
+be the set of cylinders in the horizontal direction (they need not fill the surface).
+Let $\gamma_1$, \ldots, $\gamma_m$ be the waist curves of these cylinders, $w_1$, \ldots, $w_m$
+their widths and $h_1$, \ldots, $h_m$ their heights.
+Each waist curve cross the edges of the triangulation and we denote by $v(\gamma_i) \in V_\bZ(T)$ the
+intersection vector (be careful about signs). Then the vector
+\[
+h_1 v(\gamma_1) + h_2 v(\gamma_2) + \ldots + h_m v(\gamma_m) \in V(T)
+\]
+is in the tangent space to $\cM$.
+\end{theorem}
+
 \begin{thebibliography}{sage-flatsurf}
 
 \bibitem[sage-flatsurf]{sage-flatsurf}
@@ -720,6 +878,16 @@ M. Bell, V. Delecroix, S. Schleimer,
 S. Lando and A. Zvonkin
 \textit{Graphs on surfaces and their applications}
 Springer, (2004).
+
+\bibitem[Wr14]{Wright-field-of-def}
+A.~Wright
+\textit{The field of definition of affine invariant submanifolds of the moduli space of abelian differentials}
+Geom. Topol. 18, No. 3, 1323-1341 (2014). 
+
+\bibitem[Wr15]{Wright-cylinder-deformations}
+A.~Wright,
+\textit{Cylinder deformations in orbit closures of translation surfaces}
+Geom. Topol. 19, No. 1, 413-438 (2015). 
 
 \bibitem[Yo10]{Yoccoz}
 Jean-Christophe Yoccoz
