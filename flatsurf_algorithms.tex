@@ -720,11 +720,53 @@ Triangles:
 %
 
 \section{$\GL(2,\bR)$-orbit closures}
-Let $(T, \zeta)$ be a translation surface made of a triangulation with edges
-numbered from $1$ to $d$ and a vector $\zeta \in \bC^d$. The neighborhood
-of this surface is described by the surfaces $(T, \zeta + v)$ where $v \in \bC^d$
-satisfy the condition that the sum around each triangle is zero. We denote
-$V(T) \subset \bR^d$ the real associated vector space.
+
+\subsection{The tangent space to a translation surface}
+Let $T$ be a combinatorial triangulation. We assume that each edge comes with
+a fixed orientation and number them from $1$ to $d$.
+
+Recall that a translation structure on $T$ is given by a vector $\zeta$
+in $\bC^d$ that satisfies two constraints
+\begin{enumerate}
+\item the sum around triangles is zero
+\item the orientation of each triangle is correct
+\end{enumerate}
+The neighborhood of this surface is described by the surfaces $(T, \zeta + v)$
+where $v \in \bC^d$ satisfy the condition that the sum around each triangle is
+zero. We denote $V(T) \subset \bR^d$ the vector subspace of vectors that
+satisfy the triangle relations.
+
+\begin{figure}[!ht]
+\begin{center}\includegraphics{pictures/H11_skeleton.pdf}\end{center}
+\caption{A surface in $\cH(1,1)$ made of 8 triangles.}
+\label{fig:H11skeleton}
+\end{figure}
+
+On Figure~\ref{fig:H11skeleton}, there is a surface made of 8 triangles and
+12 edges. Denoting the canonical basis of $\bR^{12}$ by $e_1$, \ldots, $e_{12}$ 
+the triangle relations write
+\begin{align*}
+-e_1 + e_6 - e_2 &= 0 \\
+e_1 - e_6 + e_7 &= 0 \\
+-e_7 + e_8 + e_9 &= 0 \\
+e_2 - e_8 - e_3 &= 0 \\
+-e_4 - e_9 + e_{10} &= 0 \\
+e_3 - e_{10} + e_{11} &= 0 \\
+e_5 - e_{11} + e_{12} &= 0 \\
+e_4 - e_{12} - e_{5} &= 0
+\end{align*}
+
+\begin{lemma}
+Let $T$ be a combinatorial triangulation with $d$ edges.  The sum of triangle
+relations is zero and is the only relation between the edges.
+Hence $V(T)$ has codimension $d-1$.
+
+For any spanning tree of the dual graph to $T$, the vector associated to the
+edges of the spanning tree form a basis of $V(T)$.
+\end{lemma}
+
+On Figure~\ref{fig:H11skeleton}, we choose as a basis of $V(T)$ the vectors
+$e_1$, $e_2$, \ldots, $e_5$. Note that $5 = 12 - 8 + 1$.
 
 \subsection{$\GL(2,\bR)$-action and linear manifolds}
 The $\GL(2,\bR)$ action on the space of translation surface is given in our
