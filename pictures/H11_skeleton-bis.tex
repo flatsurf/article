@@ -1,0 +1,50 @@
+\documentclass[tikz]{standalone}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.markings,decorations.pathreplacing}
+\begin{document}\begin{tikzpicture}[scale=1.5]
+\input{tikz_arrows.tex}
+
+\coordinate (z) at (0,0);
+\coordinate (v1) at (.4, 1);
+\coordinate (v2) at (1.5, -.3);
+\coordinate (v3) at (-.2, 2);
+\coordinate (v4) at (2.3, .3);
+\coordinate (v5) at (-.2, 1);
+\coordinate (v6) at ($(z)-(v1)-(v2)$);
+
+\coordinate (x0) at (0,0);
+\coordinate (x1) at ($(x0) + (v1)$);
+\coordinate (x2) at ($(x1) + (v2)$);
+\coordinate (x3) at ($(x2) - (v1)$);
+\coordinate (x4) at ($(x3) + (v4)$);
+\coordinate (x5) at ($(x4) - (v3)$);
+\coordinate (x6) at ($(x5) - (v5)$);
+\coordinate (x7) at ($(x6) - (v4)$);
+\coordinate (x8) at ($(x7) + (v5)$);
+\coordinate (x9) at ($(x8) - (v2)$);
+\coordinate (x10) at ($(x9) + (v3)$);
+
+\fill[fill=gray!10] (x0) -- (x1) -- (x2) -- (x3) -- (x4) -- (x5) -- (x6) -- (x7) -- (x8) -- (x9) -- (x10) -- cycle;
+
+\path [draw=black,postaction={on each segment={mid arrow=black}}]
+ (x5) -- node[right] {3} (x4)
+ (x6) -- node[right] {5} (x5)
+ (x7) -- node[left] {5} (x8)
+ (x9) -- node[left] {3} (x0)
+ (x8) -- node [above] {12} (x6)
+ (x0) -- node[above] {6} (x2)
+ (x0) -- node[above] {7} (x3);
+
+\path [draw=black,dotted,postaction={on each segment={mid arrow=black}}]
+ (x0) -- node[left] {\tiny 1} (x1)
+ (x3) -- node[right] {\tiny 1} (x2)
+ (x1) -- node[above] {\tiny 2} (x2)
+ (x9) -- node[below] {\tiny 2} (x8)
+ (x3) -- node[above] {\tiny 4} (x4)
+ (x7) -- node[below] {\tiny 4} (x6)
+ (x0) -- node [above] {\tiny 8} (x8)
+ (x8) -- node [left] {\tiny 9} (x3)
+ (x8) -- node [left] {\tiny 10} (x4)
+ (x8) -- node [above] {\tiny 11} (x5);
+
+\end{tikzpicture}\end{document}

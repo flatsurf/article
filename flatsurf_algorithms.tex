@@ -737,8 +737,15 @@ zero. We denote $V(T) \subset \bR^d$ the vector subspace of vectors that
 satisfy the triangle relations.
 
 \begin{figure}[!ht]
-\begin{center}\includegraphics{pictures/H11_skeleton.pdf}\end{center}
-\caption{A surface in $\cH(1,1)$ made of 8 triangles.}
+\begin{center}%
+\includegraphics{pictures/H11_skeleton.pdf}%
+\hspace{1cm}%
+\includegraphics{pictures/H11_skeleton-bis.pdf}%
+\end{center}
+\caption{A surface in $\cH(1,1)$ made of 8 triangles. The two pictures represent the
+same surface but with different choices of spanning tree for the dual graph that
+give rise to different bases of $V(T)$. The first gives $\{e_1, e_2, e_3, e_4, e_5\}$
+while the second one gives $\{e_3, e_5, e_6, e_7, e_{12}\}$.}
 \label{fig:H11skeleton}
 \end{figure}
 
@@ -757,12 +764,12 @@ e_4 - e_{12} - e_{5} &= 0
 \end{align*}
 
 \begin{lemma}
-Let $T$ be a combinatorial triangulation with $d$ edges.  The sum of triangle
-relations is zero and is the only relation between the edges.
-Hence $V(T)$ has codimension $d-1$.
+Let $T$ be a combinatorial triangulation with $d$ edges. The sum of triangle
+relations is zero and it is the only relation between them. In particular,
+$V(T)$ has codimension $d-1$.
 
-For any spanning tree of the dual graph to $T$, the vector associated to the
-edges of the spanning tree form a basis of $V(T)$.
+For any spanning tree of the dual graph to $T$, the set of vectors associated
+to the edges of the spanning tree form a basis of $V(T)$.
 \end{lemma}
 
 On Figure~\ref{fig:H11skeleton}, we choose as a basis of $V(T)$ the vectors
