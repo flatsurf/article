@@ -751,7 +751,7 @@ while the second one gives $\{e_3, e_5, e_6, e_7, e_{12}\}$.}
 
 On Figure~\ref{fig:H11skeleton}, there is a surface made of 8 triangles and
 12 edges. Denoting the canonical basis of $\bR^{12}$ by $e_1$, \ldots, $e_{12}$ 
-the triangle relations write
+the triangle relations are 
 \begin{align*}
 -e_1 + e_6 - e_2 &= 0 \\
 e_1 - e_6 + e_7 &= 0 \\
@@ -766,17 +766,17 @@ e_4 - e_{12} - e_{5} &= 0
 \begin{lemma}
 Let $T$ be a combinatorial triangulation with $d$ edges. The sum of triangle
 relations is zero and it is the only relation between them. In particular,
-$V(T)$ has codimension $d-1$.
+$V(T)$ has codimension $\textrm{faces}-1$.
 
-For any spanning tree of the dual graph to $T$, the set of vectors associated
-to the edges of the spanning tree form a basis of $V(T)$.
+For any spanning tree of the dual graph to $T$, the set of vectors associated to the
+complement of the edges of the spanning tree form a basis of $V(T)$.
 \end{lemma}
 
 On Figure~\ref{fig:H11skeleton}, we choose as a basis of $V(T)$ the vectors
-$e_1$, $e_2$, \ldots, $e_5$. Note that $5 = 12 - 8 + 1$.
+$e_1$, $e_2$, \ldots, $e_5$. Note that $5 = 12 - (8 - 1)$.
 
 \subsection{$\GL(2,\bR)$-action and linear manifolds}
-The $\GL(2,\bR)$ action on the space of translation surface is given in our
+The $\GL(2,\bR)$ action on the space of translation surfaces is given in our
 coordinates by the linear action on $\bC$ identified to $\bR^2$. Even more
 precisely, writing $\zeta = (x_1 + i y_1, x_2 + i y_2, \ldots, x_d + i y_d)$ we have
 \[
@@ -792,7 +792,7 @@ y_1 & y_2 & \ldots & y_d
 =
 \begin{pmatrix}
 \alpha x_1 + \beta y_1 & \alpha x_2 + \beta y_2 & \ldots & \alpha x_d + \beta y_d \\
-\gamma x_1 + \delta y_1 & \gamma x_2 + \delta y_2 & \ldots & \gamma x_\delta + \delta y_\delta
+\gamma x_1 + \delta y_1 & \gamma x_2 + \delta y_2 & \ldots & \gamma x_d + \delta y_d
 \end{pmatrix}
 \]
 To understand the $\GL(2,\bR)$-action, a first step is to get a clue on what
@@ -800,8 +800,8 @@ are the closed invariant subsets. The Eskin-Mirzakhani structural theorem
 says that these are very rigid.
 \begin{definition}
 A \emph{linear submanifold} of translation surfaces is a closed subspace of the
-space of translation surfaces that is locally described by linear equations
-in the coordinates $V(T) \times V(T)$.
+space of translation surfaces that is locally at a point $(T, \zeta)$ described
+by linear equations in the coordinates $V(T) \times V(T)$.
 (this is a lie as we allow self-intersection that do not matter for our purpose)
 \end{definition}
 
@@ -816,7 +816,7 @@ above theorem states, such orbit closure is simply described by the tangent spac
 at a single point!
 
 The object we want to deal in the algorithm are pairs $((T,\zeta), U)$
-consisting of a translation surface $(T,\zeta)$ and a subspace of $V(T) \oplus
+consisting of a translation surface $(T,\zeta)$ and a subspace of $V(T) \times
 V(T)$ that describe the infinitesimal deformations of $(T, \zeta)$.
 The first important remark is the $\GL(2,\bR)$-invariance can be read on $U$.
 \begin{lemma}
@@ -828,7 +828,7 @@ is a vector subspace and $U$ contains both $\Re(\zeta)$ and $\Im(\zeta)$.
 
 \begin{proof}
 Just use the fact that the real projection $x+iy \mapsto x$ and imaginary projection
-$x+iy \mapsto y$ live the tangent space invariant (since they are limit of $\GL(2,\bR)$
+$x+iy \mapsto y$ ? the tangent space invariant (since they are limit of $\GL(2,\bR)$
 elements).
 \end{proof}
 
@@ -838,7 +838,7 @@ then given by $(T, \zeta + u + i v)$ where $u, v \in V(T)$.
 
 If our starting point is a single surface $(T, \zeta)$, we already obtain
 non-trivial subspace of the tangent space, namely $\bR \Re(\zeta) \oplus \bR
-\Im(\zeta)$.
+\Im(\zeta) \subseteq V(T)$.
 
 \subsection{The field of definition}
 Here we describe some algebraic results due to Alex Wright. Let us note that
@@ -848,21 +848,21 @@ the \textit{field of definition} of a linear subspace in $V(T)$.
 \begin{theorem}[Alex Wright~\cite{Wright-field-of-def}]
 Let $\cM$ be a (linear) $\GL(2,\bR)$-invariant manifold of translation surfaces.
 Then there exists a totally real number field $k = k(\cM)$ whose degree satisfies
-$[\bQ: k] \leq g$ such that at any point $(T,\zeta)$ the field of definition
+$[k : \bQ] \leq g$ such that at any point $(T,\zeta)$ the field of definition
 of the "half-tangent space" $U \subset V(T)$ is $k$.
 \end{theorem}
 The important feature of this theorem is that if the subspace $U$ contains
 some transcendental numbers they can be "killed". For example, let us assume
 that $V = \bR^3$ and that we have a line of deformations $U = (1, s, 2s+1) \bR \subset V$
-where $s$ and $t$ are algebraically independent. Then the above result 
-implies that the tangent space to the $\GL(2,\bR)$-invariant manifold
-contains $(1, 0, 1) \bR \oplus (0, 1, 2) \bR$.
+where $s$ is transcendental. Then the above result implies that the tangent
+space to the $\GL(2,\bR)$-invariant manifold contains $(1, 0, 1) \bR \oplus (0,
+1, 2) \bR$.
 
-Here is another possible useful result.
+Here is another possibly useful result.
 \begin{theorem}[Alex Wright~\cite{Wright-field-of-def}]
 Let $\cM$ be a (linear) $\GL(2,\bR)$-invariant manifold. Then $\cM$ contains a
 translation surface $(T,\zeta)$ whose horizontal flow is completely periodic.
-Moreover, its number of cylinder $m$ satisfies $m \geq k(\cM)$ where $k(\cM)$
+Moreover, its number of cylinders $m$ satisfies $m \geq [k(\cM) : \bQ]$ where $k(\cM)$
 is the field of definition of $\cM$.
 \end{theorem}
 
