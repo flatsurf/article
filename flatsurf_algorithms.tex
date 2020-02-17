@@ -719,9 +719,10 @@ Triangles:
 %And we should start again from another vertex until we get rid of all the triangles.
 %
 
+
 \section{$\GL(2,\bR)$-orbit closures}
 
-\subsection{The tangent space to a translation surface}
+\subsection{The tangent space to a translation surface and homology groups}
 Let $T$ be a combinatorial triangulation. We assume that each edge comes with
 a fixed orientation and number them from $1$ to $d$.
 
@@ -774,6 +775,96 @@ complement of the edges of the spanning tree form a basis of $V(T)$.
 
 On Figure~\ref{fig:H11skeleton}, we choose as a basis of $V(T)$ the vectors
 $e_1$, $e_2$, \ldots, $e_5$. Note that $5 = 12 - (8 - 1)$.
+
+\subsection{The space $V(T)$ and homology groups}
+Let $(T, \zeta)$ be a translation surface given by a triangulation. We denote
+by $S$ the underlying compact topological surface and $\Sigma \subset S$ the
+set of conical points (corresponding to the vertices of the flat
+triangulation). The homology group of the surface is what already appears as
+our space $V(T)$ in the previous section. More precisely, to a fixed
+translation structure we can associate its \emph{period map}
+\[
+H_1(S, \Sigma; \bZ) \to \bC
+\]
+which is the extension to $H_1(S, \Sigma; \bZ)$ of the map consisting of associating to
+an edge $e$ its corresponding vector $\zeta_e$.
+\begin{lemma}
+Let $T$ be a triangulation and let $S$ be the underlying topological surface
+with vertex set $\Sigma$. Then we have a canonical identification
+$V(T) \simeq H^1(S, \Sigma; \bR)$.
+\end{lemma}
+
+There are three homology groups of interest on the surface $S$.
+\begin{itemize}
+\item The relative homology group $H_1(S, \Sigma; \bZ)$ (which we already saw corresponds to the integer points in $V(T)$),
+\item the absolute homology group $H_1(S; \bZ)$,
+\item the homology of the punctured surface $H_1(S \setminus \Sigma; \bZ)$.
+\end{itemize}
+
+What is important to notice is that $H_1(S, \Sigma; \bZ)$ and $H_1(S \setminus
+\Sigma; \bZ)$ are dual to each other. In other words, $V(T)$ also identifies
+to $H_1(S \setminus \Sigma; \bZ)$. To see that, we just consider the dual
+combinatorial map to the triangulation $T$ as considered in
+Section~\ref{sec:TriangulationsAndTranslationStructures}. An element of
+$V(T)$ can be considered as weights put on the edges of this dual.
+The condition that the sum around a vertex of the dual is zero,
+is precisely the condition for being in the homology.
+
+\begin{lemma}
+\label{sec:VT:dual}
+The space $V^*(T)$ corresponds to the quotient
+\[
+\bR^{E(T)} / \{\text{triangle relations}\}
+\]
+and is canonically identified with $H_1(S, \Sigma; \bR)$.
+\end{lemma}
+
+More abstractly, the homology groups come together with (dual) exact sequences
+\begin{align}
+0 \to H_1(S; \bZ) \to H_1(S, \Sigma; \bZ) \to C^0(\Sigma) \to 0 \\
+0 \to C_0(\Sigma) \to H_1(S \setminus \Sigma; \bZ) \to H_1(S; \bZ) \to 0
+\end{align}
+where
+\[
+C^0(\Sigma) = \left\{(m_s)_s \in \bZ^\Sigma: \sum_{s\in\Sigma} m_s = 0 \right\}
+\quad \text{and} \quad
+C_0(\Sigma) = \bZ^\Sigma / \bZ (1,1,\ldots,1).
+\]
+Here the map $H_1(S, \Sigma; \bZ) \to C^0(\Sigma)$ corresponds to the boundary map
+(to a curve we associate the difference of its endpoints). While the subspace $C_0(\Sigma)$
+of $H_1(S \setminus \Sigma; \bZ)$ corresponds to the curves generating by loops around the
+punctures. The duality between the two exact sequences is induced via the intersection pairing
+\[
+\langle .,. \rangle: H_1(S, \Sigma; \bZ) \times H_1(S \setminus \Sigma; \bZ) \to \bZ.
+\]
+
+\subsection{Base changes between two triangulations}
+Let $M = (T, \zeta)$ be a translation surface given by a flat triangulation. If
+$C$ is a (flat) cylinder on $M$, then its core curve can be considered as an
+element of $H_1(S, \Sigma; \bZ) \simeq V_\bZ(T)$. In order to apply the
+results of the next section, we need to be able to compute this element.
+By compute we mean that the cylinder will often be computed in an other
+basis $(T', \zeta')$ of the same underlying surface.
+
+More precisely we have two triangulations $(T,\zeta)$ and $(T',\zeta')$ of the
+same translation surface and each edge of the triangulation $T'$ corresponds to
+a certain linear combination of edges for the initial triangulation $T$. This
+identification can be seen as a linear map $H_1(S, \Sigma; \bZ) \to H_1(S,
+\Sigma; \bZ)$, or in other words a linear map
+\begin{equation}
+\label{eq:KZcocycle}
+A^*(T',T): V^*(T') \to V^*(T).
+\end{equation}
+In most algorithms, we actually build a lift $\widetilde{A}(T',T): \bR^{E(T')} \to \bR^{E(T)}$
+that pass to the quotient (see Lemma~\ref{sec:VT:dual}).
+
+\begin{lemma}
+Let $(T, \zeta)$ and $(T', \zeta')$ be two translation surfaces where $(T',\zeta')$
+is obtained from $(T,\zeta)$ by a sequence of flips and let $A^*(T',T): V^*(T') \to V^*(T)$
+the associated map on homology as in~\eqref{eq:KZcocycle}. Let $\zeta \in V(T')$ be an element of $H_1(S, \Sigma; \bZ)$
+expressed in the $T'$ basis, then its expression in the $T$ basis is
+$A(T',T)^{-1} \zeta$ where $A(T',T): V(T) \to V(T')$ is the transposed map of $A^*(T',T)$.
+\end{lemma}
 
 \subsection{$\GL(2,\bR)$-action and linear manifolds}
 The $\GL(2,\bR)$ action on the space of translation surfaces is given in our
