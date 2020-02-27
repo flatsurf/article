@@ -1,6 +1,8 @@
 \documentclass[tikz]{standalone}
 \usetikzlibrary{calc}
 \usetikzlibrary{decorations.markings,decorations.pathreplacing}
+\input{pictures/arrow.tex}
+
 \begin{document}\begin{tikzpicture}[scale=1.5]
 \input{tikz_arrows.tex}
 
@@ -46,5 +48,13 @@
  (x8) -- node [left] {\tiny 10} (x4)
  (x8) -- node [above] {\tiny 11} (x5)
  (x8) -- node [above] {\tiny 12} (x6);
+
+\begin{scope}[thick]
+\draw [red,postaction={mid arrow}] (barycentric cs:x2=1,x3=2) -- node[above,near end] {$\zeta_1$}  (barycentric cs:x0=2,x1=1) ;
+\draw[purple,postaction={mid arrow}]  (barycentric cs:x8=1,x9=1) -- node[right,near start] {$\zeta_2$} (barycentric cs:x1=1,x2=1);
+\draw[green,postaction={mid arrow}]  (barycentric cs:x4=2,x5=1) -- node[below] {$\zeta_3$} (barycentric cs:x0=2,x9=1);
+\draw[blue,postaction={mid arrow}] (barycentric cs:x6=2,x7=1) -- node[right] {$\zeta_4$} (barycentric cs:x3=1,x4=2);
+\draw[orange,postaction={mid arrow}] (barycentric cs:x5=1,x6=1) -- node[above,near end] {$\zeta_5$} (barycentric cs:x7=1,x8=1);
+\end{scope}
 
 \end{tikzpicture}\end{document}

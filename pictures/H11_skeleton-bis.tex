@@ -47,4 +47,21 @@
  (x8) -- node [left] {\tiny 10} (x4)
  (x8) -- node [above] {\tiny 11} (x5);
 
+\begin{scope}[thick]
+\draw[green,postaction={mid arrow}]  (barycentric cs:x4=2,x5=1) -- node[below] {$\zeta_3$} (barycentric cs:x0=2,x9=1);
+\draw [red,postaction={mid arrow}] (barycentric cs:x2=1,x3=2) -- node[above,near end] {$\zeta_6$}  (barycentric cs:x0=2,x1=1) ;
+\draw[blue,postaction={mid arrow}] (barycentric cs:x6=2,x7=1) -- node[right] {$\zeta_{12}$} (barycentric cs:x3=1,x4=2);
+% zeta5
+\draw[orange,postaction={mid arrow}] (barycentric cs:x5=1,x6=1) .. controls +(-.5,0) and +(0,-.5) .. 
+node [left] {$\zeta_5$} (barycentric cs:x3=2,x4=1)
+(barycentric cs:x6=1,x7=2) .. controls +(0,.5) and +(.5,0) .. (barycentric cs:x7=1,x8=1);
+
+% zeta7
+\draw[purple,postaction={mid arrow}] 
+ (barycentric cs:x8=1,x9=1) .. controls +(.1,.3) and +(-.3,0) .. node[right,near start] {$\zeta_7$} (barycentric cs:x2=2,x3=1)
+ (barycentric cs:x0=1,x1=2) .. controls +(.3,0) and +(-.1,-.3) .. (barycentric cs:x1=1,x2=1);
+\end{scope}
+
+
+
 \end{tikzpicture}\end{document}
