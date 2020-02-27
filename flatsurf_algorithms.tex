@@ -747,7 +747,7 @@ satisfy the triangle relations.
 same surface but with different choices of spanning tree for the dual graph that
 give rise to different bases of $V(T)$. The first gives $\{e_1, e_2, e_3, e_4, e_5\}$
 while the second one gives $\{e_3, e_5, e_6, e_7, e_{12}\}$. The associated dual basis
-are also displayed in colors.
+are also displayed in colors.}
 \label{fig:H11skeleton}
 \end{figure}
 
@@ -873,6 +873,108 @@ that they evaluate identically on any element in $H_1(S, \Sigma; \bZ)$. Now a ba
 corresponds to a certain conjugation. When we pass to the dual base change we see
 a transpose inverse matrix.
 \end{proof}
+
+An example of such map is provided with Figure~\ref{fig:H11skeleton}. In order to make
+it easier we denote with primes the element of the basis on the right hand side. The
+bases of $V(T)$ are respectively $\{e_1, e_2, e_3, e_4, e_5\}$ and
+$\{e'_3, e'_5, e'_6, e'_7, e'_{12}\}$ with base changes
+\[
+\begin{pmatrix}
+e'_3 \\
+e'_5 \\
+e'_6 \\
+e'_7  \\
+e'_{12}
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 & 0 & 1 & 0 & 0 \\ % e_3
+0 & 0 & 0 & 0 & 1 \\ % e_5
+1 & 1 & 0 & 0 & 0 \\ % e_1 + e_2
+0 & 1 & 0 & 0 & 0 \\ % e_2
+0 & 0 & 0 & 1 & -1 \\ % e_4 - e_5
+\end{pmatrix}
+\begin{pmatrix}
+e_1 \\
+e_2 \\
+e_3 \\
+e_4 \\
+e_5 \\
+\end{pmatrix}
+\qquad \text{and} \qquad
+\begin{pmatrix}
+e_1 \\
+e_2 \\
+e_3 \\
+e_4 \\
+e_5 \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+% 3 & 5 & 6 & 7 & 12
+  0 & 0 & 1 & -1 & 0 \\ % e'_6 - e'_7
+  0 & 0 & 0 & 1 & 0 \\ % e'_7
+  1 & 0 & 0 & 0 & 0 \\ % e'_3
+  0 & 1 & 0 & 0 & 1 \\ % e'_5 + e'_{12}
+  0 & 1 & 0 & 0 & 0 \\ % e'_5
+\end{pmatrix}
+\begin{pmatrix}
+e'_3 \\
+e'_5 \\
+e'_6 \\
+e'_7  \\
+e'_{12}
+\end{pmatrix}
+\]
+The corresponding base changes for the dual bases $\{\zeta_i\}$ and
+$\{\zeta'_i\}$ are given by the transpose inverse
+\[
+\begin{pmatrix}
+\zeta_1 \\
+\zeta_2 \\
+\zeta_3 \\
+\zeta_4 \\
+\zeta_5
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 & 0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 1 & 0 \\
+1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 \\
+0 & 1 & 0 & 0 & -1
+\end{pmatrix}
+\begin{pmatrix}
+\zeta'_3 \\
+\zeta'_5 \\
+\zeta'_6 \\
+\zeta'_7  \\
+\zeta'_{12}
+\end{pmatrix}
+\qquad \text{and} \qquad
+\begin{pmatrix}
+\zeta'_3 \\
+\zeta'_5 \\
+\zeta'_6 \\
+\zeta'_7  \\
+\zeta'_{12}
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 & 0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 1 & 1 \\
+1 & 0 & 0 & 0 & 0 \\
+-1 & 1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0
+\end{pmatrix}
+\begin{pmatrix}
+\zeta_1 \\
+\zeta_2 \\
+\zeta_3 \\
+\zeta_4 \\
+\zeta_5
+\end{pmatrix}
+\]
 
 \subsection{$\GL(2,\bR)$-action and linear manifolds}
 The $\GL(2,\bR)$ action on the space of translation surfaces is given in our
