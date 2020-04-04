@@ -839,6 +839,68 @@ punctures. The duality between the two exact sequences is induced via the inters
 \langle .,. \rangle: H_1(S, \Sigma; \bZ) \times H_1(S \setminus \Sigma; \bZ) \to \bZ.
 \]
 
+\subsection{Following tangent vectors}
+Given a triangulation $T$ the set of valid translation structures $(\zeta_e)_{e \in E(T)}$
+are subject to the following two conditions:
+\begin{itemize}
+\item the sum of holonomy vectors around a face is zero,
+\item the holonomies of two neighbor half edges at a vertex have positive determinant.
+\end{itemize}
+The first condition is a linear equation while the second is a quadratic inequality.
+In other words the set of valid translation structures is a semi-algebraic variety
+in $(\bR^2)^{E(T)}$.
+
+\textbf{Warning:} This semi-algebraic set is not always connected!
+
+Given a translation structure $\zeta$ the nearby translation structures are $\zeta + w$
+where $w \in V(T) + \sqrt{-1} V(T)$ is small enough. The aim of this section is to
+explain how to check whether $\zeta + w$ is a valid deformation. It might be the
+case that both $\zeta$ and $\zeta + w$ belong to the semi-algebraic of valid
+translation structure but the path $(\zeta + t w)_{t \in [0,1]}$ is not contained
+in it.
+\begin{lemma}
+Let $T$ be a combinatorial triangulation, $\zeta = x + \sqrt{-1} y$ a
+translation structure and $w = u + \sqrt{-1} v$ a deformation vector such
+that $\zeta + w$ is also a translation structure. For each
+pair of adjacent half edges $e$, $e'$ at a vertex let
+\begin{align*}
+a_{e,e'} &= u_e v_{e'} - u_{e'} v_e \\
+b_{e,e'} &= -u_e y_{e'} + u_{e'} y_e - x_e v_{e'} + x_{e'} v_e \\
+c_{e,e'} &= x_e y_{e'} - x_{e'} y_e \\
+\end{align*}
+Then $(T, \zeta + v)$ is a valid deformation of $(T, \zeta)$ if and only if for all pair of adjacent half edges at a vertex $e,e'$ we have either
+\[
+\frac{b_{e,e'}}{a_{e,e'}} < 0
+\quad \text{or} \quad
+\frac{b_{e,e'}}{a_{e,e'}} > 2
+\quad \text{or} \quad
+\frac{b_{e,e'}^2 + 4 a_{e,e'} c_{e,e'}}{a_{e,e'}} > 0.
+\]
+\end{lemma}
+
+\begin{proof}
+We want each determinant of adjacent half edges to remain positive. Let
+$e$ and $e'$ be two adjacent half edes, then
+\begin{align*}
+\det(\zeta_{e}(t), \zeta_{e'}(t))
+&= \det
+\begin{pmatrix}
+x_e + t u_e & x_{e'} + t u_{e'} \\
+y_e + t v_e & y_{e'} + t v_{e'}
+\end{pmatrix}
+\\
+&=  (x_e + t u_e)(y_{e'} + t v_{e'}) - (x_{e'} + t u_{e'})( y_e + t v_e) \\
+&= t^2 (u_e v_{e'} - u_{e'} v_e) + t (u_e y_{e'} + x_e v_{e'} - x_{e'} v_e - u_{e'} y_e)
++ x_e y_{e'} - x_{e'} y_e \\
+&= a_{e,e'}t^2 - b_{e,e'}t + c_{e,e'}.
+\end{align*}
+The critical point of the above quadratic polynomial is just $m = b_{e,e'} / (2 a_{e,e'})$.
+By assumption, $p(0)$ and $p(1)$ are positive. So it remains positive all along if and
+only if either the critical value $\frac{-b_{e,e'}^2 + 4a_{e,e'}c_{e,e'}}{4 a_{e,e'}}$ is
+positive or is the critical point is outside the interval $[0,1]$.
+\end{proof}
+
+
 \subsection{Base changes between two triangulations}
 Let $M = (T, \zeta)$ be a translation surface given by a flat triangulation. If
 $C$ is a (flat) cylinder on $M$, then its core curve can be considered as an
