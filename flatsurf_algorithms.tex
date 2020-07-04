@@ -36,6 +36,11 @@
 
 \newcommand{\commv}[1]{{\color{red!50!gray}{#1}}}	
 
+% https://tex.stackexchange.com/a/4881
+\newcommand*{\defeq}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
+                     \hbox{\scriptsize.}\hbox{\scriptsize.}}}%
+                     =}
+
 \begin{document}
 \maketitle
 
@@ -543,8 +548,8 @@ Triangles:
 %be a multi-permutation.
 %Assume that there are two distinct subintervals $j_1, j_2 \in \{1,\ldots,m\}$ such
 %that the bottom right symbol of the interval $j_1$ is paired with the top left
-%symbol of the interval $j_2$. That is if $i := (\pi^{bot}_{j_1})^{-1}(d_{j_1}^{bot})$
-%and $i' := (\pi^{top}_{j_2})^{-1}(1)$ satisfy $\alpha(i) = i'$.
+%symbol of the interval $j_2$. That is if $i \defeq (\pi^{bot}_{j_1})^{-1}(d_{j_1}^{bot})$
+%and $i' \defeq (\pi^{top}_{j_2})^{-1}(1)$ satisfy $\alpha(i) = i'$.
 %
 %The \emph{gluing of $j_1$ and $j_2$ along $(i, i')$} is the new multi-permutation
 %on $m-1$ intervals obtained by merging the two components $j_1$ and $j_2$ and forget
@@ -582,8 +587,8 @@ Triangles:
 %length data.
 %
 %Let $j \in \{1,\ldots,m\}$ and consider the right-most subintervals of
-%the $j$-th interval, that is $i^{top} := (\pi^{top}_j)^{-1}(d_j^{top})$
-%and $i^{bot} := (\pi^{bot}_j)^{-1}(d_j^{bot})$.
+%the $j$-th interval, that is $i^{top} \defeq (\pi^{top}_j)^{-1}(d_j^{top})$
+%and $i^{bot} \defeq (\pi^{bot}_j)^{-1}(d_j^{bot})$.
 %
 %The \emph{right Rauzy induction on the $j$-th component} consists in inducing
 %the multi-interval exchange transformation after removing the smallest of
@@ -888,7 +893,7 @@ and for those with $a_{e,e'} \ne 0$ we have
 We want each determinant of adjacent half edges to remain positive. Let
 $e$ and $e'$ be two adjacent half edges, then
 \begin{align*}
-\det(\zeta_{e}(t), \zeta_{e'}(t))
+p(t) \defeq \det(\zeta_{e}(t), \zeta_{e'}(t))
 &= \det
 \begin{pmatrix}
 x_e + t u_e & x_{e'} + t u_{e'} \\
