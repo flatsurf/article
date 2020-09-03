@@ -132,8 +132,8 @@ The operation on the permutations is given as follows
 \begin{align*}
 \sigma = (j,x,A) (i,y,B) \ldots & \mapsto (j,A) (i,B) \ldots \\
 \alpha = (j, \alpha(j)) (i, \alpha(i)) (x,y) \ldots & \mapsto (j, \alpha(j)) (i, \alpha(i)) \ldots \\
-\phi = (x,i,C) (y,j,D) \ldots & \mapsto (i,C,j,D) \ldots 
-\end{align*} 
+\phi = (x,i,C) (y,j,D) \ldots & \mapsto (i,C,j,D) \ldots
+\end{align*}
 This operation merges the two faces adjacent to the edge $(x,y)$ into a single bigger face.
 The new combinatorial map is on the set $\cE \setminus \{x,y\}$.
 
@@ -164,15 +164,16 @@ performing a flip "around two vertices" instead of "at the junction of two faces
 \bigskip
 
 \section{Translation structures}
+\label{sec:TranslationStructures}
 \begin{definition}
 \label{def:FlatTriangulation}
-Let $T = (\sigma, \alpha, \phi) \in \Sym(\cE)^3$ be a 
+Let $T = (\sigma, \alpha, \phi) \in \Sym(\cE)^3$ be a
 triangulation, a \emph{translation structure} on $T$
 is a family of non-zero complex numbers $\{\zeta_i\}_{i\in\cE}$
 such that
 \begin{enumerate}
 \item for each cycle $(i,j)$ of $\alpha$ we have $\zeta_i + \zeta_j = 0$
-\item for each cycle $(i_1,i_2,i_3)$ of $\phi$ 
+\item for each cycle $(i_1,i_2,i_3)$ of $\phi$
 the vectors $\zeta_{i_1}$, $\zeta_{i_2}$, $\zeta_{i_3}$ form the
 sides of a triangle in $\CC$ where the sides appear in counter-clockwise order
 (in particular $\zeta_{i_1} + \zeta_{i_2} + \zeta_{i_3} = 0$).
@@ -262,7 +263,7 @@ the vertical foliation.
 
 \subsection{Interval exchange transformations}
 As with translation structures, interval exchange transformations are described
-by a combinatorial and a continous data. More precisely by 
+by a combinatorial and a continous data. More precisely by
 a pair $(\pi, \lambda)$ where $\pi$ is a combinatorial data and $\lambda$ is
 a continuous data.
 
@@ -416,7 +417,7 @@ to it.
 
 \begin{lemma}
 Let $T$ be a flat triangulation without vertical edges.
-Then the set of bottom and top trees attached to large edges 
+Then the set of bottom and top trees attached to large edges
 form a partition of the triangles of $T$.
 
 If moreover there is a single large edge in $T$, then the top contour
@@ -487,7 +488,7 @@ a minimal component (on letters $\{A, C\}$) and a cylinder (on letter $E$).}
 \label{fig:LabellingSeparatricesIET}
 \end{figure}
 
-\subsection{Questions}
+\section{Questions}
 How do we triangulate a zippered rectangle?
 
 How do we compute the tangent vector corresponding to a cylinder?
@@ -624,7 +625,7 @@ Triangles:
 %A \emph{topological zippered rectangle} is a combinatorial map $(\sigma, \alpha, \phi) \in \Sym(\cE)^3$ such that
 %\begin{enumerate}
 %\item $\phi$ is a $2d$-cycle (that is the cell decomposition consists of a single cell),
-%\item there is a partition of $\cE^{top} \cup \cE^{bot} = \cE$ such that the 
+%\item there is a partition of $\cE^{top} \cup \cE^{bot} = \cE$ such that the
 %involutions $(\phi)^d$ and $\alpha$ exchanges $\cE^{top}$ and $\cE^{bot}$.
 %\end{enumerate}
 %A \emph{weak zippered rectangle translation structure} for $(\sigma, \alpha, \phi)$ is
@@ -661,7 +662,7 @@ Triangles:
 %sage: faces = '(0,1,2)(3,4,5)(6,7,8)(9,10,11)(12,13,14)(15,16,17)'
 %sage: FatGraph(ep=edges, fp=faces)
 %FatGraph('(0,3,6,9,7,5,14,15,1,16,13,10,8,11,12,4,2,17)',
-%'(0,16)(1,17)(2,3)(4,14)(5,6)(7,11)(8,9)(10,12)(13,15)', 
+%'(0,16)(1,17)(2,3)(4,14)(5,6)(7,11)(8,9)(10,12)(13,15)',
 %'(0,1,2)(3,4,5)(6,7,8)(9,10,11)(12,13,14)(15,16,17)')
 %\end{verbatim}
 %
@@ -757,8 +758,8 @@ are also displayed in colors.}
 \end{figure}
 
 On Figure~\ref{fig:H11skeleton}, there is a surface made of 8 triangles and
-12 edges. Denoting the canonical basis of $\bR^{12}$ by $e_1$, \ldots, $e_{12}$ 
-the triangle relations are 
+12 edges. Denoting the canonical basis of $\bR^{12}$ by $e_1$, \ldots, $e_{12}$
+the triangle relations are
 \begin{align*}
 -e_1 + e_6 - e_2 &= 0 \\
 e_1 - e_6 + e_7 &= 0 \\
