@@ -1181,6 +1181,108 @@ h_1 v(\gamma_1) + h_2 v(\gamma_2) + \ldots + h_m v(\gamma_m) \in V(T)
 is in the tangent space to $\cM$.
 \end{theorem}
 
+\section{Sah-Arnoux-Fathi invariant, Boshernitzan criterion and skew-products}
+Relevant articles: \cite{DoSchmidt}, \cite{DynnikovSkripchenko}, \cite{Boshernitzan}
+
+\begin{enumerate}
+\item Boshernitzan criterion allows to certify that a given translation surface (possibly with boundary)
+is minimal (or also has no saddle connection inside)
+\item The hope is that under induction, either we find a saddle connection or Boshernitzan criterion will apply
+\item The above strategy will fail if the Sah-Arnoux-Fathi invariant vanishes. In this situation our only
+hope is that $SAF=0$ implies auto-similarity. This is not true in generality (because of skew-product ramified
+over points in the field of definition).
+\item This raises the question: can we detect primitivity? At the level of
+surfaces this is rather elementary: pick the Delaunay triangulation and compute
+the automorphism group.
+\end{enumerate}
+
+\section{Holomorphic differentials and period matrix}
+In this section we consider the holomorphic nature of a translation surface. Recall that a translation
+surface corresponds to a pair $(X, \omega)$ where $X$ is a Riemann surface and $\omega$ a non-zero
+holomorphic differential. Let us denote $\Omega(X)$ the vector space of holomorphic differentials.
+We have the well-known (Riemann? Hodge?).
+\begin{theorem}
+Let $X$ be a compact Riemann surface of genus $g$. Then the map 
+\[
+\begin{array}{lll}
+\Omega(X) & \to & H^1(X; \bR) \\
+\psi & \mapsto & (\gamma \mapsto \int_\gamma \Re(\psi))
+\end{array}
+\]
+is an isomorphism of vector spaces. In particular $\dim_\bC \Omega(X) = g$.
+\end{theorem}
+
+We fix a translation surface $(X, \omega)$ given by a triangulation $T$ and a translation
+structure $\zeta$. The two problems we want to solve numerically here are
+\begin{enumerate}
+\item Given an element $\eta \in H^1(X; \bR)$ find the associated holomorphic differential
+$\tilde{\eta}$ on $X$ such that $\Re(\tilde{\eta}) = \eta$,
+\item Compute the period matrix of $X$.
+\end{enumerate}
+
+The method we use is standard in the literature and corresponds to a finite element
+method. We use an iterative multigrid approach for the resolution.
+
+References: Royden, Mercat, Bobenko, \ldots
+
+\subsection{Discretizations}
+Let $X$ be a Riemann surface. The Hodge star operator $*$ is the operator on 
+real one forms given in local holomorphic coordinates $z = x+iy$ by
+\[
+*(a dx + b dy) = -b dx + a dy.
+\]
+If $\psi$ is a holomorphic differential then $* \Re(\psi) = \Im(\psi)$.
+
+\begin{definition}
+A real differential $\psi$ is called \emph{harmonic} if $d \psi = d*\psi = 0$.
+Equivalently, a real differential is harmonic if and only if it is the real
+part of a holomorphic differential.
+\end{definition}
+
+Let $(T, \zeta)$ be a translation structure and let $\cE$ denote the set of
+oriented edges of $T$. 
+
+\begin{definition}
+A vector $(\psi(e))_{e \in \cE} \in \cE^\bR$ or $\in \cE^\bC$ such that
+$\psi(-e) = -\psi(e)$ is called a \emph{discrete one form}. We denote
+by $\Omega_T$ the set of discrete one forms.
+\end{definition}
+
+We consider the map
+\begin{equation}
+\label{eq:discretization}
+\psi \mapsto (\int_e \psi)_{e \in \cE}.
+\end{equation}
+
+Let $d_T: (\psi(e)) \mapsto (\psi_{e_1} + \psi_{e_2} + \psi_{e_3})$ be the boundary
+operator.
+
+\begin{proposition}
+Closed forms are mapped to discrete closed forms.
+\end{proposition}
+
+Given $(T, \zeta)$ there is a natural section to the discretization map
+from~\eqref{eq:discretization}. However, its image is not a smooth
+differential but rather a piecewise linear differential with respect to a fixed
+holomorphic one form.
+\begin{lemma}
+Let $t = (e_1, e_2, e_3)$ be a triangle in the complex plane $\bC$.
+Let $F_1$, $F_2$, $F_3$ be three real numbers such that $F_1 + F_2 + F_3 = 0$.
+Then there exists a unique pair $a,b$ of real numbers such that 
+\[
+\forall i \in \{1,2,3\},\ F_i = \int_{e_i} (a dx + b dy).
+\]
+\end{lemma}
+
+The lemma shows that given a translation structure $(T, \zeta)$ with
+associated pair $(X, \omega)$ a discrete differential form can
+be interpreted as a differential
+$\eta = f \Re(\omega) + g \Im(\omega)$ on $X$ where
+\begin{enumerate}
+\item the functions $f, g: X \to \bR$ are constant on each triangle of $T$,
+\item the differential $\eta$ is continuous.
+\end{enumerate}
+
 \begin{thebibliography}{sage-flatsurf}
 
 \bibitem[sage-flatsurf]{sage-flatsurf}
