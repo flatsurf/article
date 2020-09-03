@@ -25,11 +25,14 @@
 \def\Sym{\operatorname{Sym}}
 \def\SL{\operatorname{SL}}
 \def\GL{\operatorname{GL}}
+\def\Hol{\operatorname{Hol}}
+\def\rank{\operatorname{rank}}
 
 \newtheorem{definition}{Definition}
 \newtheorem{remark}[definition]{Remark}
 \newtheorem{lemma}[definition]{Lemma}
 \newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
 
 \title{Algorithms for translation surfaces}
 \author{Vincent Delecroix for Julian R\"uth}
@@ -1180,6 +1183,155 @@ h_1 v(\gamma_1) + h_2 v(\gamma_2) + \ldots + h_m v(\gamma_m) \in V(T)
 \]
 is in the tangent space to $\cM$.
 \end{theorem}
+
+\section{Detecting coverings}
+We are given a translation surface $S$ and would like to detect whether it comes from a ramified
+covering $f: S \to S'$. Here we also want to consider whether the surface $S$
+admits an affine symmetry with derivative $-1$, ie whether it comes from the
+canonical double covering of a quadratic differential.
+
+For both problems, the main strategy is to compute the Delaunay cell
+decomposition of $S$ and look for symmetries in it. There is a delicate
+issue about the appropriate choice of vertices $\Sigma \subset S$ to
+compute the appropriate Delaunay cell decomposition as $\Sigma$ might
+need to contain regular points of the translation structure.
+
+\subsection{Combinatorics}
+Let us recall that we encode a cell decomposition of a topological surface by
+a triple of permutations $(\sigma, \alpha, \phi)$.
+\begin{definition}
+A \emph{combinatorial covering}
+between two combinatorial maps $M = (\sigma, \alpha, \phi)$ and
+$M' = (\sigma', \alpha', \phi')$ in respectively $S_n$ and $S_{n'}$
+is a map $\pi: \{1, 2, \ldots, n\} \to \{1, 2, \ldots, n'\}$ such that
+\begin{itemize}
+\item
+$\forall i \in \{1,2,\ldots,n\}$ we have
+$\sigma'(\pi(i)) = \pi(\sigma(i))$, $\alpha'(\pi(i)) = \pi(\alpha(i))$ and $\phi'(\pi(i)) = \pi(\phi(i))$
+\item for all $i,j \in \{1,2,\ldots,n\}$ and all $k \geq 0$ if
+$(\phi')^k(\pi(i)) = \pi(j)$ then $\phi^k(i) = j$.
+\end{itemize}
+\end{definition}
+The second condition ensures that the ramifications are only at the vertices, ie
+on the permutation $\sigma$.
+
+If $M$ and $M'$ are endowed with translation structures $\zeta$ and $\zeta'$ we
+say that a combinatorial covering $\pi$ between $M$ and $M'$ is a combinatorial
+translation covering between $(M,\zeta)$ and $(M',\zeta')$ if furthermore
+for all $i \in \{1,2,\ldots,n\}$ we have $\zeta_i = \zeta'_{\pi(i)}$.
+
+\subsection{Generalities}
+To a ramified covering $f: S \to S'$ we associate its ramification data.
+The degree $\deg(f)$ of $f$ is the number of preimages of each point of $S'$
+(counted with multiplicities). For all but finitely many points there is no
+multiplicity and there are $\deg(f)$ preimages. The exceptional fibers can
+be encoded by their list of multiplicities which are partitions of $\deg(f)$
+different from the trivial partition $(1,1,\ldots,1)$. Given the ramification
+profile of a fiber $(d_1, d_2, \ldots)$ we associate the \emph{branching number}
+\[
+\sum_{i} (d_i - 1) \geq 0.
+\]
+We have the Riemann-Hurwitz equation that relates
+the topological data of $f$ to the genera of $S$ and $S'$
+\begin{equation}
+\label{eq:RiemannHurwitz}
+\chi(S) = \deg(f) \cdot \chi(S) - b(f)
+\end{equation}
+where $\chi(S) = 2 - 2g(S)$ is the Euler characteristic of the surface
+and $b(f) = \sum_{x \in S} (\deg_x(f) - 1)$ is the branching number at $x$.
+
+When $S'$ has a translation structure,
+the surface $S$ naturally inherits a translation structure by pull-back. One important
+combinatorial step in detecting coverings is given the angles of the conical singularities
+of $S$ determine what could be the possible multiset of angles for $S'$ and the
+associated branching profiles.
+
+Example:
+A surface in $\cH(2,2)$ might come from a translation coverings of
+\begin{itemize}
+\item unramified covering of degree 2 of $\mathcal{H}(2)$,
+\item ramified covering of degree $d$ of $\mathcal{H}(0)$ with branching profile
+$((3,3,1,1,\ldots,1))$,
+\item ramified covering of degree $d$ of $\mathcal{H}(0,0)$ with branching profile
+$((3,1,1,\ldots,1), (3,1,1,\ldots,1))$.
+\end{itemize}
+In the two last cases the degree $d$ can be arbitrary. From Riemann-Hurwitz equation~\eqref{eq:RiemannHurwitz} one can see that this is possible only if $S'$ has genus $0$ or $1$. First of all there is no translation structure on genus 0 surface. And for genus $1$, there are specific algorithms that are explained in Section~\ref{ssec:TorusCoverings}.
+
+\subsection{Torus coverings and restrictions from the holonomy module}
+\label{ssec:TorusCoverings}
+As we already mentioned, there are no bound of the degree of a cover $S \to S'$
+where $S$ has genus $g \geq 1$ and $S'$ has genus $1$. In this section we explain
+how to detect whether a translation surface comes from such genus 1 covering.
+
+Let $S$ be a translation surface. We associate its absolute holonomy module
+\[
+\Hol(S) := \left\{\int_\gamma \omega:\ \gamma \in H_1(S; \bZ)\right\} \subset \bC.
+\]
+\begin{theorem}
+Let $S$ be a translation surface. Then it admits a covering from a torus
+if and only if its holonomy module $\Hol(S)$ has rank 2. The covering
+is given by the map
+\[
+\begin{array}{lll}
+S & \to & \bC / \Hol(S) \\
+x & \mapsto & \int_{x_0}^x \omega
+\end{array}
+\]
+where $x_0$ is an arbitrary point in $S$.
+\end{theorem}
+\textbf{Question:} how do we compute the degree?
+
+Let $S$ be a translation surface of genus $g$. Since $\rank H_1(S; \bZ) = 2g$
+the holonomy module $\Hol(S)$ has rank at most $2g$.
+\begin{proposition}
+Let $f: S \to S'$ be a translation covering.
+Then $\Hol(S)$ is a finite index submodule of $\Hol(S')$.
+\end{proposition}
+The above proposition is useful to bound the possible degrees of a covering.
+For example, a genus 3 surface with an holonomy module of rank $5$ can not
+be a translation covering.
+
+\subsection{Detecting translation coverings from surface of genus $\geq 2$}
+Finding combinatorial coverings is equivalent to find \emph{block systems} for
+permutation groups.  More precisely, if $(\sigma, \alpha, \phi)$ is a
+combinatorial covering $\pi$, then the partition induced by the preimages of
+$\pi$ is invariant under the group $G$ generated by $\sigma$, $\alpha$ and
+$\phi$. It is a block system. The converse is also true: a partition of
+$\{1,2,\ldots,n\}$ invariant by $G$ corresponds to a combinatorial covering. In
+GAP one can compute it block systems via \texttt{MaximalBlocks} (to obtain the
+covering with minimal degree), \texttt{RepresentativesMinimalBlocks} (to obtain
+the covering with minimal degree), \texttt{AllBlocks} (to obtain all
+coverings).
+
+\textbf{Algorithm:} computing cominatorial coverings of a translation surface $S$
+with singularities contained in $\Sigma$
+\begin{enumerate}
+\item compute the Delaunay cell decomposition of $S$ with respect to $\Sigma$
+\item compute the block systems of the Delaunay cell decomposition that
+respect the holonomy
+\end{enumerate}
+
+\textbf{Issue:} A translation covering $S \to S'$ is not necessarily combinatorial
+as we might need to introduce extra marked points before the covering becomes
+combinatorial. In other words, we might enlarge $\Sigma$ with extra regular
+points. This happens when the coverings over $S'$ is ramified at a
+regular point and the branching profile contains some $1$. All such $1$
+gives rise to a regular point in $S$
+
+\subsection{Detecting quadratic differentials double cover}
+If $S$ comes from the canonical double cover a quadratic differential then it
+admits an involution $\iota$ whose derivative is $-1$. The set of conical
+singularities $\Sigma$ is preserved by $\iota$ and so is the Delaunay cell
+decomposition with respect to $\Sigma$.
+
+\textbf{Algorithm:} Let $(M, \zeta)$ be a Delaunay cell decomposition where $M
+= (\sigma, \alpha, \phi)$ is a combinatorial map and $\zeta$ are the holonomy
+vectors of a translation structure.  The algorithm consists in testing whether
+there exists an ismorphism (of translation surfaces) between $(M, \zeta)$ and
+$(M, -\zeta)$.
+
+\textbf{Note:} here there is no issue since the canonical double cover is not
+ramified at regular points!
 
 \section{Sah-Arnoux-Fathi invariant, Boshernitzan criterion and skew-products}
 Relevant articles: \cite{DoSchmidt}, \cite{DynnikovSkripchenko}, \cite{Boshernitzan}
