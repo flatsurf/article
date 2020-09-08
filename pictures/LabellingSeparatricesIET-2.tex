@@ -5,9 +5,25 @@
 % A C D E
 % C A E D
 \begin{document}\begin{tikzpicture}
-\draw (1, -1.5) rectangle (12.82,1.5);
+\draw (1.5, -1.5) rectangle (15.3,1.5);
 \begin{scope}[xshift=10.82cm]
-\input{pictures/SeparatrixDiagram-2.tex}
+\draw[green] (0,0) -- node {$s_D^+$} (0:1)
+ .. controls +(.5,0) and +(-.5,.5) .. (2,-1);
+
+\draw[-<,green] (0,0) -- node[near end] {$s_D^-$} (90:1);
+\draw[->,blue] (0,0) -- node[near end] {$s_A^+$} (180:1);
+\draw[-<,blue] (0,0) -- node[near end] {$s_A^-$} (270:1);
+\fill[black] (0,0) circle (2pt);
+
+\begin{scope}[xshift=3cm]
+\draw[->,orange] (0,0) -- node[near end] {$s_C^+$} (0:1);
+\draw[-<,orange] (0,0) -- node[near end] {$s_C^-$} (90:1);
+\draw[->,pink] (0,0) -- node [near end] {$s_E^+$} (180:1);
+\draw[red] 
+    (-1,-1) .. controls +(.5,-.5) and (0,-1) ..
+    (270:1) -- node [near start] {$s_B^-$} (0,0);
+\fill[black] (0,0) circle (2pt);
+\end{scope}
 \end{scope}
 
 \coordinate (t0) at (0,1);
