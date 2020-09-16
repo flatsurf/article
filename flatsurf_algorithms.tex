@@ -1435,6 +1435,35 @@ $\eta = f \Re(\omega) + g \Im(\omega)$ on $X$ where
 \item the differential $\eta$ is continuous.
 \end{enumerate}
 
+
+\section{Polygons, billiards and conical structure on the sphere}
+
+\subsection{Polygons}
+We are given a list of angles $(\alpha_1, \alpha_2, \ldots, \alpha_m)$ where each
+$\alpha_i \in (0,2\pi)$ and such that $\sum_{i=1}^m \alpha_i = (m-2) \pi$. We describe
+an algorithm that provides lengths $(\ell_1, \ell_2, \ldots, \ell_m)$ such that
+the polygon with the given angle and lengths is valid (ie closes up) and does not have
+self-intersection. We simply follow the algorithm from~\cite{EfratFulekKobourovToth} (see the constructive proof of Theorem~1 on pages 7 and 8).
+
+Let $e_1$, $e_2$, \ldots, $e_m$ be vectors parallel to the slope of the sides
+(their direction is determiend by the $\alpha_i$ but their lengths can be taken
+arbitrarily). Now, the set of valid lengths so that the polygon closes up is a
+polytope
+\[
+P(e_1, e_2, \ldots, e_m) := \left\{(x_1, x_2, \ldots, x_m):
+\begin{array}{l}
+\forall i \in \{1,2,\ldots,m\},\, x_i \geq 0 \\
+x_1 e_1 + x_2 e_2 + \ldots + x_m e_m = 0
+\end{array}
+\right\}.
+\]
+
+\textbf{algorithm:}
+The idea is to construct the lengths step by step so that we get rid of the concave angles
+(ie the ones $> \pi$). We start by picking any pair of consecutive angles where one is
+convex and the other is concave. Then the aim is to fix the length of the segment between
+them and replace this pair of angles with $\alpha_i + \alpha_{i+1} - \pi$. This modification can be absorbed by modifying the lengths of the $i-1$ and $i+1$ edges.
+
 \begin{thebibliography}{sage-flatsurf}
 
 \bibitem[sage-flatsurf]{sage-flatsurf}
@@ -1473,6 +1502,11 @@ I. Dynnikov, A. Skripchenko
 J. Mod. Dyn. \textbf{11}, 219-248 (2017).
 Reviewer: Steve Pederson (Atlanta)
 MSC:  37E05 37E35
+
+\bibitem[EFKT]{EfratFulekKobourovToth}
+A. Efrat, R. Fulek, S. Kobourov, C. D. T\'oth
+\textit{Polygons with prescribed angles in 2D and 3D}
+arXiv:10192
 
 \bibitem[EMMW]{EskinMcMullenMukamelWright}
 Billiards, quadrilaterals and moduli spaces
