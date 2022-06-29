@@ -47,6 +47,10 @@
 \begin{document}
 \maketitle
 
+\tableofcontents
+
+\newpage
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Topology and combinatorial maps}
 \label{sec:TriangulationsAndTranslationStructures}
@@ -490,18 +494,6 @@ on five intervals. In the end, we obtain a decomposition made of 3 connections
 a minimal component (on letters $\{A, C\}$) and a cylinder (on letter $E$).}
 \label{fig:LabellingSeparatricesIET}
 \end{figure}
-
-\section{Questions}
-How do we triangulate a zippered rectangle?
-
-How do we compute the tangent vector corresponding to a cylinder?
-
-If the tangent vector has irrational components, we could use it to generate a whole subspace!
-(Just consider the irrational parameters as variables)
-
-Triangles:
-- step 1: do saddle connection search
-- step 2: move a little bit
 
 %\subsection{From triangulations with translation structures to multi-interval exchange transformations}
 %Let $M = (\sigma, \alpha, \phi)$ be a triangulation on
@@ -1464,6 +1456,96 @@ The idea is to construct the lengths step by step so that we get rid of the conc
 convex and the other is concave. Then the aim is to fix the length of the segment between
 them and replace this pair of angles with $\alpha_i + \alpha_{i+1} - \pi$. This modification can be absorbed by modifying the lengths of the $i-1$ and $i+1$ edges.
 
+
+\section{Affine groups and periodic points}
+We discuss the implementation of~\cite{ChowdhuryEverettFreedmanLee} for computing
+periodic points in Veech surfaces. The main focus for now is on Thurston-Veech
+constructions for which their theorem applies.
+
+\begin{definition}
+A \emph{Thurston-Veech surface} is a translation (or half-translation) surface $M$ such
+that both its horizontal and vertical directions decompose into cylinders
+whose moduli are commensurable. In such case there exists a pair of affine
+elements $\tau_h$ and $\tau_v$ that fix respectively the horizontal and
+vertical cylinders acting as a power of a Dehn twist in each of them.
+
+A point $p \in M$ is called \emph{periodic} if its $\langle \tau_h, \tau_v \rangle$
+orbit is finite.
+\end{definition}
+
+\begin{theorem}[\cite{ChowdhuryEverettFreedmanLee}]
+Let $M$ be a Thurston-Veech surface whose field of definition is not $\bQ$
+(equivalently it is not square-tiled). Then its set of periodic points
+is finite.
+\end{theorem}
+
+The proof is constructive and we describe it now.
+Starting from a Thurston-Veech surface, we have a canonical partition of the
+surface into rectangles $\mathcal{R} = R_1 \cup \ldots \cup R_n$ coming
+from the intersection of the horizontal and vertical cylinders. In each
+of these rectangles we have canonical horizontal/vertical coordinates and we could
+identify points with elements of $\bR^2$. We actually only care about points
+in $k^2$ where $k$ is the field of definition which we identify to a finite
+dimensional vector space over $\bQ$. In other words we fix once for
+all an isomorphism $k \simeq \bQ^d$ where $d = [k:\bQ]$.
+
+If a point is periodic under $\Gamma := \langle \tau_h, \tau_v \rangle$
+then it has finite orbits under $\tau_h$ or $\tau_v$. The condition
+of being periodic under $\tau_h$ or $\tau_v$ is easily expressed
+in terms of the rectangle coordinates. For each rectangle $R$
+in $\mathcal{R}$, the points $p=(x,y)$ that have both a
+periodic $\tau_h$-orbit and a periodic $\tau_v$-orbit are the
+ones that satisfy
+\begin{equation}
+\label{eq:tauh:tauv:periodicity}
+x / h_i \in \bQ
+\quad \text{and} \quad
+y / h_j \in \bQ
+\end{equation}
+$h_i$ and $h_j$ are respectively the heights of the horizontal and
+vertical cylinder passing through $R$. The conditions~\eqref{eq:tauh:tauv:periodicity}
+provide $2d-2$ linearly independent equations over $\bQ^{2d}$. Hence in each region
+$R$ in $\mathcal{R}_0$, the candidates to be periodic
+points form a $\bQ$-vector subspace of dimension $2$ inside $\bQ^{2d}$.
+
+Now we get additional affine equations for the periodic points using the fact
+that if $p$ has a finite $\Gamma$-orbit then for any element $g \in \Gamma$ the
+point $g \cdot p$ must have periodic $\tau_h$-orbit and periodic $\tau_v$-orbit.
+For each element $g$ we could compute the regions associated to
+$\mathcal{R} \vee g^{-1} \cdot \mathcal{R}$ and for
+each of them look at points for which $p$ and $g \cdot p$ have periodic
+$\tau_h$ and $\tau_v$ orbits. This can be donne by pulling the
+equations~\eqref{eq:tauh:tauv:periodicity} via $g$ which is
+a $k$-affine map in any region in $\mathcal{R} \vee g^{-1} \cdot \mathcal{R}$
+for the canonical coordinates of the domain and target.
+
+\begin{lemma}[\cite{ChowdhuryEverettFreedmanLee}]
+\label{lem:finitely:many:g}
+If $d\not=1$ then there
+exists finitely many elements $g_1$, \ldots, $g_k$ such that
+for any region $R$ in $\mathcal{R} \vee g_1^{-1} \cdot \mathcal{R} \vee \cdots \vee g_k^{-1} \mathcal{R}$
+the set of points $p \in R$ for which all of $p$, $g_1 \cdot p$,
+\ldots, $g_k \cdot p$ have periodic $\tau_h$ and $\tau_v$ orbits
+consits of at most one element.
+\end{lemma}
+
+Once the above lemma is made effective, the end is easy : give a finite
+set it is easy to figure out what are the $\Gamma$-periodic points
+in that set in time $O(|\text{set}|)$ (assuming that computing
+$\tau_h \cdot p$ from $p$ is a $O(1)$ operation).
+
+Questions
+\begin{enumerate}
+\item what is the smartest choice of $g_1, \ldots, g_k$ that satisfies
+the conclusion of Lemma~\ref{lem:finitely:many:g}? Plausibly
+$\{\tau_h, \tau_v, \tau_h^{-1}, \tau_v^{-1}$ suffice and if not, we could
+add $\tau_h^{\pm 1} \tau_v^{\pm 1}$ that contain pseudo-Anosov.
+\item we can get other kind of equations by asking that $p$ is periodic
+under $g \tau_h g^{-1}$ (which is parabolic). Are these really
+different equations?
+\end{enumerate}
+
+
 \begin{thebibliography}{sage-flatsurf}
 
 \bibitem[sage-flatsurf]{sage-flatsurf}
@@ -1490,6 +1572,11 @@ Ergodic Theory Dyn. Syst. \textbf{8:3}, 379-394 (1988).
 K. Calta, J. Smillie
 \textit{Algebraically periodic translation surfaces}
 J. Mod. Dyn. \textbf{2:2}, 209-248 (2008).
+
+\bibitem[ChEvFrDe]{ChowdhuryEverettFreedmanLee}
+Z. Chowdhury, S. Everett, S. Freedman, D. Lee
+\textit{Computing Periodic Points on Veech Surfaces}
+arXiv:2112.02698 [math.DS]
 
 \bibitem[DoSc16]{DoSchmidt}
 H. T. Do, T. A. Schmidt
