@@ -1468,9 +1468,9 @@ that both its horizontal and vertical directions decompose into cylinders
 whose moduli are commensurable. In such case there exists a pair of affine
 elements $\tau_h$ and $\tau_v$ that fix respectively the horizontal and
 vertical cylinders acting as a power of a Dehn twist in each of them.
+Let $\Gamma := \langle \tau_h, \tau_v \rangle$.
 
-A point $p \in M$ is called \emph{periodic} if its $\langle \tau_h, \tau_v \rangle$
-orbit is finite.
+A point $p \in M$ is called \emph{periodic} if its $\Gamma$-orbit is finite.
 \end{definition}
 
 \begin{theorem}[\cite{ChowdhuryEverettFreedmanLee}]
@@ -1484,67 +1484,76 @@ Starting from a Thurston-Veech surface, we have a canonical partition of the
 surface into rectangles $\mathcal{R} = R_1 \cup \ldots \cup R_n$ coming
 from the intersection of the horizontal and vertical cylinders. In each
 of these rectangles we have canonical horizontal/vertical coordinates and we could
-identify points with elements of $\bR^2$. We actually only care about points
-in $k^2$ where $k$ is the field of definition which we identify to a finite
-dimensional vector space over $\bQ$. In other words we fix once for
-all an isomorphism $k \simeq \bQ^d$ where $d = [k:\bQ]$.
+identify points with elements of $\bR^2$. 
 
-If a point is periodic under $\Gamma := \langle \tau_h, \tau_v \rangle$
-then it has finite orbits under $\tau_h$ or $\tau_v$. The condition
-of being periodic under $\tau_h$ or $\tau_v$ is easily expressed
-in terms of the rectangle coordinates. For each rectangle $R$
-in $\mathcal{R}$, the points $p=(x,y)$ that have both a
-periodic $\tau_h$-orbit and a periodic $\tau_v$-orbit are the
-ones that satisfy
+The first ingredient of the construction is the fact that it is easy to identify
+periodic points under $\tau_h$ or under $\tau_v$.
+\begin{lemma}
+Let $p=(x,y)$ be a point in a rectangle $R \in \mathcal{R}$ written with
+respect to the $R$-coordinates. Let $C_i$ and $C_j$ be the horizontal
+and vertical cylinder that passes through $R$ and $h_i$ and $h_j$
+their heights. Then $p$ is periodic under $\langle \tau_h \rangle$ and
+under $\langle \tau_v \rangle$ if and only if 
 \begin{equation}
 \label{eq:tauh:tauv:periodicity}
-x / h_i \in \bQ
+x / h_j \in \bQ
 \quad \text{and} \quad
-y / h_j \in \bQ
+y / h_i \in \bQ
 \end{equation}
-$h_i$ and $h_j$ are respectively the heights of the horizontal and
-vertical cylinder passing through $R$. The conditions~\eqref{eq:tauh:tauv:periodicity}
-provide $2d-2$ linearly independent equations over $\bQ^{2d}$. Hence in each region
-$R$ in $\mathcal{R}_0$, the candidates to be periodic
-points form a $\bQ$-vector subspace of dimension $2$ inside $\bQ^{2d}$.
+\end{lemma}
 
-Now we get additional affine equations for the periodic points using the fact
-that if $p$ has a finite $\Gamma$-orbit then for any element $g \in \Gamma$ the
-point $g \cdot p$ must have periodic $\tau_h$-orbit and periodic $\tau_v$-orbit.
-For each element $g$ we could compute the regions associated to
-$\mathcal{R} \vee g^{-1} \cdot \mathcal{R}$ and for
-each of them look at points for which $p$ and $g \cdot p$ have periodic
-$\tau_h$ and $\tau_v$ orbits. This can be donne by pulling the
-equations~\eqref{eq:tauh:tauv:periodicity} via $g$ which is
-a $k$-affine map in any region in $\mathcal{R} \vee g^{-1} \cdot \mathcal{R}$
-for the canonical coordinates of the domain and target.
+\begin{proof}
+The action of $\tau_h$ on the cylinder coordinates in $R_i$ is $(x,y) \mapsto
+(x + m_i \frac{h_i}{c_i} y \mod c_i, y)$ where $c_i$ is the circumference of
+the horizontal cylinder $C_i$ and $m_i$ is a positive integer (the multiplicity
+of the Dehn twist of $\tau_h$ in $C_i$). Now the point $(x, y)$ is periodic for
+$\tau_h$ if and only if $y/h_i \in \bQ$. Similarly, for the vertical cylinder
+and the multitwist $\tau_v$ we obtain that the coordinates of a periodic point
+must satisfy $x / h_j \in \bQ$.
+\end{proof}
+
+Let $k$ be the field of definition of $M$. Then~\eqref{eq:tauh:tauv:periodicity}
+shows that periodic points have coordinates in $k^2$, and more precisely, inside
+each rectangle $R$ they belong to a certain $\bQ$-vector subspace of $k^2$ of
+codimension $2d-2$. From now on, we identify $k \simeq \bQ^d$ where $d = [k:\bQ]$.
+
+\smallskip
+
+The second step of the proof consists in considering periodicity under conjugates
+of $\tau_h$ and $\tau_v$. Namely, for any $g \in \Gamma$
+the element $g \tau_h g^{-1}$ preserves a decomposition in cylinder. More precisely
+if $C_i$ is a horizontal cylinder (preserved by $\tau_h$) then $g \cdot C_i$ is preserved
+by $g \tau_h g^{-1}$. Equivalently, a point $p \in M$ is periodic under $g \tau_h g^{-1}$
+if and only if $g \cdot p$ is periodic under $\tau_h$. So each periodic point $p \in M$,
+satisfies infinitely many equations : for each $g \in \Gamma$, the point $g \cdot p$ belongs
+to some rectangle $R$ and its coordinates must satisfy~\eqref{eq:tauh:tauv:periodicity}.
 
 \begin{lemma}[\cite{ChowdhuryEverettFreedmanLee}]
 \label{lem:finitely:many:g}
 If $d\not=1$ then there
 exists finitely many elements $g_1$, \ldots, $g_n$ such that
-for any region $R$ in $\mathcal{R} \vee g_1^{-1} \cdot \mathcal{R} \vee \cdots \vee g_n^{-1} \mathcal{R}$
+for any region $R$ in $\mathcal{R} \vee g_1^{-1} \cdot \mathcal{R} \vee \cdots \vee g_n^{-1} \cdot \mathcal{R}$
 the set of points $p \in R$ for which all of $p$, $g_1 \cdot p$,
 \ldots, $g_n \cdot p$ have periodic $\tau_h$ and $\tau_v$ orbits
 consits of at most one element.
 \end{lemma}
 
-Once the above lemma is made effective, the end is easy : give a finite
-set it is easy to figure out what are the $\Gamma$-periodic points
-in that set in time $O(|\text{set}|)$ (assuming that computing
-$\tau_h \cdot p$ from $p$ is a $O(1)$ operation).
-
-Questions
+Once the above lemma is made effective, the end is easy. Each region $R$
+from Lemma~\ref{lem:finitely:many:g} provides at most one candidate periodic
+point. Hence, we have finitely many candidate periodic points. From this
+finite set, we can use the following procedure to find periodic points.
 \begin{enumerate}
-\item what is the smartest choice of $g_1, \ldots, g_n$ that satisfies
-the conclusion of Lemma~\ref{lem:finitely:many:g}? Plausibly
-$\{\tau_h, \tau_v, \tau_h^{-1}, \tau_v^{-1}\}$ suffice and if not, we could
-add $\tau_h^{\pm 1} \tau_v^{\pm 1}$ that contain pseudo-Anosov.
-\item we can get other kind of equations by asking that $p$ is periodic
-under $g \tau_h g^{-1}$ (which is parabolic). Are these really
-different equations?
+\item Let $P \subset M$ be the finite subset of points from Lemma~\ref{lem:finitely:many:g}
+\item While there is a point $p \in M$ such that $g \cdot p \not\in P$ for some
+$g \in \{\tau_h^{\pm 1}, \tau_v^{\pm 1}\}$ then remove $p$ from $P$
+\item All remaining elements in $P$ are periodic under $\Gamma$
 \end{enumerate}
 
+Question: what is the smartest choice of $g_1, \ldots, g_n$ that satisfies
+the conclusion of Lemma~\ref{lem:finitely:many:g}? Plausibly the 3 elements
+$\tau_h, \tau_v, \tau_h \tau_v$ suffice. Though here, it might be
+more efficient to use a dynamic programming approach where we refine
+atoms in $\mathcal{R}$ only when their set of equations is not $0$-dimensional.
 
 \begin{thebibliography}{sage-flatsurf}
 
