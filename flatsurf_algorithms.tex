@@ -28,12 +28,14 @@
 \def\Hol{\operatorname{Hol}}
 \def\rank{\operatorname{rank}}
 \def\ord{\operatorname{ord}}
+\def\area{\operatorname{area}}
 
 \newtheorem{definition}{Definition}
 \newtheorem{remark}[definition]{Remark}
 \newtheorem{lemma}[definition]{Lemma}
 \newtheorem{theorem}[definition]{Theorem}
 \newtheorem{proposition}[definition]{Proposition}
+\newtheorem{conjecture}[definition]{Conjecture}
 
 \title{Algorithms for translation surfaces}
 \author{Vincent Delecroix for Julian R\"uth}
@@ -1347,33 +1349,19 @@ surface corresponds to a pair $(X, \omega)$ where $X$ is a Riemann surface and $
 holomorphic differential.
 
 \subsection{Holomorphic differentials and Jacobian}
-Let us denote $\Omega(X)$ the vector space of holomorphic differentials.
-We have the well-known (Riemann? Hodge?).
-\begin{theorem}
-Let $X$ be a compact Riemann surface of genus $g$. Then the map 
+For a Riemann surface $X$, we let $\Omega(X)$ denote the complex vector space
+of holomorphic differentials.
+\begin{theorem}[Hodge correspondence]
+\label{thm:HodgeCorrespondence}
+Let $X$ be a compact Riemann surface. Then
 \[
 \begin{array}{lll}
 \Omega(X) & \to & H^1(X; \bR) \\
-\psi & \mapsto & (\gamma \mapsto \int_\gamma \Re(\psi))
+\eta & \mapsto & \left( \gamma \in H_1(X; \bR) \mapsto \Re(\int_\gamma \eta) \right)
 \end{array}
 \]
-is an isomorphism of vector spaces. In particular $\dim_\bC \Omega(X) = g$.
+is a (real) linear isomorphism.
 \end{theorem}
-
-We fix a translation surface $(X, \omega)$ given by a triangulation $T$ and a translation
-structure $\zeta$. The two problems we want to solve numerically here are
-\begin{enumerate}
-\item Given an element $\eta \in H^1(X; \bR)$ find the associated holomorphic differential
-$\tilde{\eta}$ on $X$ such that $\Re(\tilde{\eta}) = \eta$,
-\item Compute the period matrix of $X$.
-\end{enumerate}
-
-\subsection{Jacobian method 1: discretizations}
-The method we use is standard in the literature and corresponds to a finite element
-method. We use an iterative multigrid approach for the resolution.
-
-References: Royden, Mercat, Bobenko, \ldots
-
 
 Let $X$ be a Riemann surface. The Hodge star operator $*$ is the operator on 
 real one forms given in local holomorphic coordinates $z = x+iy$ by
@@ -1388,27 +1376,65 @@ Equivalently, a real differential is harmonic if and only if it is the real
 part of a holomorphic differential.
 \end{definition}
 
-Let $(T, \zeta)$ be a translation structure and let $\cE$ denote the set of
+An equivalent form of Theorem~\ref{thm:HodgeCorrespondence} is
+\begin{theorem}[real Hodge correspondence]
+\label{thm:realHodgeCorrespondence}
+Let $X$ be a compact Riemann surface. Then the space of (real) harmonic one-form
+is linearly isomorphic to $H^1(X; \bR)$.
+\end{theorem}
+
+We fix a translation surface $(X, \omega)$ given by a flat triangulation $(T,\zeta)$.
+The problems we want to solve numerically here are
+\begin{enumerate}
+\item Given an element $\phi \in H^1(X; \bR)$ find the associated holomorphic differential
+$\eta_\phi$ from Theorem~\ref{thm:HodgeCorrespondence} (or the real harmonic one form from Theorem~\ref{thm:realHodgeCorrespondence}).
+More precisely, we would like to know
+\begin{enumerate}
+\item the (approximate) location and order of the zeros of $\eta_\phi$,
+\item the (approximate) Hodge norm of $\phi$, that is $\frac{1}{2 \sqrt{-1} \pi} \int_X \eta_\phi \wedge * \overline{\eta_\phi}$,
+\item (possibly) a flat picture associated to $\eta_\phi$.
+\end{enumerate}
+Typically, the element $\phi$ we would like to consider would come from the tangent
+space to a $\GL_2(\bR)$-orbit closure.
+\item Compute the period matrix of $X$.
+\end{enumerate}
+
+\subsection{Jacobian method 1: discretizations}
+The method we use is standard in the literature and corresponds to a finite element
+method. One should use an iterative multigrid approach for the resolution.
+
+References: Royden, Mercat, Bobenko, \ldots
+
+
+Let $(T, \zeta)$ be a translation structure and let $E(T)$ denote the set of
 oriented edges of $T$. 
 
 \begin{definition}
-A vector $(\psi(e))_{e \in \cE} \in \cE^\bR$ or $\in \cE^\bC$ such that
+A vector $(\psi(e))_{e \in E(T)} \in E(T)^\bR$ such that
 $\psi(-e) = -\psi(e)$ is called a \emph{discrete one form}. We denote
 by $\Omega_T$ the set of discrete one forms.
 \end{definition}
 
+\begin{proposition}
+\label{prop:dimensionDiscreteOneForms}
+We have an isomorphism $\Omega_T \simeq H^1(X, V(T); \bR)$. In particular
+$\dim_\bR(\Omega_T) = 2g + |V(T)| - 1$.
+\end{proposition}
 We consider the map
 \begin{equation}
 \label{eq:discretization}
-\psi \mapsto (\int_e \psi)_{e \in \cE}.
+\eta \mapsto \left(\int_e \eta\right)_{e \in E(T)}
 \end{equation}
+which to a closed one form $\eta$ associates its integral over edges of $T$.
 
-Let $d_T: (\psi(e)) \mapsto (\psi_{e_1} + \psi_{e_2} + \psi_{e_3})$ be the boundary
-operator.
+Let $d_T: (\psi(e))_{e \in E(T)} \mapsto (\psi_{e_1} + \psi_{e_2} + \psi_{e_3})$ be the boundary
+operator. A discrete one-form is called \emph{closed} if it $d_T \psi = 0$.
 
 \begin{proposition}
-Closed forms are mapped to discrete closed forms.
+Under the map~\eqref{eq:discretization}, smooth closed one-forms are mapped to discrete
+closed one-forms.
 \end{proposition}
+
 
 Given $(T, \zeta)$ there is a natural section to the discretization map
 from~\eqref{eq:discretization}. However, its image is not a smooth
@@ -1432,34 +1458,38 @@ $\eta = f \Re(\omega) + g \Im(\omega)$ on $X$ where
 \item the differential $\eta$ is continuous.
 \end{enumerate}
 
+Proposition~\ref{prop:dimensionDiscreteOneForms} shows that there is freedom
+in choosing a discrete one-form associated to a given cohomology class in $H^1(X; \bR)$.
+We need an analogue of a harmonicity in the discrete world.
+A reasonable way to go might be to consider the Dirichlet
+energy which, in the smooth situation, is minimized for harmonic differentials.
+The correspondence between discrete one-forms $(\psi(e))_e$ and locally constant
+forms $adx + bdy$ allows to define the \emph{Dirichlet energy} of a discrete one-form as
+\[
+D(\psi) = \sum_{t} (a^2 + b^2) \area(t)
+\]
+where the sum is over the triangle of $t$.
+It is reasonable to expect.
+\begin{conjecture}
+In each cohomology class $H^1(X; \bR)$ there is a unique discrete one-forme
+that minimizes the Dirichlet energy.
+\end{conjecture}
+
+One annoying feature of this approach is that the space of locally constant
+one forms is not stable under the Hodge star operator (maybe this is
+irrelevant to approximate $\Omega(X)$?). One possible way to fix it is to use
+approximation with quadratic one-forms $p(x,y) dx + q(x,y) dy$ where $p$ and $q$
+are degree 2 polynomials. That gives us 12 parameters on each triangle. Now each
+agreement on edges give 3 equations (number of parameters for a degree 2 polynomial
+in one variable). If we also want the Hodge star to agree this is an additional
+3 equations per edge.
 
 \subsection{Jacobian method 2: Taylor expansions}
-Let $M$ be a translation surface given by a flat triangulation $(T, \zeta)$
-and let $X$ be the underlying Riemann surface. Our aim is to compute
-elements of $\Omega(X)$, the space of holomorphic one forms, via the Hodge correspondence.
+As before we consider a translation surface $M$ given by a flat triangulation $(T, \zeta)$
+and let $X$ denote the underlying Riemann surface. We would like to to take advantage of
+the fact that we look for holomorphic solution.
 
-\begin{theorem}[Hodge correspondence]
-\label{thm:HodgeCorrespondence}
-Let $X$ be a compact Riemann surface. Then
-\[
-\begin{array}{lll}
-\Omega(X) & \to & H^1(X; \bR) \\
-\eta & \mapsto & \left( \gamma \in H_1(X; \bR) \mapsto \Re(\int_\gamma \eta) \right)
-\end{array}
-\]
-is a (real) linear isomorphism.
-\end{theorem}
-
-We fix a class $\phi \in H^1(X; \bR)$ and our aim is to approximate numerically
-the corresponding $\eta_\phi \in \Omega(X)$ given in Theorem~\ref{thm:HodgeCorrespondence}.
-In particular, one would like to know
-\begin{enumerate}
-\item the (approximate) location and order of the zeros of $\eta_\phi$,
-\item the (approximate) Hodge norm of $\phi$, that is $\frac{1}{2 \sqrt{-1} \pi} \int_X \eta_\phi \wedge * \overline{\eta_\phi}$,
-\item a flat picture associated to $\eta_\phi$.
-\end{enumerate}
-
-One promising approach is to use analytic continuation along the Voronoi
+One promising approach seems to use analytic continuation along the Voronoi
 tesselation of $(T, \zeta)$. For each circumcenter $c$ (vertex of the Voronoi tesselation)
 we can expand the (unknown) meromorphic function $f = \eta_\phi / \omega: X \to \bC$ at the
 flat coordinates $z$ normalized so that $z=0$ corresponds to $c$
@@ -1488,6 +1518,7 @@ just has to apply
 Be careful that this transformation involves infinite sums and might involve
 convergence issues. To make sense of this formula, one might have to interpolate
 points along the paths.
+
 
 \section{Polygons, billiards and conical structure on the sphere}
 
