@@ -27,6 +27,7 @@
 \def\GL{\operatorname{GL}}
 \def\Hol{\operatorname{Hol}}
 \def\rank{\operatorname{rank}}
+\def\ord{\operatorname{ord}}
 
 \newtheorem{definition}{Definition}
 \newtheorem{remark}[definition]{Remark}
@@ -1340,10 +1341,13 @@ surfaces this is rather elementary: pick the Delaunay triangulation and compute
 the automorphism group.
 \end{enumerate}
 
-\section{Holomorphic differentials and period matrix}
+\section{Uniformization and Jacobian}
 In this section we consider the holomorphic nature of a translation surface. Recall that a translation
 surface corresponds to a pair $(X, \omega)$ where $X$ is a Riemann surface and $\omega$ a non-zero
-holomorphic differential. Let us denote $\Omega(X)$ the vector space of holomorphic differentials.
+holomorphic differential.
+
+\subsection{Holomorphic differentials and Jacobian}
+Let us denote $\Omega(X)$ the vector space of holomorphic differentials.
 We have the well-known (Riemann? Hodge?).
 \begin{theorem}
 Let $X$ be a compact Riemann surface of genus $g$. Then the map 
@@ -1364,12 +1368,13 @@ $\tilde{\eta}$ on $X$ such that $\Re(\tilde{\eta}) = \eta$,
 \item Compute the period matrix of $X$.
 \end{enumerate}
 
+\subsection{Jacobian method 1: discretizations}
 The method we use is standard in the literature and corresponds to a finite element
 method. We use an iterative multigrid approach for the resolution.
 
 References: Royden, Mercat, Bobenko, \ldots
 
-\subsection{Discretizations}
+
 Let $X$ be a Riemann surface. The Hodge star operator $*$ is the operator on 
 real one forms given in local holomorphic coordinates $z = x+iy$ by
 \[
@@ -1427,6 +1432,62 @@ $\eta = f \Re(\omega) + g \Im(\omega)$ on $X$ where
 \item the differential $\eta$ is continuous.
 \end{enumerate}
 
+
+\subsection{Jacobian method 2: Taylor expansions}
+Let $M$ be a translation surface given by a flat triangulation $(T, \zeta)$
+and let $X$ be the underlying Riemann surface. Our aim is to compute
+elements of $\Omega(X)$, the space of holomorphic one forms, via the Hodge correspondence.
+
+\begin{theorem}[Hodge correspondence]
+\label{thm:HodgeCorrespondence}
+Let $X$ be a compact Riemann surface. Then
+\[
+\begin{array}{lll}
+\Omega(X) & \to & H^1(X; \bR) \\
+\eta & \mapsto & \left( \gamma \in H_1(X; \bR) \mapsto \Re(\int_\gamma \eta) \right)
+\end{array}
+\]
+is a (real) linear isomorphism.
+\end{theorem}
+
+We fix a class $\phi \in H^1(X; \bR)$ and our aim is to approximate numerically
+the corresponding $\eta_\phi \in \Omega(X)$ given in Theorem~\ref{thm:HodgeCorrespondence}.
+In particular, one would like to know
+\begin{enumerate}
+\item the (approximate) location and order of the zeros of $\eta_\phi$,
+\item the (approximate) Hodge norm of $\phi$, that is $\frac{1}{2 \sqrt{-1} \pi} \int_X \eta_\phi \wedge * \overline{\eta_\phi}$,
+\item a flat picture associated to $\eta_\phi$.
+\end{enumerate}
+
+One promising approach is to use analytic continuation along the Voronoi
+tesselation of $(T, \zeta)$. For each circumcenter $c$ (vertex of the Voronoi tesselation)
+we can expand the (unknown) meromorphic function $f = \eta_\phi / \omega: X \to \bC$ at the
+flat coordinates $z$ normalized so that $z=0$ corresponds to $c$
+\begin{equation}
+f_c(z) = \sum_{n \geq 0} b_n z^n.
+\end{equation}
+The convergence radius of $f_c$ is at least the circumradius at $c$.
+The poles of $f$ are located at the vertices of the triangulation $T$ where
+$\omega$ has zeros. The order of the pole at $v$ is at most the order of vanishing
+of $\omega$ at $v$ (if the angle at $v$ is $2 (k+1) \pi$ then the vanishing
+order is $k$).
+
+Since $f$ is globally defined on $X \setminus Z(\omega)$, we can perform
+analytic continuation and obtain equations that must be satisfied by
+the coefficients of $f$. The most stable is to perform
+analytic continuation along the edges of the Voronoi tesselation as they
+remain as far away as possible from the vertices of $T$. In practice, one
+just has to apply
+\[
+\sum_{n \geq 0} b_n (\alpha z + \beta)^n
+=
+\sum_{n \geq 0} \sum_{k=0}^n b_n \binom{n}{k} \alpha^k \beta^{n-k} z^k
+=
+\sum_{n \geq 0} \left( \sum_{k \geq n} \binom{k}{n} \alpha^n \beta^{k-n} b_k \right) z^n.
+\]
+Be careful that this transformation involves infinite sums and might involve
+convergence issues. To make sense of this formula, one might have to interpolate
+points along the paths.
 
 \section{Polygons, billiards and conical structure on the sphere}
 
