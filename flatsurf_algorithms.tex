@@ -1366,7 +1366,7 @@ is a (real) linear isomorphism.
 Let $X$ be a Riemann surface. The Hodge star operator $*$ is the operator on 
 real one forms given in local holomorphic coordinates $z = x+iy$ by
 \[
-*(a dx + b dy) = -b dx + a dy.
+*(a(x,y) dx + b(x,y) dy) = -b(x,y) dx + a(x,y) dy.
 \]
 If $\psi$ is a holomorphic differential then $* \Re(\psi) = \Im(\psi)$.
 
@@ -1415,11 +1415,6 @@ $\psi(-e) = -\psi(e)$ is called a \emph{discrete one form}. We denote
 by $\Omega_T$ the set of discrete one forms.
 \end{definition}
 
-\begin{proposition}
-\label{prop:dimensionDiscreteOneForms}
-We have an isomorphism $\Omega_T \simeq H^1(X, V(T); \bR)$. In particular
-$\dim_\bR(\Omega_T) = 2g + |V(T)| - 1$.
-\end{proposition}
 We consider the map
 \begin{equation}
 \label{eq:discretization}
@@ -1431,6 +1426,10 @@ Let $d_T: (\psi(e))_{e \in E(T)} \mapsto (\psi_{e_1} + \psi_{e_2} + \psi_{e_3})$
 operator. A discrete one-form is called \emph{closed} if it $d_T \psi = 0$.
 
 \begin{proposition}
+\label{prop:discreteAndSmoothOneForms}
+We have an isomorphism between discrete closed one forms in $\Omega_T$ and
+$H^1(X, V(T); \bR)$. In particular $\dim_\bR(\Omega_T) = 2g + |V(T)| - 1$.
+
 Under the map~\eqref{eq:discretization}, smooth closed one-forms are mapped to discrete
 closed one-forms.
 \end{proposition}
@@ -1454,11 +1453,11 @@ associated pair $(X, \omega)$ a discrete differential form can
 be interpreted as a differential
 $\eta = f \Re(\omega) + g \Im(\omega)$ on $X$ where
 \begin{enumerate}
-\item the functions $f, g: X \to \bR$ are constant on each triangle of $T$,
+\item the functions $f, g: X \to \bR$ are constant on each triangle of $T$ in the flat coordinates $z = x + \sqrt{-1} y$,
 \item the differential $\eta$ is continuous.
 \end{enumerate}
 
-Proposition~\ref{prop:dimensionDiscreteOneForms} shows that there is freedom
+Proposition~\ref{prop:discreteAndSmoothOneForms} shows that there is freedom
 in choosing a discrete one-form associated to a given cohomology class in $H^1(X; \bR)$.
 We need an analogue of a harmonicity in the discrete world.
 A reasonable way to go might be to consider the Dirichlet
@@ -1468,7 +1467,7 @@ forms $adx + bdy$ allows to define the \emph{Dirichlet energy} of a discrete one
 \[
 D(\psi) = \sum_{t} (a^2 + b^2) \area(t)
 \]
-where the sum is over the triangle of $t$.
+where the sum is over the triangles of the triangulation $T$.
 It is reasonable to expect.
 \begin{conjecture}
 In each cohomology class $H^1(X; \bR)$ there is a unique discrete one-forme
