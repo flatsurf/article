@@ -29,6 +29,7 @@
 \def\rank{\operatorname{rank}}
 \def\ord{\operatorname{ord}}
 \def\area{\operatorname{area}}
+\def\Voronoi{\operatorname{Voronoi}}
 
 \newtheorem{definition}{Definition}
 \newtheorem{remark}[definition]{Remark}
@@ -1485,39 +1486,78 @@ in one variable). If we also want the Hodge star to agree this is an additional
 
 \subsection{Jacobian method 2: Taylor expansions}
 As before we consider a translation surface $M$ given by a flat triangulation $(T, \zeta)$
-and let $X$ denote the underlying Riemann surface. We would like to to take advantage of
-the fact that we look for holomorphic solution.
+and let $X$ denote the underlying Riemann surface. We would like to take advantage of
+the fact that we look for holomorphic solution in Theorem~\ref{thm:HodgeCorrespondence}
+and that we have at our disposal a nice set of charts given by the flat coordinates in each triangle.
 
-One promising approach seems to use analytic continuation along the Voronoi
-tesselation of $(T, \zeta)$. For each circumcenter $c$ (vertex of the Voronoi tesselation)
-we can expand the (unknown) meromorphic function $f = \eta_\phi / \omega: X \to \bC$ at the
-flat coordinates $z$ normalized so that $z=0$ corresponds to $c$
+One promising approach seems to use the Voronoi tesselation $\Voronoi(T,
+\zeta)$ of $(T, \zeta)$ which is dual to the Delaunay cell decomposition. At
+each vertex $v$ of $T$ which is also a center of a certain Voronoi cell, we
+consider the flat coordinate $z$ such that $z=0$ corresponds to $v$. The
+function $z$ is multivalued but there are well defined $d$-th roots $z^{1/d}$ where $d$ is the
+degree of $\omega$ at the vertex. We fix one such root. This amount to choose the
+horizontal separatrix where $z^{1/d}$ is real. Different choices of root differ
+by a $d$-th root of unity. Then $z^{1/d}$ is a local chart around $v$ which is
+defined in the whole Vornoi cell.
+
+After fixing $\phi \in H^1(X; \bR)$, we consider a Taylor expansion of the
+(yet unknown) meromorphic functions
+$f = \eta_\phi / \omega: X \to \bC$.
 \begin{equation}
-f_c(z) = \sum_{n \geq 0} b_n z^n.
+f_v(z) = \sum_{n \geq -d} a_n z^{n/d} + O(z^{N_v})
 \end{equation}
-The convergence radius of $f_c$ is at least the circumradius at $c$.
-The poles of $f$ are located at the vertices of the triangulation $T$ where
-$\omega$ has zeros. The order of the pole at $v$ is at most the order of vanishing
-of $\omega$ at $v$ (if the angle at $v$ is $2 (k+1) \pi$ then the vanishing
-order is $k$).
+where $N_v$ are large enough. In the Taylor expasion of $f_v$ we need to allow
+for an order $d$ pole to compensate the order $d$ zero of $\omega$. We denote
+$\eta_v$ the 1-form $f_v(z) dz$ which is well defined on the closure of the
+Voronoi cell of $v$. In particular we can evaluate the integral
+$\int_e \eta_v$. The integral is a complex linear function
+of the coefficients $a_n$.
 
-Since $f$ is globally defined on $X \setminus Z(\omega)$, we can perform
-analytic continuation and obtain equations that must be satisfied by
-the coefficients of $f$. The most stable is to perform
-analytic continuation along the edges of the Voronoi tesselation as they
-remain as far away as possible from the vertices of $T$. In practice, one
-just has to apply
-\[
-\sum_{n \geq 0} b_n (\alpha z + \beta)^n
-=
-\sum_{n \geq 0} \sum_{k=0}^n b_n \binom{n}{k} \alpha^k \beta^{n-k} z^k
-=
-\sum_{n \geq 0} \left( \sum_{k \geq n} \binom{k}{n} \alpha^n \beta^{k-n} b_k \right) z^n.
-\]
-Be careful that this transformation involves infinite sums and might involve
-convergence issues. To make sense of this formula, one might have to interpolate
-points along the paths.
+Our unknowns are all coefficients of all Taylor expansions at the vertices
+of $(T, \zeta)$. We consider two kinds of linear constraints. First,
+we enforce the integrals along edges to be the same on both sides. Namely
+each edge $e$ is adjacent to two cells corresponding to two vertices $v_1$
+and $v_2$. And we enforce that $\int_e \eta_{v_1} = \int_e \eta_{v_2}$.
+This gives us as many complex linear constraints as there are edges
+in $\Voronoi(T, \zeta)$.
 
+Our next constraints are obtained by fixing the cohomology class
+$[\Re(\eta)]$ to be equal to $\phi$ where $\eta$ is the one form
+obtained by gluing all $\eta_v$ together. Be careful that $\eta$ is
+not a smooth form. Nevertheless we could make sense of the cohomology
+class of $[\Re(\eta)]$ as follows. If $\eta$ was smooth, then the 
+cohomology class of $\eta$ would be a linear function of the values
+of the integral of $\eta$ on the Voronoi edges. Since we made the
+value of these integrals along edges well defined by our previous
+set of constraints, we could still use it for our $\eta$ obtained
+from the gluing of the various $\eta_v$.
+
+To pick a representative that is likely to be close to $\eta$ we
+minimize
+\begin{equation}
+\label{eq:quadraticObjective}
+\sum_{e \in E(\Voronoi(T,\zeta))} \left(\int |\eta_{v_1(e)} - \eta_{v_2(e)}|\right)^2
+\end{equation}
+where $v_1(e)$ and $v_2(e)$ are the two centers of cells bounded by $e$.
+
+
+This whole procedure is supposedly a quadratic optimization problem with
+linear constraints.
+
+\begin{remark}
+The procedure we presented to fix the cohomology class $[\Re(\eta)]$ to be
+$\phi$ is probably not the optimal one. We could probably make sense of the
+gluings of our various $\eta_v$ as a \emph{current} (ie a "distribution" kind
+of thing adapted to the manifold settings). And for currents there is a well
+defined notion of closeness and de Rham cohomology.
+\end{remark}
+
+\begin{remark}
+The quadratic optimization of~\eqref{eq:quadraticObjective} is possibly not
+the best one. One could use alternative measures of the difference between
+$\eta_{v_1(e)}$ and $\eta_{v_2(e)}$ to make it as continuous as possible. It
+might even be possible to get linear optimization.
+\end{remark}
 
 \section{Polygons, billiards and conical structure on the sphere}
 
