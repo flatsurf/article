@@ -1496,25 +1496,32 @@ each vertex $v$ of $T$ which is also a center of a certain Voronoi cell, we
 consider the flat coordinate $z$ such that $z=0$ corresponds to $v$. The
 function $z$ is multivalued but there are well defined $d$-th roots $z^{1/d}$ where $d$ is the
 degree of $\omega$ at the vertex. We fix one such root. This amount to choose the
-horizontal separatrix where $z^{1/d}$ is real. Different choices of root differ
-by a $d$-th root of unity. Then $z^{1/d}$ is a local chart around $v$ which is
-defined in the whole Vornoi cell.
+horizontal separatrix where $z^{1/d}$ is real. Then $z^{1/d}$ is well defined around $v$ and
+provides a chart for the whole Voronoi cell.
 
-After fixing $\phi \in H^1(X; \bR)$, we consider a Taylor expansion of the
-(yet unknown) meromorphic functions
-$f = \eta_\phi / \omega: X \to \bC$.
+As in Therem~\ref{thm:HodgeCorrespondence}, we fix $\phi \in H^1(X; \bR)$. Now we consider
+a Taylor expansion of the (yet unknown) meromorphic functions
+$f = \eta_\phi / \omega: X \to \bC$. In one of our local chart it can be written as
 \begin{equation}
-f_v(z) = \sum_{n \geq -d} a_n z^{n/d} + O(z^{N_v})
+f_v(z) = \sum_{n = -d + 1}^{N_v} a_{v,n} z^{n/d} + O(z^{N_v/d})
 \end{equation}
-where $N_v$ are large enough. In the Taylor expasion of $f_v$ we need to allow
-for an order $d$ pole to compensate the order $d$ zero of $\omega$. We denote
-$\eta_v$ the 1-form $f_v(z) dz$ which is well defined on the closure of the
-Voronoi cell of $v$. In particular we can evaluate the integral
-$\int_e \eta_v$. The integral is a complex linear function
-of the coefficients $a_n$.
+where $N_v$ is a parameter that has to be taken reasonably large. In the Taylor
+expasion of $f_v$ we need to allow for an order $d$ pole to compensate the
+order $d$ zero of $\omega$ at $v$. We denote $\eta_v$ the 1-form $f_v(z) dz$
+which is well defined on the closure of the Voronoi cell of $v$. In particular
+we can evaluate the integral $\int_e \eta_v$. The integral is a complex linear
+function of the coefficients $a_n$.
 
-Our unknowns are all coefficients of all Taylor expansions at the vertices
-of $(T, \zeta)$. We consider two kinds of linear constraints. First,
+Our unknowns are all coefficients of all Taylor expansions of the functions
+$f_v$ at the vertices of $(T, \zeta)$. We now explain how do we get constraints
+on these coefficients. One set of constraints come from the fact that we want
+a globally defined differential and not independent pieces $\eta_v$ in each
+Voronoi cell.
+
+We need to solve two problems and will conider a different
+set of constraints for each of them.
+
+consider two kinds of linear constraints. First,
 we enforce the integrals along edges to be the same on both sides. Namely
 each edge $e$ is adjacent to two cells corresponding to two vertices $v_1$
 and $v_2$. And we enforce that $\int_e \eta_{v_1} = \int_e \eta_{v_2}$.
