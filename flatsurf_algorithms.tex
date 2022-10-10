@@ -1484,7 +1484,74 @@ agreement on edges give 3 equations (number of parameters for a degree 2 polynom
 in one variable). If we also want the Hodge star to agree this is an additional
 3 equations per edge.
 
+
 \subsection{Jacobian method 2: Taylor expansions}
+As before we consider a translation surface $M$ given by a flat triangulation $(T, \zeta)$
+and let $X$ denote the underlying Riemann surface. We would like to take advantage of
+the fact that we look for holomorphic solution in Theorem~\ref{thm:HodgeCorrespondence}
+and that we have at our disposal a nice set of charts given by the flat coordinates in each triangle.
+
+As in Therem~\ref{thm:HodgeCorrespondence}, we fix $\phi \in H^1(X; \bR)$ and consider
+the associated holomorphic differential $\eta$ such that $[\Re(\eta)] = \phi$.
+One promising approach to compute $\eta$ seems to use the Voronoi tesselation $\Voronoi(T,
+\zeta)$ of $(T, \zeta)$ which is dual to the Delaunay cell decomposition. At
+each vertex $c$ of the Vornoi tesselation, which is a circumcenter of a Delaunay
+cell, we consider the flat coordinate $z$ such that $z=0$ at $c$. One can then
+expand the unknwon $\eta = f(z) dz$ in these coordinates
+\begin{equation}
+\label{eq:TaylorAtVoronoiVertex}
+f(z) = \sum_{n=0} a_{c,n} z^{n}.
+\end{equation}
+The series~\eqref{eq:TaylorAtVoronoiVertex} has radius of convergence at least the
+radius $R_c$ of the associated circumcircle. What we work with in the algorithm
+is a truncation
+\begin{equation}
+\label{eq:truncatedTaylorAtVoronoiVertex}
+f_c(z) = \sum_{n=0}^{+\infty} a_{c,n} z^{n} + O(z^{N_c})
+\end{equation}
+where $N_c$ has to be fixed. We write $\eta_c = f_c(z) dz$ the corresponding
+differential in the disk $D(c, R_c)$.
+
+To make the $\eta_c$ a globally defined differential we force agreement along the
+edges of the Voronoi decomposition as follows. For each edge $e$ between two vertices
+$c_1$ and $c_2$ we pick a point $v_e$ in the intersection of the two circumcircles
+and forces that
+\begin{equation}
+\label{eq:TaylorEdgeAgreement}
+f_{c_1}(z + v_{e,c_1}) = f_{c_2}(z + v_{e,c_2}) + O(z^{K_e})
+\end{equation}
+where $v_{e,c_1}$ and $v_{e,c_2}$ are the coordinates of the point $v_e$ with
+respect to the coordinates centered at $c_1$ and $c_2$ respectively. The two
+evaluations in~\eqref{eq:TaylorEdgeAgreement} are legitimate because inside
+the convergence region of $f_{c_1}$ and $f_{c_2}$.
+
+So far, we built an approximation of $\eta$ that is piecewise analytic but
+where the disagreement is somehow of low order. To make sense of $[\Re(\omega)]$
+we can consider integrals along edges of the Voronoi.
+
+Finally, to ensure the convergence, we minimize
+\begin{equation}
+\label{eq:L2minimization}
+\Phi(\{a_{c,k}\}_{c,k})
+:= \sum_c \sum_{k=0}^{N_c} |a_{c,k}|^2 \ (R_c)^k
+\end{equation}
+which is an analogue of the Dirichlet energy. Here we could probably compute exactly
+the Dirichlet energy but the formula will be uglier.
+
+\begin{remark}
+Minimizing the quadratic constraint~\eqref{eq:L2minimization} is equivalent to satisfy
+a set of linear constraint: we want the derivatives of the objective function $\Phi$
+to vanish along the subspace of linear constraints.
+\end{remark}
+
+\begin{remark}
+For the agreement constraints, we could alternatively minimize $\eta_1 - \eta_2$
+in $L^2$-norm inside the region of agreement (an intersection of two circles). So
+that the only linear constraints come from the cohomology class constraint.
+\end{remark}
+
+
+\subsection{(old and wrong) Jacobian method 2: Taylor expansions}
 As before we consider a translation surface $M$ given by a flat triangulation $(T, \zeta)$
 and let $X$ denote the underlying Riemann surface. We would like to take advantage of
 the fact that we look for holomorphic solution in Theorem~\ref{thm:HodgeCorrespondence}
