@@ -1488,7 +1488,7 @@ in one variable). If we also want the Hodge star to agree this is an additional
 \subsection{Jacobian method 2: Taylor expansions}
 As before we consider a translation surface $M$ given by a flat triangulation $(T, \zeta)$
 and let $X$ denote the underlying Riemann surface. We would like to take advantage of
-the fact that we look for holomorphic solution in Theorem~\ref{thm:HodgeCorrespondence}
+the fact that we look for a holomorphic solution in Theorem~\ref{thm:HodgeCorrespondence}
 and that we have at our disposal a nice set of charts given by the flat coordinates in each triangle.
 
 As in Therem~\ref{thm:HodgeCorrespondence}, we fix $\phi \in H^1(X; \bR)$ and consider
@@ -1507,15 +1507,18 @@ radius $R_c$ of the associated circumcircle. What we work with in the algorithm
 is a truncation
 \begin{equation}
 \label{eq:truncatedTaylorAtVoronoiVertex}
-f_c(z) = \sum_{n=0}^{+\infty} a_{c,n} z^{n} + O(z^{N_c})
+f_c(z) = \sum_{n=0}^{+\infty} a_{c,n} z^{n} + O(z^{N})
 \end{equation}
-where $N_c$ has to be fixed. We write $\eta_c = f_c(z) dz$ the corresponding
+where $N$ has to be fixed. We write $\eta_c = f_c(z) dz$ the corresponding
 differential in the disk $D(c, R_c)$.
 
+\subsubsection{Agreement on the boundary of Delaunay regions}
 To make the $\eta_c$ a globally defined differential we force agreement along the
 edges of the Voronoi decomposition as follows. For each edge $e$ between two vertices
-$c_1$ and $c_2$ we pick a point $v_e$ in the intersection of the two circumcircles
-and forces that
+$c_1$ and $c_2$ we pick the point $v_e$ at the intersection of the corresponding
+Delaunay and Voronoi edges.
+
+The first option to force agreement is to let
 \begin{equation}
 \label{eq:TaylorEdgeAgreement}
 f_{c_1}(z + v_{e,c_1}) = f_{c_2}(z + v_{e,c_2}) + O(z^{K_e})
@@ -1525,113 +1528,87 @@ respect to the coordinates centered at $c_1$ and $c_2$ respectively. The two
 evaluations in~\eqref{eq:TaylorEdgeAgreement} are legitimate because inside
 the convergence region of $f_{c_1}$ and $f_{c_2}$.
 
-So far, we built an approximation of $\eta$ that is piecewise analytic but
-where the disagreement is somehow of low order. To make sense of $[\Re(\omega)]$
-we can consider integrals along edges of the Voronoi.
+A probably better alternative is to minimize the $L^2$-norm of the difference.
+Let $r_e$ be the maximal radius of a circle centered at $v_e$ (= half the
+length of the Delaunay edge). We want to minimize
+\[
+\|f_{c_1} - f_{c_2} \|_{v_e, r_e}
+\]
+where $\|.\|_{z_0,r}$ denote the following $L^2$-norm. Given $f$, expand it
+at $z_0$ as $f(z) = \sum_{n \ge 0} b_n (z - z_0)^n$ and set
+\[
+(\|f\|_{z_0,r})^2 := \sum_{n \ge 0} |b_n|^2 r^n.
+\]
+The quantity $\|f\|_{z_0, r}$ is the square root of the integral of $|f|^2$
+on the circle of radius $r$ centered at $z_0$.
 
+\subsubsection{Fixing the class in $H^1(X; \bR)$}
+So far, we built an approximation of $\eta$ that is piecewise analytic but
+where the disagreement is somehow controlled. To make sense of $[\Re(\omega)]$
+we can consider integrals along edges of the Voronoi or Delaunay.
+
+\subsubsection{Minimizing area}
 Finally, to ensure the convergence, we minimize
 \begin{equation}
 \label{eq:L2minimization}
 \Phi(\{a_{c,k}\}_{c,k})
-:= \sum_c \sum_{k=0}^{N_c} |a_{c,k}|^2 \ (R_c)^k
+:= \sum_c \left( \|f_{a_c}\|_{0, R_c} \right)^2
+:= \sum_c \sum_{k=0}^{N} |a_{c,k}|^2 \ (R_c)^k
 \end{equation}
 which is an analogue of the Dirichlet energy. Here we could probably compute exactly
-the Dirichlet energy but the formula will be uglier.
+the Dirichlet energy but the formula will a bit uglier.
+
+\subsubsection{Localizing the zeros of $\eta$}
+Once an approximation of $\eta$ is computed we would like to compute its zeros
+with multiplicity. There are of two kinds
+\begin{enumerate}
+\item zeros in the complement of the zeros of $\omega$
+\item zeros that coincide with the ones of $\omega$
+\end{enumerate}
+For the first ones, it should be enough to solve $f_{c_k} = 0$ and pick the
+solutions that belong to the corresponding Delaunay triangle.
 
 \begin{remark}
-Minimizing the quadratic constraint~\eqref{eq:L2minimization} is equivalent to satisfy
-a set of linear constraint: we want the derivatives of the objective function $\Phi$
-to vanish along the subspace of linear constraints.
+When two circumcircles intersect, it would be a good numerical check to see
+whether the location of the zeros coincide on the intersection.
 \end{remark}
 
-\begin{remark}
-For the agreement constraints, we could alternatively minimize $\eta_1 - \eta_2$
-in $L^2$-norm inside the region of agreement (an intersection of two circles). So
-that the only linear constraints come from the cohomology class constraint.
-\end{remark}
+For the second case, one has to expand $\eta$ at the
+vertices of Delaunay (or more precisely understand the order
+of the pole). At a vertex $v_i$ of Delaunay the Taylor expansion
+looks like
+\[
+f_{c_k}(z) = \sum_{n \ge -d} b_n (z - v_i)^{n/(d+1)}
+\]
+This is because at $v_i$, the flat coordinate $z$ is not a chart
+but its $d+1$-th root is. Moreover, one needs to allow pole of order
+$d$ to compensate the zero of $\omega$.
 
+The easiest is probably to use Cauchy residue formula
+\[
+b_n = \frac{1}{2 \pi i} \int_\gamma \frac{f}{(z-v_i)^{(n+1)/(d+1)}} dz
+\]
+where $\gamma$ is the loop made of the Voronoi edges going around
+the singularity. In doing so, one has to be careful about the
+determination of a coherent $(d+1)$-th root of $z-v_i$ along the path $\gamma$.
+Ideally one would compute all of $b_{-d}, b_{-d+1}, \ldots, b_{-1}$
+in one pass. The order of the zero of $\eta$ at $v_k$ is then the
+smallest $j$ such that $b_{-d+j}$ is non-zero.
 
-\subsection{(old and wrong) Jacobian method 2: Taylor expansions}
-As before we consider a translation surface $M$ given by a flat triangulation $(T, \zeta)$
-and let $X$ denote the underlying Riemann surface. We would like to take advantage of
-the fact that we look for holomorphic solution in Theorem~\ref{thm:HodgeCorrespondence}
-and that we have at our disposal a nice set of charts given by the flat coordinates in each triangle.
+\subsubsection{Examples}
+When $X$ is explicitely given as (the normalization of) an algebraic curve in
+$\bC P^2$ then we are very happy. All differentials can be written as polynomials.
+Though, computing the period is a non-trivial task\footnote{Marc
+Mezzarobba knows how to do it with very high precision and there is
+a native SageMath implementation going via path integrals.}
 
-One promising approach seems to use the Voronoi tesselation $\Voronoi(T,
-\zeta)$ of $(T, \zeta)$ which is dual to the Delaunay cell decomposition. At
-each vertex $v$ of $T$ which is also a center of a certain Voronoi cell, we
-consider the flat coordinate $z$ such that $z=0$ corresponds to $v$. The
-function $z$ is multivalued but there are well defined $d$-th roots $z^{1/d}$ where $d$ is the
-degree of $\omega$ at the vertex. We fix one such root. This amount to choose the
-horizontal separatrix where $z^{1/d}$ is real. Then $z^{1/d}$ is well defined around $v$ and
-provides a chart for the whole Voronoi cell.
-
-As in Therem~\ref{thm:HodgeCorrespondence}, we fix $\phi \in H^1(X; \bR)$. Now we consider
-a Taylor expansion of the (yet unknown) meromorphic functions
-$f = \eta_\phi / \omega: X \to \bC$. In one of our local chart it can be written as
-\begin{equation}
-f_v(z) = \sum_{n = -d + 1}^{N_v} a_{v,n} z^{n/d} + O(z^{N_v/d})
-\end{equation}
-where $N_v$ is a parameter that has to be taken reasonably large. In the Taylor
-expasion of $f_v$ we need to allow for an order $d$ pole to compensate the
-order $d$ zero of $\omega$ at $v$. We denote $\eta_v$ the 1-form $f_v(z) dz$
-which is well defined on the closure of the Voronoi cell of $v$. In particular
-we can evaluate the integral $\int_e \eta_v$. The integral is a complex linear
-function of the coefficients $a_n$.
-
-Our unknowns are all coefficients of all Taylor expansions of the functions
-$f_v$ at the vertices of $(T, \zeta)$. We now explain how do we get constraints
-on these coefficients. One set of constraints come from the fact that we want
-a globally defined differential and not independent pieces $\eta_v$ in each
-Voronoi cell.
-
-We need to solve two problems and will conider a different
-set of constraints for each of them.
-
-consider two kinds of linear constraints. First,
-we enforce the integrals along edges to be the same on both sides. Namely
-each edge $e$ is adjacent to two cells corresponding to two vertices $v_1$
-and $v_2$. And we enforce that $\int_e \eta_{v_1} = \int_e \eta_{v_2}$.
-This gives us as many complex linear constraints as there are edges
-in $\Voronoi(T, \zeta)$.
-
-Our next constraints are obtained by fixing the cohomology class
-$[\Re(\eta)]$ to be equal to $\phi$ where $\eta$ is the one form
-obtained by gluing all $\eta_v$ together. Be careful that $\eta$ is
-not a smooth form. Nevertheless we could make sense of the cohomology
-class of $[\Re(\eta)]$ as follows. If $\eta$ was smooth, then the 
-cohomology class of $\eta$ would be a linear function of the values
-of the integral of $\eta$ on the Voronoi edges. Since we made the
-value of these integrals along edges well defined by our previous
-set of constraints, we could still use it for our $\eta$ obtained
-from the gluing of the various $\eta_v$.
-
-To pick a representative that is likely to be close to $\eta$ we
-minimize
-\begin{equation}
-\label{eq:quadraticObjective}
-\sum_{e \in E(\Voronoi(T,\zeta))} \left(\int |\eta_{v_1(e)} - \eta_{v_2(e)}|\right)^2
-\end{equation}
-where $v_1(e)$ and $v_2(e)$ are the two centers of cells bounded by $e$.
-
-
-This whole procedure is supposedly a quadratic optimization problem with
-linear constraints.
-
-\begin{remark}
-The procedure we presented to fix the cohomology class $[\Re(\eta)]$ to be
-$\phi$ is probably not the optimal one. We could probably make sense of the
-gluings of our various $\eta_v$ as a \emph{current} (ie a "distribution" kind
-of thing adapted to the manifold settings). And for currents there is a well
-defined notion of closeness and de Rham cohomology.
-\end{remark}
-
-\begin{remark}
-The quadratic optimization of~\eqref{eq:quadraticObjective} is possibly not
-the best one. One could use alternative measures of the difference between
-$\eta_{v_1(e)}$ and $\eta_{v_2(e)}$ to make it as continuous as possible. It
-might even be possible to get linear optimization.
-\end{remark}
+We should consider at least
+\begin{enumerate}
+\item Veech regular 2n-gons. Here $X$ is a hyperelliptic curve obtained as the degree $2$
+$2$ cover of $\bC P^1$ ramified at the $n$-th root of unity
+\item The square-tiled cyclic covers of Forni-Matheus-Zorich \cite{ForniMatheusZorich:SquareTiled}
+\item Possibly Bouw-M\"oller \cite{BouwMoeller}
+\end{enumerate}
 
 \section{Polygons, billiards and conical structure on the sphere}
 
@@ -1782,6 +1759,11 @@ M. D. Boshernitzan,
 \textit{Rank two interval exchange transformations}
 Ergodic Theory Dyn. Syst. \textbf{8:3}, 379-394 (1988).
 
+\bibitem[BoM\"o10]{BouwMoeller}
+I. Bouw, M. Möller,
+\textit{Teichmüller curves, triangle groups, and Lyapunov exponents}
+Ann. Math. (2) \textbf{172:1}, 139-185 (2010).
+
 \bibitem[CaSm08]{CaltaSmillie}
 K. Calta, J. Smillie
 \textit{Algebraically periodic translation surfaces}
@@ -1813,6 +1795,11 @@ arXiv:10192
 Billiards, quadrilaterals and moduli spaces
 A. Eskin, C. McMullen, R. Mukamel, A. Wright
 J. Amer. Math. Soc. to appear
+
+\bibitem[FMY11]{ForniMatheusZorich:SquareTiled}
+G. Forni, C. Matheus, A. Zorich,
+\textit{Square-tiled cyclic covers}
+J. Mod. Dyn. \textbf{5:2}, 285-318 (2011).
 
 \bibitem[Ho13]{Hooper}
 W. P. Hooper,
