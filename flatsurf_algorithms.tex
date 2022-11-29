@@ -1618,17 +1618,32 @@ y^2 = x (x^4 - 1).
 It is a genus 2 curve. The function $x: X \to \bC P^1$ is the quotient by the hyperelliptic
 involution $(x, y) \mapsto (x, -y)$ and is ramified over $0, \pm 1, \pm I, +\infty$. The differentials
 \[
-\omega_1 = \frac{dx}{y}
+\omega_0 = \frac{dx}{y}
 \qquad
-\omega_2 = \frac{x dx}{y}
+\omega_1 = \frac{x dx}{y}
 \]
 are two octagons with the singularity (a $6\pi$ conical angle) respectively above infinity
 and above zero. The ratio of the two differentials is very nice
 \[
-\frac{\omega_2}{\omega_1} = x.
+\frac{\omega_1}{\omega_0} = x.
 \]
-The main problem is that $x$ is not a flat coordinate of either $\omega_1$
-or $\omega_2$.
+The main problem is that $x$ is not a flat coordinate of either $\omega_0$
+or $\omega_1$.
+
+According to sage \texttt{RiemannSurface} numerical integration routine
+we have
+\begin{align*}
+\int_0^1 \frac{dx}{y}   &= 2.32718514243653875060503628561835708\ldots \\
+\int_0^1 \frac{x dx}{y} &= 0.96395164815037732912706708495578835\ldots
+\end{align*}
+which matches the \texttt{numerical\_integration} routine
+\begin{verbatim}
+sage: x = SR.var('x')
+sage: numerical_integral(1 / sqrt(x * (1 - x^4), 0, 1))
+(2.327185116470005, 2.2629220797026504e-06)
+sage: numerical_integral(sqrt(x)/sqrt((1-x^4)), 0, 1)
+(0.9639516442981713, 6.931611477829322e-07)
+\end{verbatim}
 
 \begin{lemma}
 Let $X$ be the curve defined by $y^2 = f(x)$ where $f$ is a polynomial with simple roots.
@@ -1640,10 +1655,11 @@ Then the period $z = \int x^k dx / y$ satisfies the linear differential equation
 \end{lemma}
 
 \begin{lemma}
-In the case of the octagon and $\omega_0$,  Equation~\eqref{eq:hyperellipticPeriodDifferentialEquation}
-has an explicit solution
+In the case of the octagon and $\omega_0$ (that is $f(x) = x (1-x^4)$ and $k=0$),
+Equation~\eqref{eq:hyperellipticPeriodDifferentialEquation} has a Puiseux
+series expansion which starts with
 \[
-z = x^{1/2} - \frac{2/3} x^{3/2} + \frac{1/5} x^{5/2}.
+z = x^{1/2} + 1/18 x^{9/2} + 3/136 x^{17/2} + 1/80 x^{25/2} + 35/4224 x^{33/2} + O(x^{41/2}).
 \]
 \end{lemma}
 \begin{proof}
@@ -1653,16 +1669,36 @@ sage: QQx = QQ['x']
 sage: x = QQx.gen()
 sage: Ax = OreAlgebra(QQx, 'Dx')
 sage: Dx = Ax.gen()
-sage: op = 2*x^2*(1-x)^4*Dx^2 + x*(1-x)^3*(1+3*x)*Dx
-sage: op.local_basis_expansions()
-[1, x^(1/2) - 2/3*x^(3/2) + 1/5*x^(5/2)]
+sage: f = x * (1 - x^4)
+sage: k = 0
+sage: op0 = (2*x*f) * Dx^2 + (x * f.derivative() - 2*k*f) * Dx
+sage: op0.local_basis_expansions(0, order=25)
+[1, x^(1/2) + 1/18*x^(9/2) + 3/136*x^(17/2) + 1/80*x^(25/2)
+    + 35/4224*x^(33/2) + 63/10496*x^(41/2) + 33/7168*x^(49/2)]
 \end{verbatim}
 \end{proof}
-To obtain the expansion of $x$ in the $z$ variable to any order we can now do
+It is not exactly clear how to extract the period from there but the following
+receipe seems to work
 \begin{verbatim}
-sage: R.<z> = PowerSeriesRing(QQ)
-sage: (z - 2/3*z^3 + 1/5*z^5 + O(z^12)).reverse() ** 2
-z^2 + 4/3*z^4 + 122/45*z^6 + 292/45*z^8 + 34331/2025*z^10 + 284284/6075*z^12 + O(z^13)
+sage: m0 = op0.numerical_transition_matrix([0, 1], 1e-64)
+sage: m0[0,1] / m0[1,1] * I
+[2.3271851424365387506050362856183570775151817582325411747932081994 +/- 6.00e-65]
+sage: k = 1
+sage: op1 = (2*x*f) * Dx^2 + (x * f.derivative() - 2*k*f) * Dx
+sage: m1 = op1.numerical_transition_matrix([0, 1], 1e-64)
+sage: m1[0,1] / m1[1,1] * I
+[0.96395164815037732912706708495578835448393229387826089973737607485 +/- 6.66e-66]
+\end{verbatim}
+Since we have the expression of $z(x)$ we can just invert to obtain $x(z)$. Sage
+is not able to invert Puiseux series. As a work around
+\begin{verbatim}
+sage: R.<z> = QQ[]
+sage: f = z + 1/18*z^9 + 3/136*z^17 + 1/80*z^25
+....:     + 35/4224*z^33 + 63/10496*z^41 + 33/7168*z^49
+sage: g = f.revert_series(50)
+sage: g.multiplication_trunc(g, 50)
+z^2 - 1/9*z^10 + 20/1377*z^18 - 14/6885*z^26
++ 2044/6952473*z^34 -111097/2565462537*z^42
 \end{verbatim}
 
 \section{Polygons, billiards and conical structure on the sphere}
