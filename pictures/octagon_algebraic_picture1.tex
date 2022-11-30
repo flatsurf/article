@@ -1,0 +1,33 @@
+\documentclass[tikz]{standalone}
+\usetikzlibrary{shapes.geometric}
+\begin{document}%
+\begin{tikzpicture}
+\fill[gray!20] (-2,-2) rectangle (2,2);
+
+\coordinate (C) at (0,0);
+\coordinate (B0) at (1,0);
+\coordinate (B1) at (0,1);
+\coordinate (B2) at (-1,0);
+\coordinate (B3) at (0,-1);
+
+\draw[purple] (C) -- (B0);
+\draw[purple] (C) -- (B1);
+\draw[purple] (C) -- (B2);
+\draw[purple] (C) -- (B3);
+
+\draw[blue] (B0) -- (1.8,0);
+\draw[blue,dotted] (1.8,0) -- (2,0);
+\draw[blue] (B1) -- (0,1.8);
+\draw[blue,dotted] (0,1.8) -- (0,2);
+\draw[blue] (B2) -- (-1.8,0);
+\draw[blue,dotted] (-1.8,0) -- (-2,0);
+\draw[blue] (B3) -- (0,-1.8);
+\draw[blue,dotted] (0,-1.8) -- (0,-2);
+
+\node[diamond,fill=red,inner sep=2pt] at (C) {};
+
+\foreach \x in {0,1,...,3}
+\node[rectangle,fill=green,inner sep=2pt] at (B\x) {};
+
+\end{tikzpicture}%
+\end{document}

@@ -26,7 +26,10 @@ PICTURES=\
  pictures/Connection-3.pdf \
  pictures/Connection-4.pdf \
  pictures/H11_skeleton.pdf \
- pictures/H11_skeleton-bis.pdf
+ pictures/H11_skeleton-bis.pdf \
+ pictures/octagon_algebraic_picture1.pdf \
+ pictures/octagon_algebraic_picture2.pdf \
+ pictures/octagon_flat_picture.pdf
 
 
 flatsurf_algorithms.pdf: flatsurf_algorithms.tex $(PICTURES)
