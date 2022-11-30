@@ -1641,7 +1641,7 @@ which matches the \texttt{numerical\_integration} routine
 sage: x = SR.var('x')
 sage: numerical_integral(1 / sqrt(x * (1 - x^4), 0, 1))
 (2.327185116470005, 2.2629220797026504e-06)
-sage: numerical_integral(sqrt(x)/sqrt((1-x^4)), 0, 1)
+sage: numerical_integral(sqrt(x) / sqrt((1 - x^4)), 0, 1)
 (0.9639516442981713, 6.931611477829322e-07)
 \end{verbatim}
 
@@ -1652,6 +1652,32 @@ sage: 2.32718514243653875060503628561835708 / 0.96395164815037732912706708495578
 \end{verbatim}
 which is coherent with the fact "that diagonals for $\omega_0$ become sides for $\omega_1$".
 
+\smallskip
+
+In our situation, we have a very explicit Taylor expansion
+\begin{align*}
+z(x) &= \int_0^x \frac{dx}{\sqrt{x (1 - x^4)}} \\
+     &= \int_0^x \sum_{n \ge 0}\ \binom{2n}{n}\ \frac{1}{2^n}\ x^{4n - 1/2}\ dx \\
+     &= \sum_{n \ge 0} \binom{2n}{n}\ \frac{1}{2^n}\ \frac{1}{4 n + \frac{1}{2}}\ x^{4n + 1/2} \\
+     &= 2 x^{1/2} + \frac{1}{9} x^{9/2} + 3/68 x^{17/2} + 1/40 x^{25/2} + O(x^{17-1/2}).
+\end{align*}
+Since we have the expression of $z(x)$ we can just invert to obtain $x(z)$. Note that
+the series will involve $\sqrt{2}$. Sage is not able to invert Puiseux series\ldots As
+a work around we can use $u=2x^{1/2}$ as variable
+\begin{verbatim}
+sage: R.<u> = QQ[]
+sage: f = sum(binomial(2*n,n)*1/2**(9*n+1)/(4*n+1/2)*u**(8*n+1) for n in range(4))
+sage: f
+u + 1/2304*u^9 + 3/2228224*u^17 + 1/167772160*u^25
+\end{verbatim}
+Since $x=u^2/4$ we can recover $x(z)$ as
+\begin{verbatim}
+sage: g = f.revert_series(27)
+sage: g.multiplication_trunc(g, 27) / 4
+1/4*u^2 - 1/4608*u^10 + 5/22560768*u^18 - 7/28877783040*u^26
+\end{verbatim}
+
+Alternatively, we can check this with \texttt{ore\_algebra}
 \begin{lemma}
 Let $X$ be the curve defined by $y^2 = f(x)$ where $f$ is a polynomial with simple roots.
 Then the period $z = \int x^k dx / y$ satisfies the linear differential equation
@@ -1666,7 +1692,7 @@ In the case of the octagon and $\omega_0$ (that is $f(x) = x (1-x^4)$ and $k=0$)
 Equation~\eqref{eq:hyperellipticPeriodDifferentialEquation} has a Puiseux
 series expansion which starts with
 \[
-z = x^{1/2} + 1/18 x^{9/2} + 3/136 x^{17/2} + 1/80 x^{25/2} + 35/4224 x^{33/2} + O(x^{41/2}).
+z = x^{1/2} + 1/18 x^{9/2} + 3/136 x^{17/2} + O(x^{25/2}).
 \]
 \end{lemma}
 \begin{proof}
@@ -1684,28 +1710,12 @@ sage: op0.local_basis_expansions(0, order=25)
     + 35/4224*x^(33/2) + 63/10496*x^(41/2) + 33/7168*x^(49/2)]
 \end{verbatim}
 \end{proof}
-It is not exactly clear how to extract the period from there but the following
-receipe seems to work
+Note that our $z(x)$ has local expansion $2 \sqrt{x}$ at the origin we
+hence multiply by $2$ the period
 \begin{verbatim}
 sage: m0 = op0.numerical_transition_matrix([0, 1], 1e-64)
-sage: m0[0,1] / m0[1,1] * I
+sage: 2 * m0[0,1]
 [2.3271851424365387506050362856183570775151817582325411747932081994 +/- 6.00e-65]
-sage: k = 1
-sage: op1 = (2*x*f) * Dx^2 + (x * f.derivative() - 2*k*f) * Dx
-sage: m1 = op1.numerical_transition_matrix([0, 1], 1e-64)
-sage: m1[0,1] / m1[1,1] * I
-[0.96395164815037732912706708495578835448393229387826089973737607485 +/- 6.66e-66]
-\end{verbatim}
-Since we have the expression of $z(x)$ we can just invert to obtain $x(z)$. Sage
-is not able to invert Puiseux series. As a work around
-\begin{verbatim}
-sage: R.<z> = QQ[]
-sage: f = z + 1/18*z^9 + 3/136*z^17 + 1/80*z^25
-....:     + 35/4224*z^33 + 63/10496*z^41 + 33/7168*z^49
-sage: g = f.revert_series(50)
-sage: g.multiplication_trunc(g, 50)
-z^2 - 1/9*z^10 + 20/1377*z^18 - 14/6885*z^26
-+ 2044/6952473*z^34 -111097/2565462537*z^42
 \end{verbatim}
 
 \section{Polygons, billiards and conical structure on the sphere}
