@@ -2,7 +2,7 @@
 \usetikzlibrary{shapes.geometric}
 \begin{document}%
 \begin{tikzpicture}
-\fill[gray!20] (-2,-2) rectangle (2,2);
+\fill[gray!20] (0,0) circle (2.2cm);
 
 \coordinate (A) at (0,0);
 
@@ -11,10 +11,10 @@
 \coordinate (B2) at (-1,0);
 \coordinate (B3) at (0,-1);
 
-\draw[blue] (A) -- (B0);
-\draw[blue] (A) -- (B1);
-\draw[blue] (A) -- (B2);
-\draw[blue] (A) -- (B3);
+\draw[cyan] (A) -- (B0);
+\draw[cyan] (A) -- (B1);
+\draw[cyan] (A) -- (B2);
+\draw[cyan] (A) -- (B3);
 
 \draw[purple] (B0) -- (1.8,0);
 \draw[purple,dotted] (1.8,0) -- (2,0);
@@ -25,6 +25,14 @@
 \draw[purple] (B3) -- (0,-1.8);
 \draw[purple,dotted] (0,-1.8) -- (0,-2);
 
+\draw[orange] (A) -- (45:1.8cm);
+\draw[orange,dotted] (45:1.8cm) -- (45:2.2cm);
+\draw[orange] (A) -- (135:1.8cm);
+\draw[orange,dotted] (135:1.8cm) -- (135:2.2cm);
+\draw[orange] (A) -- (225:1.8cm);
+\draw[orange,dotted] (225:1.8cm) -- (225:2.2cm);
+\draw[orange] (A) -- (315:1.8cm);
+\draw[orange,dotted] (315:1.8cm) -- (315:2.2cm);
 \node[circle,fill=black,inner sep=2pt] at (A) {};
 
 \foreach \x in {0,1,...,3}

@@ -13,7 +13,6 @@
 \coordinate (A6) at (585/2:1cm);
 \coordinate (A7) at (675/2:1cm);
 
-
 \coordinate (B0) at (barycentric cs:A7=1,A0=1);
 \coordinate (B1) at (barycentric cs:A0=1,A1=1);
 \coordinate (B2) at (barycentric cs:A1=1,A2=1);
@@ -30,9 +29,13 @@
 \draw[purple] (C) -- (B2);
 \draw[purple] (C) -- (B3);
 
-\draw[black,dotted] (A7) -- (A3);
+\draw[orange] (A7) -- (A3);
+\draw[orange] (C) -- (A0);
+\draw[orange] (C) -- (A1);
+\draw[orange] (C) -- (A2);
+\draw[orange] (C) -- (A3);
 
-\draw[blue] (A7) -- (A0) -- (A1) -- (A2) -- (A3);
+\draw[cyan] (A7) -- (A0) -- (A1) -- (A2) -- (A3);
 
 \draw[blue,<->]
  (0:.05cm) +(barycentric cs:A7=4,A0=1)
@@ -50,6 +53,12 @@
  (135:.05cm) +(barycentric cs:A2=4,A3=1)
  .. controls +(135:.4cm) and +(135:.4cm) ..
  +(barycentric cs:A2=1,A3=4);
+
+\draw[orange,<->]
+ (-225/2:.05cm) +(barycentric cs:A7=4,A3=1)
+ .. controls +(-225/2:.4cm) and +(-225/2:.4cm) ..
+ +(barycentric cs:A7=1,A3=4);
+
 
 \node[diamond,fill=red,inner sep=2pt] at (C) {};
 

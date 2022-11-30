@@ -2,7 +2,7 @@
 \usetikzlibrary{shapes.geometric}
 \begin{document}%
 \begin{tikzpicture}
-\fill[gray!20] (-2,-2) rectangle (2,2);
+\fill[gray!20] (0,0) circle (2.2cm);
 
 \coordinate (C) at (0,0);
 \coordinate (B0) at (1,0);
@@ -15,14 +15,23 @@
 \draw[purple] (C) -- (B2);
 \draw[purple] (C) -- (B3);
 
-\draw[blue] (B0) -- (1.8,0);
-\draw[blue,dotted] (1.8,0) -- (2,0);
-\draw[blue] (B1) -- (0,1.8);
-\draw[blue,dotted] (0,1.8) -- (0,2);
-\draw[blue] (B2) -- (-1.8,0);
-\draw[blue,dotted] (-1.8,0) -- (-2,0);
-\draw[blue] (B3) -- (0,-1.8);
-\draw[blue,dotted] (0,-1.8) -- (0,-2);
+\draw[cyan] (B0) -- (1.8,0);
+\draw[cyan,dotted] (1.8,0) -- (2.2,0);
+\draw[cyan] (B1) -- (0,1.8);
+\draw[cyan,dotted] (0,1.8) -- (0,2.2);
+\draw[cyan] (B2) -- (-1.8,0);
+\draw[cyan,dotted] (-1.8,0) -- (-2.2,0);
+\draw[cyan] (B3) -- (0,-1.8);
+\draw[cyan,dotted] (0,-1.8) -- (0,-2.2);
+
+\draw[orange] (C) -- (45:1.8cm);
+\draw[orange,dotted] (45:1.8cm) -- (45:2.2cm);
+\draw[orange] (C) -- (135:1.8cm);
+\draw[orange,dotted] (135:1.8cm) -- (135:2.2cm);
+\draw[orange] (C) -- (225:1.8cm);
+\draw[orange,dotted] (225:1.8cm) -- (225:2.2cm);
+\draw[orange] (C) -- (315:1.8cm);
+\draw[orange,dotted] (315:1.8cm) -- (315:2.2cm);
 
 \node[diamond,fill=red,inner sep=2pt] at (C) {};
 
