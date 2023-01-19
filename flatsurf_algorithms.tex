@@ -39,7 +39,7 @@
 \newtheorem{conjecture}[definition]{Conjecture}
 
 \title{Algorithms for translation surfaces}
-\author{Vincent Delecroix for Julian R\"uth}
+\author{Vincent Delecroix, Julian R\"uth}
 
 \newcommand{\commv}[1]{{\color{red!50!gray}{#1}}}	
 
@@ -54,10 +54,30 @@
 \tableofcontents
 
 \newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Translation surfaces}
+\label{sec:TranslationSurfaces}
+
+A \emph{translation surface} is a pair $(X, \omega)$ made of a compact Riemann surface
+$X$ and a non-zero holomorphic one-form $\omega \in \Omega(X)$.
+
+An equivalent, and somehow more constructive, definition is given as
+follows (see also Section~\ref{sec:TopologyAndCombinatorialMaps} and
+Section~\ref{sec:TranslationStructures} for a more algorithmic perspective).
+Consider a finite list of polygons $P_1, \ldots, P_n$ embedded in $\bR^2$ and a
+pairing of their edges such that two paired edges are parallel with opposite
+normal vectors. The surface $M$ obtained from $P_1 \sqcup \ldots \sqcup P_n$ by
+identifying paired edges under the (unique) translation mapping one on the
+other is a translation surface. Indeed, the one-form $dz$ on $\bC \simeq \bR^2$
+is well defined and does not vanish in the interior of the polygons. It admits
+a continuous extension $\omega$ to the surface $M$ whose zeros can only be at
+the vertices. Furthermore, $\omega$ is holomorphic for a unique complex
+structure (which is compatible with the charts given by the polygons).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Topology and combinatorial maps}
-\label{sec:TriangulationsAndTranslationStructures}
+\label{sec:TopologyAndCombinatorialMaps}
 We describe how cell decomposition of surfaces can be efficiently encoded by
 a triple of permutations. A more detailed description can be found in
 \cite[Section 1.3.1 "Graphs versus Maps"]{LandoZvonkin}.
@@ -811,7 +831,7 @@ What is important to notice is that $H_1(S, \Sigma; \bZ)$ and $H_1(S \setminus
 \Sigma; \bZ)$ are dual to each other. In other words, $V(T)$ also identifies
 to $H_1(S \setminus \Sigma; \bZ)$. To see that, we just consider the dual
 combinatorial map to the triangulation $T$ as considered in
-Section~\ref{sec:TriangulationsAndTranslationStructures}. An element of
+Section~\ref{sec:TopologyAndCombinatorialMaps}. An element of
 $V(T)$ can be considered as weights put on the edges of this dual.
 The condition that the sum around a vertex of the dual is zero,
 is precisely the condition for being in the homology.
@@ -1345,14 +1365,14 @@ the automorphism group.
 \end{enumerate}
 
 \section{Uniformization and Jacobian}
-In this section we consider the holomorphic nature of a translation surface. Recall that a translation
-surface corresponds to a pair $(X, \omega)$ where $X$ is a Riemann surface and $\omega$ a non-zero
-holomorphic differential.
+In this section we consider the holomorphic nature of a translation surface.
+Recall from Section~\ref{sec:TranslationSurfaces} that a translation surface corresponds to a pair $(X, \omega)$ where $X$
+is a Riemann surface and $\omega$ a non-zero holomorphic differential.
 
 \subsection{Holomorphic differentials and Jacobian}
 For a Riemann surface $X$, we let $\Omega(X)$ denote the complex vector space
-of holomorphic differentials.
-\begin{theorem}[Hodge correspondence]
+of holomorphic differentials. We have the following standard result.
+\begin{theorem}
 \label{thm:HodgeCorrespondence}
 Let $X$ be a compact Riemann surface. Then
 \[
@@ -1378,7 +1398,7 @@ part of a holomorphic differential.
 \end{definition}
 
 An equivalent form of Theorem~\ref{thm:HodgeCorrespondence} is
-\begin{theorem}[real Hodge correspondence]
+\begin{theorem}
 \label{thm:realHodgeCorrespondence}
 Let $X$ be a compact Riemann surface. Then the space of (real) harmonic one-forms
 is linearly isomorphic to $H^1(X; \bR)$.
@@ -1391,9 +1411,9 @@ The problems we want to solve numerically here are
 $\eta_\phi$ from Theorem~\ref{thm:HodgeCorrespondence} (or the real harmonic one form from Theorem~\ref{thm:realHodgeCorrespondence}).
 More precisely, we would like to know
 \begin{enumerate}
-\item the (approximate) location and order of the zeros of $\eta_\phi$,
-\item the (approximate) Hodge norm of $\phi$, that is $\frac{1}{2 \sqrt{-1} \pi} \int_X \eta_\phi \wedge * \overline{\eta_\phi}$,
-\item (possibly) a flat picture associated to $\eta_\phi$.
+\item the location and order of the zeros of $\eta_\phi$,
+\item the Hodge norm of $\phi$, that is $\frac{1}{2 \sqrt{-1} \pi} \int_X \eta_\phi \wedge * \overline{\eta_\phi}$,
+\item a flat picture associated to $\eta_\phi$.
 \end{enumerate}
 Typically, the element $\phi$ we would like to consider would come from the tangent
 space to a $\GL_2(\bR)$-orbit closure.
@@ -1633,9 +1653,9 @@ y^2 = x (x^4 - 1).
 It is a genus 2 curve. The function $x: X \to \bC P^1$ is the quotient by the hyperelliptic
 involution $(x, y) \mapsto (x, -y)$ and is ramified over $0, \pm 1, \pm I, +\infty$. The differentials
 \[
-\omega_0 = \frac{dx}{y}
+\omega_0 = \frac{dx}{2 y}
 \qquad
-\omega_1 = \frac{x dx}{y}
+\omega_1 = \frac{x dx}{2 y}
 \]
 are two octagons with the singularity (a $6\pi$ conical angle) respectively above infinity
 and above zero. The ratio of the two differentials is very nice
@@ -1648,22 +1668,21 @@ or $\omega_1$.
 According to sage \texttt{RiemannSurface} numerical integration routine
 we have
 \begin{align*}
-\int_0^1 \frac{dx}{y}   &= 2.32718514243653875060503628561835708\ldots \\
-\int_0^1 \frac{x dx}{y} &= 0.96395164815037732912706708495578835\ldots
+\int_0^1 \frac{dx}{y}   &= 1.1635925712182693753025181428091785\ldots \\
+\int_0^1 \frac{x dx}{y} &= 0.4819758240751886645635335424778942\ldots
 \end{align*}
 which matches the \texttt{numerical\_integration} routine
 \begin{verbatim}
 sage: x = SR.var('x')
-sage: numerical_integral(1 / sqrt(x * (1 - x^4), 0, 1))
-(2.327185116470005, 2.2629220797026504e-06)
-sage: numerical_integral(sqrt(x) / sqrt((1 - x^4)), 0, 1)
-(0.9639516442981713, 6.931611477829322e-07)
+sage: numerical_integral(1 / 2 / sqrt(x * (1 - x^4)), 0, 1)
+(1.1635925582350024, 1.1314610398513252e-06)
+sage: numerical_integral(sqrt(x) / 2 / sqrt(1 - x^4), 0, 1)
+(0.48197581795693845, 9.7925137118742e-07)
 \end{verbatim}
 
 Note that the ratio of periods is $1 + \sqrt{2}$
 \begin{verbatim}
-sage: 2.32718514243653875060503628561835708 / 0.96395164815037732912706708495578835
-2.414213562373095048801688724209698
+sage: 1.1635925712182693753025181428091785 / 0.4819758240751886645635335424778942
 \end{verbatim}
 which is coherent with the fact "that diagonals for $\omega_0$ become sides for $\omega_1$".
 
@@ -1671,25 +1690,25 @@ which is coherent with the fact "that diagonals for $\omega_0$ become sides for 
 
 In our situation, we have a very explicit Taylor expansion
 \begin{align*}
-z(x) &= \int_0^x \frac{dx}{\sqrt{x (1 - x^4)}} \\
-     &= \int_0^x \sum_{n \ge 0}\ \binom{2n}{n}\ \frac{1}{2^n}\ x^{4n - 1/2}\ dx \\
-     &= \sum_{n \ge 0} \binom{2n}{n}\ \frac{1}{2^n}\ \frac{1}{4 n + \frac{1}{2}}\ x^{4n + 1/2} \\
-     &= 2 x^{1/2} + \frac{1}{9} x^{9/2} + 3/68 x^{17/2} + 1/40 x^{25/2} + O(x^{17-1/2}).
+z(x) &= \int_0^x \frac{1}{2} \frac{dx}{\sqrt{x (1 - x^4)}} \\
+     &= \int_0^x \frac{1}{2} \sum_{n \ge 0}\ \binom{2n}{n}\ \frac{1}{2^n}\ x^{4n - 1/2}\ dx \\
+     &= \sum_{n \ge 0} \binom{2n}{n}\ \frac{1}{2^(2n+1)}\ \frac{1}{4 n + \frac{1}{2}}\ x^{4n + 1/2} \\
+     &= x^{1/2} + \frac{1}{18} x^{9/2} + \frac{3}{136} x^{17/2} + \frac{1}{80} x^{25/2} + O(x^{17-1/2}).
 \end{align*}
-Since we have the expression of $z(x)$ we can just invert to obtain $x(z)$. Note that
-the series will involve $\sqrt{2}$. Sage is not able to invert Puiseux series\ldots As
-a work around we can use $u=2x^{1/2}$ as variable
+Since we have the expression of $z(x)$ we can just invert to obtain $x(z)$.
+Sage is not able to invert Puiseux series\ldots As
+a work around we can use $u=x^{1/2}$ as variable
 \begin{verbatim}
 sage: R.<u> = QQ[]
-sage: f = sum(binomial(2*n,n)*1/2**(9*n+1)/(4*n+1/2)*u**(8*n+1) for n in range(4))
+sage: f = sum(binomial(2*n,n)/2**(2*n+1)/(4*n+1/2)*u**(8*n+1) for n in range(5))
 sage: f
-u + 1/2304*u^9 + 3/2228224*u^17 + 1/167772160*u^25
+u + 1/9*u^9 + 3/34*u^17 + 1/10*u^25 + 35/264*u^33
 \end{verbatim}
 Since $x=u^2/4$ we can recover $x(z)$ as
 \begin{verbatim}
-sage: g = f.revert_series(27)
-sage: g.multiplication_trunc(g, 27) / 4
-1/4*u^2 - 1/4608*u^10 + 5/22560768*u^18 - 7/28877783040*u^26
+sage: g = f.revert_series(35)
+sage: g.multiplication_trunc(g, 35)
+u^2 - 1/9*u^10 + 20/1377*u^18 - 14/6885*u^26 + 2044/6952473*u^34
 \end{verbatim}
 
 Alternatively, we can check this with \texttt{ore\_algebra}
@@ -1717,7 +1736,7 @@ sage: QQx = QQ['x']
 sage: x = QQx.gen()
 sage: Ax = OreAlgebra(QQx, 'Dx')
 sage: Dx = Ax.gen()
-sage: f = x * (1 - x^4)
+sage: f = 4 * x * (1 - x^4)
 sage: k = 0
 sage: op0 = (2*x*f) * Dx^2 + (x * f.derivative() - 2*k*f) * Dx
 sage: op0.local_basis_expansions(0, order=25)
