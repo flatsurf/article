@@ -1615,6 +1615,39 @@ Ideally one would compute all of $b_{-d}, b_{-d+1}, \ldots, b_{-1}$
 in one pass. The order of the zero of $\eta$ at $v_k$ is then the
 smallest $j$ such that $b_{-d+j}$ is non-zero.
 
+\subsubsection{Safe graphs (alternative to partition refinement)}
+As Marc Mezzarobba said : "never evaluate a power series at more than half its radius of convergence".
+
+Let $(X, \Sigma, \omega)$ be a translation surface. For each point $x \in X
+\setminus \Sigma$ we denote $r(x) = d(x,\Sigma)$. It is the radius of the
+largest ball centered at $x$ and immersed in $X \setminus \Sigma$. Since
+$\Sigma$ is typically the singularity set of $\eta$, $r(x)$ represents
+the expected radius of convergence at $x$ of any function $f = \eta / \omega$
+with $\eta \in \Omega(X)$.
+
+\begin{definition}
+Let $G \subset X \setminus \Sigma$ an oriented multigraph with vertex set $V$ and whose
+edges are segments. Let $\alpha > 1$. 
+An oriented edge $e$ of $G$ from $u$ to $v$ is called
+\emph{$\alpha$-safe} if $\displaystyle e \subset B\left(u, \frac{r(u)}{\alpha}\right)$.
+The graph $G$ is called \emph{$\alpha$-safe} if all its edges are $\alpha$-safe.
+The largest $\alpha$ such that $G$ is $\alpha$-safe is called the \emph{safety parameter}
+of $G$.
+\end{definition}
+
+The idea behind this definition is that for each oriented edge $e = (u, v)$ of
+$G$ we allow ourselves to perform the analytic continuation from $u$ to $v$
+along $e$ for any holomorphic functions on $X \setminus \Sigma$ . The parameter
+$\alpha$ measures how safe this is.
+
+\textbf{question:} Given $(X, \Sigma, \omega)$ and $\alpha$ can we find the
+smallest $\alpha$-safe graph $G \subset X \setminus \Sigma$ whose (oriented) cycles
+contains a generating set of $H_1(X; \bZ)$ (as a module)?
+
+\textbf{question:} Given $(X, \Sigma, \omega)$ and $n$ can we find the graph
+on $n$ vertices $G \subset X \setminus \Sigma$ whose cycles generate $H_1(X; \bZ)$
+and has the highest safety parameter?
+
 \subsubsection{Examples}
 When $X$ is explicitely given as (the normalization of) an algebraic curve in
 $\bC P^2$ then we are very happy. All differentials can be written as polynomials.
