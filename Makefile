@@ -33,7 +33,8 @@ PICTURES=\
  pictures/octagon_algebraic_picture4.pdf \
  pictures/octagon_algebraic_picture5.pdf \
  pictures/octagon_algebraic_picture6.pdf \
- pictures/octagon_flat_picture.pdf
+ pictures/octagon_flat_picture.pdf \
+ pictures/octagon_quotient_flat_picture.pdf
 
 
 flatsurf_algorithms.pdf: flatsurf_algorithms.tex $(PICTURES)

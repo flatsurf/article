@@ -1616,8 +1616,8 @@ Ideally one would compute all of $b_{-d}, b_{-d+1}, \ldots, b_{-1}$
 in one pass. The order of the zero of $\eta$ at $v_k$ is then the
 smallest $j$ such that $b_{-d+j}$ is non-zero.
 
-\subsubsection{Safe graphs (alternative to partition refinement)}
-As Marc Mezzarobba said : "never evaluate a power series at more than half its radius of convergence".
+\subsubsection{Safety parameters of cell decomposition}
+\textit{"Never evaluate a power series at more than half its radius of convergence".}
 
 Let $(X, \Sigma, \omega)$ be a translation surface. For each point $x \in X
 \setminus \Sigma$ we denote $r(x) = d(x,\Sigma)$. It is the radius of the
@@ -1649,6 +1649,8 @@ contains a generating set of $H_1(X; \bZ)$ (as a module)?
 on $n$ vertices $G \subset X \setminus \Sigma$ whose cycles generate $H_1(X; \bZ)$
 and has the highest safety parameter?
 
+\textbf{question:} How do we choose wisely the edges? Somehow, we want the graph $G$ to be dual to some cell decomposition.
+
 \subsubsection{Example: the octagon}
 When $X$ is explicitely given as (the normalization of) an algebraic curve in
 $\bC P^2$ then everything can be explicitely computed. In this section we
@@ -1662,32 +1664,55 @@ can be seen in Figure~\ref{fig:octagonAlgebraic}.
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{pictures/octagon_flat_picture.pdf}
+\hspace{.2\textwidth}
+\includegraphics{pictures/octagon_quotient_flat_picture.pdf}
 \end{center}
-\caption{The flat octagon quotiented by the hyperelliptic involution.}
+\caption{The flat octagon and its quotient by the hyperelliptic involution. The black circle is a conical singularity
+of angle $6\pi$ in the octagon and $3\pi$ in the quotient. The red and green rectangles are regular points on the
+octagon and angle $\pi$ singularities in the quotient.}
 \label{fig:octagonFlat}
 \end{figure}
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{pictures/octagon_algebraic_picture1.pdf}
-\hspace{.8cm}
-\includegraphics{pictures/octagon_algebraic_picture3.pdf}
-\hspace{.8cm}
-\includegraphics{pictures/octagon_algebraic_picture4.pdf}
+\begin{minipage}{.23\textwidth}\begin{center}%
+\includegraphics{pictures/octagon_algebraic_picture1.pdf}\\
+$\omega_\infty$%
+\end{center}\end{minipage}%
+\hspace{.1\textwidth}%
+\begin{minipage}{.23\textwidth}\begin{center}%
+\includegraphics{pictures/octagon_algebraic_picture4.pdf}\\
+$\omega_1$%
+\end{center}\end{minipage}%
+\hspace{.1\textwidth}%
+\begin{minipage}{.23\textwidth}\begin{center}%
+\includegraphics{pictures/octagon_algebraic_picture5.pdf}\\
+$\omega_I$
+\end{center}\end{minipage}%
+\\
+\vspace{1cm}
 
-\includegraphics{pictures/octagon_algebraic_picture2.pdf}
-\hspace{.8cm}
-\includegraphics{pictures/octagon_algebraic_picture5.pdf}
-\hspace{.8cm}
-\includegraphics{pictures/octagon_algebraic_picture6.pdf}
-
+\begin{minipage}{.23\textwidth}\begin{center}%
+\includegraphics{pictures/octagon_algebraic_picture2.pdf}\\
+$\omega_0$
+\end{center}\end{minipage}%
+\hspace{.1\textwidth}
+\begin{minipage}{.23\textwidth}\begin{center}%
+\includegraphics{pictures/octagon_algebraic_picture3.pdf}\\
+$\omega_{-1}$%
+\end{center}\end{minipage}
+\hspace{.1\textwidth}
+\begin{minipage}{.23\textwidth}\begin{center}%
+\includegraphics{pictures/octagon_algebraic_picture6.pdf}\\
+$\omega_{-I}$
+\end{center}\end{minipage}%
 \end{center}
 \caption{The six algebraic versions of the octagon quotiented
 by the hyperelliptic involution $(\mathbb{C}P^1, \omega_s)$ where
 $s \in \{0, \pm 1, \pm I, +\infty\}$ ($s$ indicates the position
 of the singularity which is represented by a black circle).
-Miraculously, in these different algebraic models on the same underlying
-Riemann surface $\mathbb{C}P^1$ some flat segments coincide.}
+Miraculously, in these different algebraic models the orange, purple
+and cyan flat segments are lines or circles in $\mathbb{C}P^1$.}
 \label{fig:octagonAlgebraic}
 \end{figure}
 
@@ -1850,7 +1875,7 @@ u^2 - 1/11*u^10 + 9/2299*u^18
 Alternatively, these explicit formulas can be checked with \texttt{ore\_algebra}
 \begin{lemma}
 Let $X$ be the curve defined by $y^2 = f(x)$ where $f$ is a polynomial with simple roots.
-Then the period $z = \int x^k dx / y$ satisfies the linear differential equation
+Then the period $z = \int x^k dx / y$ satisfies the second order linear differential equation
 \begin{equation}
 \label{eq:hyperellipticPeriodDifferentialEquation}
 (2xf) z'' + (x f' - 2kf) z' = 0.
@@ -1858,12 +1883,12 @@ Then the period $z = \int x^k dx / y$ satisfies the linear differential equation
 \end{lemma}
 
 \begin{lemma}
-In the case of the octagons $(X, \omega_0)$ and $(X, \omega_1)$ that is $f(x) = x (1-x^4)$
-and $k=0$ and $k=1$ respectively, Equation~\eqref{eq:hyperellipticPeriodDifferentialEquation}
+In the case of the octagons $(X, \omega_\infty)$ and $(X, \omega_0)$ that is $f(x) = x (1-x^4)$
+and $k_\infty=0$ and $k_0=1$ respectively, Equation~\eqref{eq:hyperellipticPeriodDifferentialEquation}
 has a Puiseux series expansion which start respectively with
 \begin{align*}
  z_\infty(x) &= x^{1/2} + \frac{1}{18} x^{9/2} + \frac{3}{136} x^{17/2} + O(x^{25/2}) \\
- z_0(x) &= x^{3/2} + \frac{3}{22} x^{11/2} + \frac{9}{152} x^{19/2} + O(x^{27/2})
+ z_0(x) &= x^{3/2} + \frac{3}{22} x^{11/2} + \frac{9}{152} x^{19/2} + O(x^{27/2}).
 \end{align*}
 \end{lemma}
 \begin{proof}
@@ -1904,8 +1929,10 @@ sage: 2 / 3 * m0[0, 1]
 \subsection{More examples}
 We should consider at least
 \begin{enumerate}
+\item the full Teichmüller curve of the octagon
+\item more Teichmüller curves in $\cH(2)$
 \item Veech regular 2n-gons. Here $X$ is a hyperelliptic curve obtained as the degree $2$
-$2$ cover of $\bC P^1$ ramified at the $n$-th root of unity
+cover of $\bC P^1$ ramified at the $n$-th root of unity (and possibly $\infty$)
 \item The square-tiled cyclic covers of Forni-Matheus-Zorich \cite{ForniMatheusZorich:SquareTiled}
 \item Possibly Bouw-M\"oller \cite{BouwMoeller}
 \end{enumerate}
