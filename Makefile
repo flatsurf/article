@@ -29,6 +29,10 @@ PICTURES=\
  pictures/H11_skeleton-bis.pdf \
  pictures/octagon_algebraic_picture1.pdf \
  pictures/octagon_algebraic_picture2.pdf \
+ pictures/octagon_algebraic_picture3.pdf \
+ pictures/octagon_algebraic_picture4.pdf \
+ pictures/octagon_algebraic_picture5.pdf \
+ pictures/octagon_algebraic_picture6.pdf \
  pictures/octagon_flat_picture.pdf
 
 
