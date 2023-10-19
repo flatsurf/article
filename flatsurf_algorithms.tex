@@ -1652,8 +1652,8 @@ and has the highest safety parameter?
 \textbf{question:} How do we choose wisely the edges? Somehow, we want the graph $G$ to be dual to some cell decomposition.
 
 \subsubsection{Example: the octagon}
-When $X$ is explicitely given as (the normalization of) an algebraic curve in
-$\bC P^2$ then everything can be explicitely computed. In this section we
+When $X$ is explicitly given as (the normalization of) an algebraic curve in
+$\bC P^2$ then everything can be explicitly computed. In this section we
 consider the octagon which is a genus 2 surface in the stratum $\cH(2)$. A flat
 picture of its quotient under the hyperelliptic involution can be seen in
 Figure~\ref{fig:octagonFlat}. The latter is a sphere with a conical angle
@@ -1818,11 +1818,17 @@ coordinates $z_s$ of $\omega_s$ centered at $x=0$. Note that all these ratios ar
 \[
 \frac{\omega_0}{\omega_{+\infty}} = x
 \qquad
-\frac{\omega_1}{\omega_{+\infty}} = \frac{x+1}{\sqrt{2}}
+\frac{\omega_\infty}{\omega_{0}} = \frac{1}{x}
 \qquad
-\frac{\omega_I}{\omega_{-I}} = \frac{x-I}{x+I}.
+\frac{\omega_1}{\omega_{-1}} = \frac{x-1}{x+1}.
 \]
-Only the expression of $z_s$ in terms of $x$ is complicated.
+Note that these three rational functions can be also seen as the expansion of
+$\omega_0 / \omega_{+\infty}$ around respectively: the center of the octagon
+($x=0$ for $\omega_\infty$), the conical singularity ($x = +\infty$ for
+$\omega_\infty$) and the middle of an edge ($x \in \{\pm 1, \pm I\}$ for
+$\omega_\infty$). The only difficulty is to compute the expression of $z_s$ in
+terms of $x$. In the following, we do the computations of $x(z_\infty)$ and
+$\frac{1}{x}(z_0)$.
 
 We obtain the Taylor expansion of the flat coordinates of $\omega_\infty$ and
 $\omega_0$ in terms of $x$ by direct integration
@@ -1839,10 +1845,7 @@ z_0(x) &= \int_0^x x\ \frac{dx}{\sqrt{x (1 - x^4)}} \\
  x^{3/2} + \frac{3}{22} x^{11/2} + \frac{9}{152} x^{19/2} + \frac{5}{144} x^{27/2} + O(x^{17+1/2})
  \right)
 \end{align*}
-Recall that $x^{1/2}$ is a local chart on $X$ around zero. Since $\omega_\infty$ is regular above $0$ the monomial of $z_\infty(x)$ starts with $x^{1/2}$. But $\omega_0$ has a zero of order $2$ above $0$ and its expansion starts with $(x^{1/2})^3$.
-
-Note that using the additive relations that expresses $\omega_s$ in terms of $\omega_0$
-and $\omega_\infty$ we obtain all expressions of $z_s(x)$ for $s \in \{\pm 1, \pm I\}$.
+Recall that $x^{1/2}$ is a local chart on $X$ around $0$. Since $\omega_\infty$ is regular above $0$ the monomial of $z_\infty(x)$ starts with $x^{1/2}$. But $\omega_0$ has a zero of order $2$ above $0$ and its expansion starts with $(x^{1/2})^3$.
 
 Now, from the expression of $z_\infty(x)$ and $z_0(x)$ above we can just revert the series to obtain $x(z_\infty)$ and $x(z_0^{1/3})$. Sage is not able to invert Puiseux series\ldots As a work around we use $u=x^{1/2}$ as variable. For convenience we also multiply by respectively $1/2$ and $3/2$ so that the first coefficient becomes one.
 \begin{verbatim}
@@ -1851,28 +1854,34 @@ sage: finf = 1 / 2 * sum(binomial(2*n,n)/2**(2*n)/(4*n+1/2)*u**(8*n+1) for n in 
 sage: finf
 u + 1/18*u^9 + 3/136*u^17 + 1/80*u^25 + 35/4224*u^33
 \end{verbatim}
-Since $x=u^2$ we can recover $x(z_0)$ as
+Since $x=u^2$ we can recover $x(z_{\infty})$ as
 \begin{verbatim}
 sage: ginf = finf.revert_series(35)
 sage: ginf.multiplication_trunc(ginf, 35)
 u^2 - 1/9*u^10 + 20/1377*u^18 - 14/6885*u^26 + 2044/6952473*u^34
 \end{verbatim}
-Now we compute $x(z_0^{1/3})$
+Now we compute $\frac{1}{x}(z_0^{1/3})$
 \begin{verbatim}
-sage: f0 = 3 / 2 * sum(binomial(2*n,n)/2**(2*n)/(4*n+3/2)*u**(8*n+3) for n in range(7))
+sage: prec = 20
+sage: f0 = 3 / 2 * sum(binomial(2*n,n)/2**(2*n)/(4*n+3/2)*u**(8*n+3) for n in range(prec // 3 + 2))
 sage: f0
 u^3 + 3/22*u^11 + 9/152*u^19 + 5/144*u^27 + 3/128*u^35 + ...
-sage: h0 = f0._nth_root_series(3, 20)
+sage: h0 = f0._nth_root_series(3, prec)
 sage: h0
 u + 1/22*u^9 + 325/18392*u^17
-sage: g0 = h0.revert_series(20)
+sage: g0 = h0.revert_series(prec)
 sage: g0
 u - 1/22*u^9 + 17/18392*u^17
-sage: g0.multiplication_trunc(g0, 20)
+sage: x0 = g0.multiplication_trunc(g0, prec)
+sage: x0
 u^2 - 1/11*u^10 + 9/2299*u^18
+sage: (x0 >> 2).inverse_series_trunc(prec)  # up to multiplication by u^-2
+10/2299*u^16 + 1/11*u^8 + 1
 \end{verbatim}
 
-Alternatively, these explicit formulas can be checked with \texttt{ore\_algebra}
+\bigskip
+
+Alternatively, the formulas that we derived can be checked with \texttt{ore\_algebra}
 \begin{lemma}
 Let $X$ be the curve defined by $y^2 = f(x)$ where $f$ is a polynomial with simple roots.
 Then the period $z = \int x^k dx / y$ satisfies the second order linear differential equation
